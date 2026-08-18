@@ -1,13 +1,14 @@
 #!/bin/sh
 set -eu
 
-if [ "$#" -ne 2 ]; then
-    echo "usage: InspectPackage.sh PACKAGE_PATH EXPECTED_BUILD_ID" >&2
+if [ "$#" -ne 3 ]; then
+    echo "usage: InspectPackage.sh PACKAGE_PATH EXPECTED_BUILD_ID EXPECTED_VERSION" >&2
     exit 2
 fi
 
 package_path=$1
 expected_build_id=$2
+expected_version=$3
 if [ ! -f "$package_path" ]; then
     echo "package does not exist: $package_path" >&2
     exit 1
@@ -40,7 +41,7 @@ plist="$inspection_dir/data/Library/MobileSubstrate/DynamicLibraries/ServerHostV
 
 rg -q '^Package: com\.mhga\.serverhost\.v2$' "$control_file"
 rg -q '^Conflicts: com\.mhga\.serverhost$' "$control_file"
-rg -q '^Version: 0\.1\.1~gate1\.20260818\.2$' "$control_file"
+rg -Fqx "Version: $expected_version" "$control_file"
 
 expected_files='Library/MobileSubstrate/DynamicLibraries/ServerHostV2.dylib
 Library/MobileSubstrate/DynamicLibraries/ServerHostV2.plist'

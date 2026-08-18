@@ -94,7 +94,8 @@ ios-package: test boundary-audit check-source-revision
 	$(MAKE) -f SourceV2.mk ios-package-inspect artifact-manifest
 
 ios-package-inspect:
-	sh SourceV2/Build/IOS/InspectPackage.sh "$(V2_PACKAGE_PATH)" "$(V2_BUILD_ID)"
+	sh SourceV2/Build/IOS/InspectPackage.sh \
+		"$(V2_PACKAGE_PATH)" "$(V2_BUILD_ID)" "$(V2_PACKAGE_VERSION)"
 
 artifact-manifest:
 	V2_HOST_CPPFLAGS='$(V2_CPPFLAGS)' \
