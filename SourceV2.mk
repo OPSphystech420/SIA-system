@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate1-foundation-20260818.2
-V2_PACKAGE_VERSION := 0.1.1~gate1.20260818.2
+V2_BUILD_ID ?= gate1-foundation-20260818.3
+V2_PACKAGE_VERSION := 0.1.1~gate1.20260818.3
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
@@ -86,6 +86,7 @@ check-source-revision:
 ios-package: test boundary-audit check-source-revision
 	$(MAKE) -C $(V2_IOS_PACKAGE_PROJECT) \
 		THEOS_BUILD_DIR="$(V2_IOS_BUILD_DIR)" \
+		_THEOS_LOCAL_DATA_DIR="$(V2_IOS_BUILD_DIR)/theos" \
 		V2_BUILD_ID="$(V2_BUILD_ID)" \
 		V2_CFLAGS="$(V2_IOS_CFLAGS)" \
 		V2_CCFLAGS="$(V2_IOS_CCFLAGS)" package
@@ -107,7 +108,9 @@ artifact-manifest:
 		"$(V2_PACKAGE_PATH)" "$(V2_BUILD_ID)" "$(V2_SOURCE_REVISION)"
 
 ios-package-clean:
-	$(MAKE) -C $(V2_IOS_PACKAGE_PROJECT) THEOS_BUILD_DIR="$(V2_IOS_BUILD_DIR)" clean
+	$(MAKE) -C $(V2_IOS_PACKAGE_PROJECT) \
+		THEOS_BUILD_DIR="$(V2_IOS_BUILD_DIR)" \
+		_THEOS_LOCAL_DATA_DIR="$(V2_IOS_BUILD_DIR)/theos" clean
 
 clean:
 	rm -rf "$(V2_BUILD_DIR)"
