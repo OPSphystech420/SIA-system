@@ -54,10 +54,36 @@ fail_if_match \
     '#include.*(Source/Hosting|Source/UnrealEngine|Menu/|MenuLoad/|Utilities/)' \
     SourceV2 --glob '!SourceV2/Tests/Static/BoundaryAudit.sh'
 
+if [ -d SourceV2/UI ]; then
+    fail_if_match \
+        "SourceV2/UI must not include UE, Bindings, Hooks, Runtime, or Services" \
+        '#include.*SourceV2/(UE|Bindings|Hooks|Runtime|Services|Features)/' \
+        SourceV2/UI
+    fail_if_match \
+        "SourceV2/UI must not include Legacy Source, Menu, or MenuLoad" \
+        '#include.*(Source/|MenuLoad/|Menu/)' \
+        SourceV2/UI
+    fail_if_match \
+        "SourceV2/UI render/bootstrap code must not call runtime scheduling or engine paths" \
+        'HostingRuntime|::Tick *\(|ProcessEvent|GetNetMode|SetClientTravel|RequestHost|RequestJoin|RequestSave|scheduler|resolver' \
+        SourceV2/UI
+fi
+
+fail_if_match \
+    "Legacy HostingRuntime is forbidden in SourceV2 production code" \
+    'HostingRuntime' \
+    SourceV2 --glob '*.{h,hpp,c,cpp,m,mm}' \
+    --glob '!SourceV2/Build/**' --glob '!SourceV2/Tests/**'
+
 fail_if_match \
     "a V2 source list references the Legacy runtime" \
-    '(Source/Hosting|Source/UnrealEngine|Menu/HostMenu|MenuLoad/|Utilities/|ServerHost\.dylib)' \
+    '(HostingRuntime|Source/Hosting|Source/UnrealEngine|Menu/HostMenu|MenuLoad/|Utilities/|ServerHost\.dylib)' \
     SourceV2.mk SourceV2/Build/IOS/Makefile
+
+rg -Fq 'ServerHostV2_FRAMEWORKS = UIKit Foundation QuartzCore Metal MetalKit' \
+    SourceV2/Build/IOS/Makefile
+rg -Fq 'view.paused = !shouldRender;' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'view.enableSetNeedsDisplay = !shouldRender;' SourceV2/UI/DiagnosticUIBootstrap.mm
 
 echo "boundary audit: PASS (regex raw-access rules and include-layer dependencies)"
 echo "permitted low-level raw-access inventory:"

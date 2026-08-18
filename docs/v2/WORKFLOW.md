@@ -89,7 +89,9 @@ evidence disproves the proposed implementation or identifies missing input.
 
 Provide:
 
-- exact package path and build ID;
+- exact canonical raw injectable dylib path, SHA-256 and build ID;
+- matching dSYM path/UUID and immutable pre-injection manifest;
+- archival package path/SHA-256 when present; Codex does not install the `.deb`;
 - control package or rollback path;
 - host and client preparation;
 - exact action sequence;
@@ -98,6 +100,11 @@ Provide:
 - which additional logs/crash files to return on failure.
 
 Set `STATUS.md` to `awaiting-device-test`. Do not call the behavior verified.
+
+For current manual iOS tests, Sideloadly injection of the raw dylib into a clean
+application is canonical. Record that Sideloadly may re-sign the input; compare
+user results against the manifest's pre-injection build ID and SHA-256 rather
+than assuming post-injection signature bytes remain identical.
 
 ### Phase F — process the result
 

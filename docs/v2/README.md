@@ -67,6 +67,8 @@ All paths below were checked on 2026-08-18.
 | Material | Path | Role |
 |---|---|---|
 | V2 project | `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host` | Current workspace. |
+| V2 manual device artifact | `packages/v2/injection/<build-id>/ServerHostV2.dylib` | Canonical Sideloadly input; manifest identifies the pre-injection bytes and matching dSYM. |
+| V2 package artifact | `packages/v2/com.mhga.serverhost.v2_*_iphoneos-arm.deb` | Archival/package-inspection artifact; Codex builds and inspects it but does not install it. |
 | Legacy source | `../../Source`, `../../Menu`, `../../MenuLoad` | Research/regression source; preserve. |
 | Known control deb identity | recorded path `../../packages/com.mhga.serverhost_0.2.11+debug_iphoneos-arm.deb` | Device-verified historical result and recorded hash; package file and matching source are now missing, so it is not an available rollback. |
 | Current iOS IDA | `../../../Extra_For_Host/110280.i64` | Exact ShooterGame 1.10280 ABI/behavior authority. |

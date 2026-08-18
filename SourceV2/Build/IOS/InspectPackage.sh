@@ -65,8 +65,13 @@ rg -q 'CodeDirectory' "$inspection_dir/codesign.txt"
 strings "$dylib" | rg -Fq "$expected_build_id"
 strings "$dylib" | rg -Fq 'ServerHost.dylib'
 
-if strings "$dylib" | rg -n 'ProcessEvent|GetNetMode|ClientTravel|HostingRuntime|RouteHostedPostLogin'; then
+banned='HostingRuntime|HostService|ClientService|PlayerJoinService|RouteHostedPostLogin|ProcessEvent|GetNetMode|SetClientTravel|RequestHost|RequestJoin|RequestSaveWorld|RequestBroadcast|RequestKick|ExecuteHost|ExecuteJoin|RecoverRemotePlayerUI|ServerHostMenuBootstrap|ServerHostOverlayView'
+if strings "$dylib" | rg -n "$banned"; then
     echo "banned gameplay/Legacy runtime symbol or string found in V2 payload" >&2
+    exit 1
+fi
+if nm -gj "$dylib" | c++filt | rg -n "$banned"; then
+    echo "banned gameplay/Legacy runtime exported symbol found in V2 payload" >&2
     exit 1
 fi
 

@@ -18,6 +18,12 @@ here must create or update one summary claim and the corresponding contract in
 - [Sishen V2 foundation pattern review](SISHEN_V2_FOUNDATION_REVIEW_2026-08-18.md)
   — Makefile/source organization, startup phases, UE types/containers/names/
   objects and memory/address patterns adopted, adapted or rejected.
+- [Gate 1.5 diagnostic UI review](GATE1_5_DIAGNOSTIC_UI_REVIEW.md) — Sishen and
+  Legacy UI/Metal/ImGui patterns adopted, adapted or rejected for the inert
+  Sideloadly diagnostic workflow.
+- [Gate 1.5 Sideloadly failure intake 001](GATE1_5_SIDELOAD_FAILURE_001.md) —
+  exact `.1` artifact identity, observed icon/no-panel result, preserved
+  unknowns and correction boundary.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

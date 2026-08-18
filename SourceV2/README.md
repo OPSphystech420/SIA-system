@@ -1,41 +1,45 @@
-# Server-Host V2 Gate 1 foundation
+# Server-Host V2 Gate 1.5 diagnostics
 
-This tree is the separate Server-Host V2 implementation. Gate 1 is deliberately
-host-local and inert: it contains portable values, curated UE layout evidence,
-safe borrowed views, reflection descriptors, strict profile validation and
-tests. The optional iOS package adds a one-shot inert entry that reports its
-fail-closed profile state to the device console. It contains no hooks, native
-engine calls, `ProcessEvent`, hosting, client travel, save, administration, UI,
-or legacy runtime linkage.
+This is the separate Server-Host V2 implementation. Gate 1 provides the
+portable typed foundation. Gate 1.5 adds a UE-free diagnostic surface for the
+actual manual test path: raw dylib injection with Sideloadly.
 
-Build and run only the selected V2 target from the project root:
+The iOS dylib contains a bounded structured/redacted logger, immutable
+diagnostic snapshots, a scene-safe UIKit floating button and a transparent
+Metal/ImGui panel with only `Status` and `Logs`. A missing/unsupported profile or
+Legacy guard refusal disables runtime capabilities but does not hide the
+diagnostic button. Hooks, engine calls and mutation remain exactly zero.
+
+Build and test only the selected V2 target from the project root:
 
 ```sh
-make -f SourceV2.mk clean
-make -f SourceV2.mk all test boundary-audit
+make -f SourceV2.mk test boundary-audit
 make -f SourceV2.mk ios-package
 ```
 
-Host objects and dependency files live under ignored `.artifacts/v2/host`; iOS
-Theos state lives under ignored `.artifacts/v2/ios`. The package uses the
-separate ID `com.mhga.serverhost.v2`, writes only to `packages/v2`, declares a
-conflict with `com.mhga.serverhost`, and refuses startup if the exact Legacy
-`ServerHost.dylib` is loaded. Packaging requires a clean Server-Host Git
-revision, inspects the payload, and writes a read-only SHA-addressed manifest
-next to the package.
+The second command produces two forms from one final dylib:
 
-`BoundaryAudit.sh` is a regex/include-layer boundary check, not live dependency
-or runtime validation. The original 56 host-local foundation assertions remain;
-additional guard assertions are also host-local. The curated layout assertions
-compile in both the host and iOS V2 targets.
+- archival `.deb` under `packages/v2` for package/content inspection;
+- the canonical manual-device handoff at
+  `packages/v2/injection/<build-id>/ServerHostV2.dylib`, with matching dSYM and
+  `manifest.txt`.
 
-`OwnedFString` is portable host ownership only and cannot be transferred to UE.
-The real iOS 1.10280 profile intentionally fails closed because its loaded
-Mach-O UUID, image size and text fingerprint are Gate 2 evidence. The current
-FreshSDK does not expose the `FUObjectItem` serial offset or raw
-`UFunction::NumParms`/`ParmsSize` offsets, so Gate 1 validates those semantics
-through snapshots/descriptors rather than inventing live memory access.
+Codex builds and inspects the `.deb`; it does not install it. The raw dylib is
+the Sideloadly input. Sideloadly may re-sign it, so the manifest identifies the
+pre-injection input by SHA-256 and Mach-O UUID. The manifest also records the
+matching dSYM UUID, Git baseline revision, source-tree state and compiler flags.
 
-Gate 2 is a later, separate workflow. No image reader, live UE discovery, hook,
-`ProcessEvent`, host/client behavior or gameplay mutation is added by this
-foundation target.
+Host objects live under ignored `.artifacts/v2/host`; iOS Theos state lives
+under ignored `.artifacts/v2/ios`. The package uses ID
+`com.mhga.serverhost.v2`, declares a conflict with the Legacy package, and the
+dylib refuses runtime capabilities when exact `ServerHost.dylib` is already
+loaded. No Legacy source, Menu/MenuLoad implementation or `HostingRuntime` is
+linked.
+
+`BoundaryAudit.sh` enforces raw/include layering, V2 UI isolation and explicit
+source lists. Host-local tests cover the Gate 1 foundation plus logger bounds,
+redaction, concurrent addition, immutable snapshots and refusal presentation.
+They are static evidence, not device verification.
+
+Gate 2 remains a later workflow. Gate 1.5 contains no image reader, live UE
+discovery, hook, `ProcessEvent`, host/client behavior or gameplay mutation.

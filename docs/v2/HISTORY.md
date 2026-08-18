@@ -285,3 +285,49 @@ The active infrastructure task prepares the existing Gate 1 SourceV2 for Gate 2
 without beginning live discovery. It adds build isolation/reproducibility,
 package/runtime Legacy exclusion and iOS layout compilation, while leaving
 hooks, `ProcessEvent`, hosting, travel and mutation out of scope.
+
+## 2026-08-18 — Gate 1.5 diagnostic UI and Sideloadly handoff inserted
+
+The user clarified that manual testing injects a raw dylib through Sideloadly.
+The prior Gate 1 artifact had no UI, so absence of a floating icon was expected
+and was not runtime-failure evidence. The user explicitly inserted Gate 1.5 and
+deferred Gate 2 live discovery.
+
+Gate 1.5 added a UE-free bounded/redacted diagnostic logger and immutable
+snapshot, a lifecycle-driven UIKit floating button, and a transparent Metal/
+ImGui panel containing only Status, Logs, Copy logs and Close. Runtime refusal
+no longer suppresses diagnostics: missing identity, unsupported profile and
+Legacy guard refusal still expose the icon while hooks, engine calls and
+mutation remain zero. The closed `MTKView` is paused and the render callback
+does not tick, schedule, resolve or access engine code.
+
+The canonical device handoff changed to
+`packages/v2/injection/<build-id>/ServerHostV2.dylib` with matching dSYM and a
+pre-injection manifest. Sideloadly may re-sign the input. The `.deb` remains an
+archival/package-inspection artifact; Codex builds and inspects it but does not
+install it. Gate 2 was not started, and Legacy source, the root Makefile and
+Legacy packages were not changed.
+
+## 2026-08-18 — first Gate 1.5 device test exposed a silent open failure
+
+The user executed `PLAN-G1.5-SIDELOAD-001` with exact pre-injection build
+`gate1.5-diagnostic-ui-20260818.1`, dylib SHA-256
+`780dee2a824b9e37f39a60870e140596be21fa08edbfc6a95e96d063b3f6e48b`.
+The floating V2 icon appeared, but tapping it produced no visible menu. No
+device/OS identity, reproducibility count, logs or screenshot was supplied and
+none is inferred.
+
+The result proves only that dylib startup and the UIKit bootstrap progressed far
+enough to install the icon. It contradicts visible Status/Logs opening and does
+not validate button action delivery, overlay hierarchy, Metal drawable/frame
+creation, ImGui rendering, log copying, touch pass-through, or close/pause
+behavior. Gate 1.5 moved to `failed-under-investigation`; Gate 2 remains
+unstarted.
+
+The presentation contract was strengthened within Gate 1.5: every accepted open
+request must revalidate and reorder its hierarchy, explicitly request the first
+Metal frame, publish bounded stage diagnostics, and show a small UIKit fallback
+with the exact failed stage if Metal/ImGui cannot present. The diagnostic panel
+must also use a compact Sishen/Dragon-inspired dark cyan/teal layout with a left
+navigation rail and only Status and Logs. This is a correction of the same
+diagnostic workflow, not a new feature gate.

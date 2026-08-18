@@ -13,7 +13,7 @@ InertInitializationReport InitializeInert(
         if (result) {
             report.state = InertInitializationState::ProfileValidated;
             report.profileId = profile.profileId;
-            report.detail = "profile identity validated; Gate 1 remains inert";
+            report.detail = "profile identity validated; runtime capabilities remain inert";
             return report;
         }
         if (identity.platform == profile.platform && identity.product == profile.product

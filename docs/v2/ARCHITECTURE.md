@@ -140,10 +140,12 @@ SourceV2/
   Diagnostics/
     Logger.hpp/.cpp            bounded structured log with redaction
     Breadcrumbs.hpp/.cpp       allocation-free recent transition ring
-    Snapshot.hpp/.cpp          immutable UI/support snapshot
+    DiagnosticSnapshot.hpp/.cpp immutable Gate 1.5 UI/support snapshot
     ContractReport.hpp/.cpp    binding validation report
     DeveloperProbe.hpp/.cpp    compile-time-disabled bounded probes
   UI/
+    DiagnosticPresentationModel.hpp/.cpp portable Status/Logs refusal model
+    DiagnosticUIBootstrap.hpp/.mm scene-safe UIKit + paused Metal/ImGui adapter
     HostViewModel.hpp/.cpp     immutable display state and command creation
     ImGuiHostPanel.hpp/.cpp    presentation only
   Tests/
@@ -179,6 +181,13 @@ Proposed build targets:
 included only by an explicitly selected V2 target. Source lists are explicit;
 recursive wildcards are forbidden because a new ABI-bearing file must be
 reviewed before it enters an artifact.
+
+Gate 1.5 implements only `Diagnostics/Logger`, `DiagnosticSnapshot`, the
+portable diagnostic presentation model and the UIKit/Metal adapter. The future
+service-backed `HostViewModel`/`ImGuiHostPanel` remains unimplemented. The
+adapter may depend on UIKit/MetalKit and local ImGui, but not UE, Bindings,
+Hooks, Runtime, Services or Legacy sources. Its closed `MTKView` is paused; its
+render delegate captures only an immutable diagnostic snapshot.
 
 ## 4. Dependency graph
 

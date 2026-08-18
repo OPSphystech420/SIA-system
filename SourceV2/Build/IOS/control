@@ -1,9 +1,9 @@
 Package: com.mhga.serverhost.v2
-Name: MHGA Server Host V2 (Inert Foundation)
+Name: MHGA Server Host V2 (Gate 1.5 Diagnostics)
 Depends: mobilesubstrate
 Conflicts: com.mhga.serverhost
-Version: 0.1.1~gate1.20260818.3
+Version: 0.1.2~gate1.5.20260818.1
 Architecture: iphoneos-arm
-Description: Inert Server-Host V2 typed-foundation package with Legacy isolation; no gameplay capabilities
+Description: Inert Server-Host V2 diagnostic UI and raw-injection artifact; no gameplay capabilities
 Maintainer: MHGA
 Author: MHGA

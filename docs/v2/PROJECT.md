@@ -20,7 +20,11 @@ The near-term platform is iOS:
 - client: a physical iPhone running the compatible modified game;
 - build under study: ShooterGame 1.10280 / UE 4.26.2;
 - completed workflow: Roadmap Gate 1, the host-local static typed identity spine;
-- next workflow: Roadmap Gate 2, read-only build/name/object/Engine discovery.
+- active intermediate workflow: Gate 1.5 diagnostic UI and raw Sideloadly
+  injection artifact, failed under investigation after the icon appeared but
+  tapping it opened no visible panel;
+- next implementation workflow after a verified Gate 1.5 correction: Gate 2
+  read-only build/name/object/Engine discovery. Gate 2 has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 
@@ -47,6 +51,18 @@ Developer probes remain compile-time gated and separate from release controls.
 Logs must make build/profile identity, workflow transitions, refusal reasons and
 postconditions understandable without exposing passwords, tokens or private
 credentials.
+
+The current canonical manual device-test path is a raw `ServerHostV2.dylib`
+injected through Sideloadly into a clean application. The `.deb` remains an
+archival/package-inspection artifact that Codex builds and inspects but does not
+install.
+
+For Gate 1.5, diagnostics must never degrade into a visible no-op: an accepted
+icon action presents the styled Status/Logs panel, or a bounded UIKit fallback
+names the failed presentation stage. The panel uses ordinary ImGui primitives,
+a compact dark cyan/teal palette, a left Status/Logs rail and a right content
+area. It contains no Host, Client, administration, authentication, remote image
+or placeholder controls.
 
 ## Technical strategy
 
@@ -102,6 +118,7 @@ so this path is a historical record rather than an available rollback.
 ## In scope now
 
 - iOS V2 typed core, binding/profile validation and host-local tests;
+- UE-free Gate 1.5 diagnostic UI, redacted logs and raw-injection handoff;
 - exact current iOS binary/FreshSDK analysis needed by the active gate;
 - later, one ordered iOS runtime/device workflow at a time;
 - preservation of legacy/control artifacts and living documentation.

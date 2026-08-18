@@ -221,6 +221,14 @@ Every artifact must have a unique version/build identifier and full path. The
 handoff must state exactly what changed, what remained disabled, expected logs,
 pass/fail conditions, and rollback/control artifact.
 
+For the current manual iOS workflow, the canonical device handoff is the raw
+`packages/v2/injection/<build-id>/ServerHostV2.dylib` used by Sideloadly. Keep a
+matching-UUID dSYM and an immutable manifest with Git revision, compiler flags,
+dylib SHA-256/Mach-O UUID and package SHA-256 when a `.deb` exists. Sideloadly
+may re-sign the dylib; the manifest identifies the input bytes before injection.
+The `.deb` is built and inspected by Codex as an archive/package artifact and is
+not installed by Codex.
+
 ## 12. Deferred scope
 
 Android emulator, VPS operation, control panel, heartbeat, backups and public

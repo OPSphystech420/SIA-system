@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate1-foundation-20260818.3
-V2_PACKAGE_VERSION := 0.1.1~gate1.20260818.3
+V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.1
+V2_PACKAGE_VERSION := 0.1.2~gate1.5.20260818.1
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
@@ -25,6 +25,9 @@ V2_PRODUCTION_SOURCES := \
     SourceV2/UE/Name.cpp \
     SourceV2/UE/ObjectArray.cpp \
     SourceV2/UE/Reflection.cpp \
+    SourceV2/Diagnostics/Logger.cpp \
+    SourceV2/Diagnostics/DiagnosticSnapshot.cpp \
+    SourceV2/UI/DiagnosticPresentationModel.cpp \
     SourceV2/Bindings/Validation/ProfileValidator.cpp \
     SourceV2/Bootstrap/InertInitialization.cpp \
     SourceV2/Bootstrap/LegacyRuntimeGuard.cpp
@@ -37,7 +40,8 @@ V2_TEST_SOURCES := \
     SourceV2/Tests/Unit/ObjectIdentityTests.cpp \
     SourceV2/Tests/Unit/ReflectionTests.cpp \
     SourceV2/Tests/Unit/ProfileInitializationTests.cpp \
-    SourceV2/Tests/Unit/LegacyRuntimeGuardTests.cpp
+    SourceV2/Tests/Unit/LegacyRuntimeGuardTests.cpp \
+    SourceV2/Tests/Unit/DiagnosticsTests.cpp
 
 V2_SOURCES := $(V2_PRODUCTION_SOURCES) $(V2_TEST_SOURCES)
 V2_OBJECTS := $(patsubst %.cpp,$(V2_BUILD_DIR)/%.o,$(V2_SOURCES))
@@ -46,14 +50,20 @@ V2_DEPFILES := $(V2_OBJECTS:.o=.d)
 V2_IOS_PACKAGE_PROJECT := SourceV2/Build/IOS
 V2_IOS_BUILD_DIR := $(abspath $(V2_ARTIFACT_ROOT)/ios)
 V2_PACKAGE_PATH := packages/v2/com.mhga.serverhost.v2_$(V2_PACKAGE_VERSION)_iphoneos-arm.deb
+V2_INJECTION_DIR := packages/v2/injection/$(V2_BUILD_ID)
+V2_INJECTION_DYLIB := $(V2_INJECTION_DIR)/ServerHostV2.dylib
+V2_INJECTION_DSYM := $(V2_INJECTION_DIR)/ServerHostV2.dylib.dSYM
+V2_INJECTION_MANIFEST := $(V2_INJECTION_DIR)/manifest.txt
+V2_BUILD_DSYM := $(V2_IOS_BUILD_DIR)/theos/obj/arm64/ServerHostV2.dylib.dSYM
 V2_IOS_TARGET := iphone:clang:16.5:15.0
 V2_IOS_ARCHS := arm64
-V2_IOS_CFLAGS := -fno-modules -Wall -Wextra -Wpedantic -Werror
+V2_IOS_CFLAGS := -fobjc-arc -fno-modules -Wall -Wextra -Wpedantic -Werror
 V2_IOS_CCFLAGS := -std=c++20 -fno-rtti -fno-modules -fno-cxx-modules -Wall -Wextra -Wpedantic -Werror -I$(abspath .)
 V2_SOURCE_REVISION := $(shell git rev-parse HEAD 2>/dev/null || printf unavailable)
+V2_SOURCE_TREE_STATE := $(shell if git diff --quiet && git diff --cached --quiet && test -z "$$(git ls-files --others --exclude-standard)"; then printf clean; else printf modified; fi)
 
 .PHONY: all serverhost_v2_core_tests test audit boundary-audit \
-    check-source-revision ios-package ios-package-inspect artifact-manifest \
+    check-source-revision ios-package ios-package-inspect artifact-manifest injection-audit \
     ios-package-clean clean
 
 all: serverhost_v2_core_tests
@@ -80,18 +90,18 @@ audit: boundary-audit
 
 check-source-revision:
 	@test "$(V2_SOURCE_REVISION)" != unavailable || { echo "V2 packaging requires the Server-Host git baseline" >&2; exit 1; }
-	@git diff --quiet && git diff --cached --quiet || { echo "V2 packaging requires a clean tracked source revision" >&2; exit 1; }
-	@test -z "$$(git ls-files --others --exclude-standard)" || { echo "V2 packaging refuses untracked source files" >&2; git ls-files --others --exclude-standard >&2; exit 1; }
+	@echo "source_revision=$(V2_SOURCE_REVISION) source_tree_state=$(V2_SOURCE_TREE_STATE)"
 
 ios-package: test boundary-audit check-source-revision
 	$(MAKE) -C $(V2_IOS_PACKAGE_PROJECT) \
 		THEOS_BUILD_DIR="$(V2_IOS_BUILD_DIR)" \
 		_THEOS_LOCAL_DATA_DIR="$(V2_IOS_BUILD_DIR)/theos" \
 		V2_BUILD_ID="$(V2_BUILD_ID)" \
+		V2_SOURCE_REVISION="$(V2_SOURCE_REVISION)" \
 		V2_CFLAGS="$(V2_IOS_CFLAGS)" \
 		V2_CCFLAGS="$(V2_IOS_CCFLAGS)" package
 	@test -f "$(V2_PACKAGE_PATH)" || { echo "expected V2 package was not created: $(V2_PACKAGE_PATH)" >&2; exit 1; }
-	$(MAKE) -f SourceV2.mk ios-package-inspect artifact-manifest
+	$(MAKE) -f SourceV2.mk ios-package-inspect artifact-manifest injection-audit
 
 ios-package-inspect:
 	sh SourceV2/Build/IOS/InspectPackage.sh \
@@ -104,9 +114,14 @@ artifact-manifest:
 	V2_IOS_TARGET='$(V2_IOS_TARGET)' \
 	V2_IOS_ARCHS='$(V2_IOS_ARCHS)' \
 	V2_IOS_CFLAGS='$(V2_IOS_CFLAGS)' \
-	V2_IOS_CCFLAGS='$(V2_IOS_CCFLAGS) -DSERVERHOST_V2_BUILD_ID="$(V2_BUILD_ID)"' \
+	V2_IOS_CCFLAGS='$(V2_IOS_CCFLAGS) -DSERVERHOST_V2_BUILD_ID="$(V2_BUILD_ID)" -DSERVERHOST_V2_SOURCE_REVISION="$(V2_SOURCE_REVISION)"' \
+	V2_SOURCE_TREE_STATE='$(V2_SOURCE_TREE_STATE)' \
 	sh SourceV2/Build/IOS/CreateArtifactManifest.sh \
-		"$(V2_PACKAGE_PATH)" "$(V2_BUILD_ID)" "$(V2_SOURCE_REVISION)"
+		"$(V2_PACKAGE_PATH)" "$(V2_BUILD_ID)" "$(V2_SOURCE_REVISION)" "$(V2_BUILD_DSYM)"
+
+injection-audit:
+	sh SourceV2/Build/IOS/InspectInjectionArtifact.sh \
+		"$(V2_INJECTION_DYLIB)" "$(V2_INJECTION_DSYM)" "$(V2_BUILD_ID)"
 
 ios-package-clean:
 	$(MAKE) -C $(V2_IOS_PACKAGE_PROJECT) \

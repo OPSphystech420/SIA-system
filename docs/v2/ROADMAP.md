@@ -9,15 +9,18 @@ artifacts are explicitly scoped investigation controls.
 Current summary:
 
 Legacy failure workflows are preserved under `archive/legacy/` and are not an
-active interruption. Gate 1 foundation hardening produced a clean V2 build
-and package boundary; Gate 2 read-only discovery is the next workflow. This
-does not authorize Gate 3 dispatch, Gate 4 hooks or any later behavior.
+active interruption. Gate 1 foundation hardening is complete. The explicitly
+inserted Gate 1.5 diagnostic UI/raw-injection workflow is
+`failed-under-investigation`: exact build `.1` installed its icon but did not
+open a visible panel. Gate 2 read-only discovery has not started. This does not
+authorize Gate 2 early, Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
-| 2 — read-only discovery | next ordered V2 workflow; explicitly not begun in the infrastructure task | unverified/not started |
+| 1.5 — diagnostic UI and Sideloadly artifact | failed-under-investigation after `V2-G1.5-SIDELOAD-FAIL-001` | icon/bootstrap reached the device; visible menu opening contradicted; Metal/render/touch/log/close behavior unverified |
+| 2 — read-only discovery | next implementation workflow after Gate 1.5 device intake; not begun | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -37,6 +40,9 @@ Activity labels:
 
 Every build/device gate produces one uniquely versioned artifact with its full
 absolute path, build hash, runtime profile and enabled/disabled capability list.
+For current manual iOS testing the canonical handoff is a raw Sideloadly input
+dylib plus matching dSYM and pre-injection manifest; the `.deb` is archival and
+Codex only builds/inspects it.
 The handoff names exact changes, expected bounded logs in both device console
 and ImGui, pass/fail conditions, test sequence and the preserved rollback/control
 artifact. “Device verified” is used only after the user supplies passing runtime
@@ -125,6 +131,49 @@ Exit:
 
 User device test: none. This is deliberately a static gate.
 
+## Gate 1.5 — diagnostic UI and raw Sideloadly handoff
+
+State: `failed-under-investigation` on 2026-08-18. Exact artifact
+`gate1.5-diagnostic-ui-20260818.1` installed its floating icon, but one reported
+tap/open attempt produced no visible panel under `PLAN-G1.5-SIDELOAD-001`.
+Hardware, OS, reproducibility, logs and screenshots were not supplied.
+
+Goal: make Gate 1 refusal reasons visible in the user's real raw-dylib test path
+without beginning Gate 2 or coupling UI rendering to runtime work.
+
+Work:
+
+- **Static:** bounded structured/logger ring, severity/category, redaction,
+  stderr sink and immutable bounded snapshots with no UE dependency;
+- **Build:** lifecycle-driven scene-safe UIKit floating button, transparent
+  Metal/ImGui `Status`/`Logs` panel, selective touch routing and a paused closed
+  `MTKView`;
+- **Build correction:** revalidate/reattach/reorder the overlay hierarchy on
+  lifecycle activation and every open request, make tap versus drag explicit,
+  request the first frame deterministically, log bounded presentation stages
+  and display a UIKit failed-stage fallback instead of a silent no-op;
+- **Presentation:** use ordinary ImGui primitives for a compact dark cyan/teal
+  left-rail Status/Logs layout; retain only Copy logs and Close;
+- **Build:** create the canonical raw injection dylib, matching dSYM and manifest
+  from the same final packaged dylib bytes; retain `.deb` only as archive;
+- **Device:** inject only V2 into a clean app, inspect Status/Logs, close the menu
+  and run the requested 10-minute menu/local-world soak.
+
+Exit:
+
+- diagnostic button appears for missing identity, unsupported profile and
+  Legacy guard refusal states;
+- Status shows build/revision/startup/profile/guard and exact
+  `hooks=0`, `engine_calls=0`, `mutation=0`; Logs copy is bounded/redacted;
+- closed menu has no continuous overlay draw loop and touches outside the button
+  or open panel reach the game;
+- no crash or visible behavior regression during the exact device protocol;
+- user supplies screenshots and outcome for the exact artifact.
+
+Forbidden: loaded-image/name/object/Engine discovery, UE/Bindings/UI coupling,
+hooks, scheduler, resolver, engine calls, mutation, Host/Client/admin controls,
+Legacy source or `HostingRuntime`.
+
 ## Gate 2 — read-only build, name, object and Engine discovery
 
 Goal: validate the typed core against the loaded 1.10280 game without hooks or
@@ -132,7 +181,7 @@ gameplay mutation.
 
 Entry:
 
-- Gate 1 tests pass;
+- Gate 1 tests and the Gate 1.5 diagnostic UI device gate pass;
 - iOS 1.10280 profile identity and read-only resolver cards are reviewed;
 - diagnostics artifact format and redaction are defined.
 
@@ -158,8 +207,9 @@ Exit:
 
 Required user device test and artifacts:
 
-1. launch the V2 diagnostics package on the Apple Silicon Mac iOS environment;
-2. capture package/build hash, loaded-image UUID, ContractReport and bounded log;
+1. inject the exact Gate 2 raw V2 dylib through Sideloadly on the Apple Silicon
+   Mac iOS environment;
+2. capture dylib/build hash, loaded-image UUID, ContractReport and bounded log;
 3. enter/leave the same map once if the normal game permits it;
 4. capture before/after screenshots and generation/object summaries;
 5. report any crash with symbolicated log and breadcrumbs.
@@ -448,14 +498,16 @@ process. VPS supervision, UDP exposure, heartbeat/command service, backups and
 external administration are separate control-plane work; SEA semantics may
 inform them, not the in-process UE ABI.
 
-## Exact next implementation workflow
+## Exact next action
 
-Gate 1 is complete. Its optional installable supplement is a separately
-identified inert package that only reports missing profile evidence; the
-limited device smoke protocol is `PLAN-G1-PACKAGE-001`.
+Correct and re-test **Gate 1.5 only**, preserving failed build `.1` and its
+source/artifact identity. Produce one newly identified, instrumented raw dylib;
+its icon must visibly acknowledge an accepted action and either show the styled
+panel or a UIKit failed-stage fallback. No implementation expansion is
+authorized while this exact UI failure remains unresolved.
 
-The next implementation workflow is **Gate 2 only: read-only build, name,
-object and Engine discovery**. It must complete ABI-001 and ABI-005 through
-ABI-010, add checked iOS image/memory readers and emit a bounded contract report.
-It still may not install hooks, invoke `ProcessEvent` or native calls, host,
-connect, save, administer or mutate Engine/game state.
+After Gate 1.5 passes, the next implementation workflow is **Gate 2 only:
+read-only build, name, object and Engine discovery**. It must complete ABI-001
+and ABI-005 through ABI-010, add checked iOS image/memory readers and emit a
+bounded contract report. It still may not install hooks, invoke `ProcessEvent`
+or native calls, host, connect, save, administer or mutate Engine/game state.

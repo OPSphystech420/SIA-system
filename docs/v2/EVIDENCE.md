@@ -15,13 +15,19 @@ active V2 blocker.
 | V2-EV-004 | Legacy/V2 co-installation is rejected at package resolution and V2 startup independently refuses an already-loaded exact `ServerHost.dylib`. | statically validated | Inspected Debian `Conflicts` plus five passing host-local `LegacyRuntimeGuard` assertions in `V2-G1-PREP-003`; no device installation or startup execution. |
 | V2-EV-005 | Curated layout assertions belong to both host and iOS target source lists. | compiled | `LayoutTests.cpp` compiled cleanly in both host C++20 and iOS arm64 targets in `V2-G1-PREP-003`. |
 | V2-EV-006 | V2 packaging is revision-bound and produces a read-only SHA-addressed artifact manifest. | statically validated | Clean revision `23da20fe1bbc472bf2476ec6d33a7cd658d7c0d3`; package/content inspection passed; manifest and artifact hashes are recorded in `TEST_MATRIX.md`. |
-| V2-EV-007 | Gate 2 implementation has not started. | source-confirmed | No `Bindings/Platform` reader, live resolver, hook, invoker, host/client service or mutation path exists. |
+| V2-EV-007 | Gate 2 implementation has not started. | source-confirmed | Gate 1.5 adds diagnostics/UI/artifact work only. No `Bindings/Platform` reader, live resolver, hook, invoker, host/client service or mutation path exists. |
+| V2-EV-008 | Gate 1.5 has a bounded structured/redacted multi-producer logger and immutable diagnostic snapshot with explicit zero capabilities. | statically validated | `Logger`, `DiagnosticSnapshot` and host tests passed bounds, overflow, redaction, concurrent addition and no-address/refusal snapshot cases in `V2-G1.5-BUILD-004`; no device sink/UI claim. |
+| V2-EV-009 | Gate 1.5 UI remains present for missing/unsupported profile and Legacy refusal, renders only Status/Logs snapshots, pauses when closed and has no UE/Bindings/Legacy dependency. | static portions validated; visible opening contradicted | Refusal presentation tests and boundary audit passed; iOS arm64 UI/Metal build passed. `V2-G1.5-SIDELOAD-FAIL-001` confirms the icon but contradicts visible panel opening. Metal rendering, touch routing, logs and close/pause remain unverified. |
+| V2-EV-010 | The canonical manual artifact is the final packaged raw dylib with matching dSYM/manifest; it contains no named Legacy/gameplay symbols. | statically validated; ready for device test | Dylib SHA-256 `780dee…e48b`, Mach-O/dSYM UUID `A4313EC9-3901-3EFC-BC54-5A910DA4F514`, package SHA-256 `f5e050…9348`; package/injection audits passed. Sideloadly may re-sign the input. |
+| V2-EV-011 | Exact build `.1` started far enough to install its local V2 icon, but the reported tap produced no visible menu. | device-observed bootstrap; open claim contradicted | User result `V2-G1.5-SIDELOAD-FAIL-001`, exact input SHA-256 `780dee…e48b`. No device/OS, reproducibility, screenshot or logs supplied. This does not validate button dispatch, hierarchy, drawable/frame, ImGui, Logs, Copy, Close or pause behavior. |
 
 ## Sishen pattern evidence
 
 Sishen is a primary organization/reference source and never the 1.10280 ABI
 authority. The complete review for this infrastructure task is
 [`evidence/SISHEN_V2_FOUNDATION_REVIEW_2026-08-18.md`](evidence/SISHEN_V2_FOUNDATION_REVIEW_2026-08-18.md).
+The Gate 1.5 UI-specific review is
+[`evidence/GATE1_5_DIAGNOSTIC_UI_REVIEW.md`](evidence/GATE1_5_DIAGNOSTIC_UI_REVIEW.md).
 
 | Pattern | Disposition |
 |---|---|
@@ -29,8 +35,17 @@ authority. The complete review for this infrastructure task is
 | Exact-width UE values plus separate container/name/object layers | adapted into bounded borrowed views, descriptors and curated assertions |
 | Central image/address facility | organizational input for future Gate 2 `Bindings/Platform`; no live facility added here |
 | Sishen offsets, pool/object globals, address heuristics, delayed constructor work, hooks and ABI | rejected |
+| Scene/window lookup, draggable local button, ImGui touch/Metal presentation | adapted to lifecycle notifications, bounded retry, selective touches and a paused closed view |
+| Login/UDID/API/security, remote icon, hide-record, auth delay, continuous tick and gameplay UI | rejected |
 
-## Gate 2 evidence required next
+## Evidence required next
+
+First, preserve and correct `V2-G1.5-SIDELOAD-FAIL-001`, then execute the new
+bounded Gate 1.5 protocol against one newly identified artifact. The `.1` icon
+bootstrap is observed, but visible opening is contradicted and all later
+presentation behavior remains unverified.
+
+After Gate 1.5 passes, Gate 2 requires:
 
 - exact loaded Mach-O UUID, mapped image/segment sizes and text fingerprint;
 - reviewed FNamePool and GUObjectArray resolution cards, including the `0x10`

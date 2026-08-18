@@ -2,9 +2,13 @@
 #include "SourceV2/Bindings/Validation/ProfileValidator.hpp"
 #include "SourceV2/Bootstrap/InertInitialization.hpp"
 #include "SourceV2/Bootstrap/LegacyRuntimeGuard.hpp"
+#include "SourceV2/Diagnostics/DiagnosticSnapshot.hpp"
+#include "SourceV2/Diagnostics/Logger.hpp"
+#include "SourceV2/UI/DiagnosticUIBootstrap.hpp"
 
 #include <array>
-#include <cstdio>
+#include <string>
+#include <utility>
 
 namespace serverhost::v2::bootstrap {
 namespace {
@@ -13,7 +17,12 @@ namespace {
 #define SERVERHOST_V2_BUILD_ID "unidentified-v2-build"
 #endif
 
+#ifndef SERVERHOST_V2_SOURCE_REVISION
+#define SERVERHOST_V2_SOURCE_REVISION "unavailable"
+#endif
+
 constexpr const char* kBuildId = SERVERHOST_V2_BUILD_ID;
+constexpr const char* kSourceRevision = SERVERHOST_V2_SOURCE_REVISION;
 
 const char* StateName(InertInitializationState state) noexcept {
     switch (state) {
@@ -25,18 +34,43 @@ const char* StateName(InertInitializationState state) noexcept {
 }
 
 __attribute__((constructor)) void V2Entry() {
+    diagnostics::Logger& logger = diagnostics::ProcessLogger();
+    diagnostics::DiagnosticState diagnosticState{
+        .buildId = kBuildId,
+        .sourceRevision = kSourceRevision,
+        .startupState = "diagnostic-bootstrap",
+        .profileState = "not-evaluated",
+        .legacyGuardState = "not-evaluated",
+        .detail = "Gate 1.5 diagnostics starting; runtime capabilities remain inert",
+    };
+    logger.Add(
+        diagnostics::LogSeverity::Info,
+        diagnostics::LogCategory::Startup,
+        std::string("build=") + kBuildId + " source_revision=" + kSourceRevision);
+
     const LegacyRuntimeStatus legacyStatus = InspectLoadedImagesForLegacyRuntime();
     if (legacyStatus != LegacyRuntimeStatus::Clear) {
         const char* reason = legacyStatus == LegacyRuntimeStatus::LegacyLoaded
             ? "legacy-runtime-loaded"
             : "loaded-image-inspection-failed";
-        std::fprintf(
-            stderr,
-            "[ServerHostV2] build=%s startup=refused reason=%s hooks=0 engine_calls=0 mutation=0\n",
-            kBuildId,
-            reason);
+        diagnosticState.startupState = "runtime-refused-diagnostics-available";
+        diagnosticState.legacyGuardState = reason;
+        diagnosticState.detail =
+            "Legacy guard refused UE/runtime capabilities; diagnostic UI remains available";
+        logger.Add(
+            diagnostics::LogSeverity::Error,
+            diagnostics::LogCategory::LegacyGuard,
+            std::string("runtime capabilities refused reason=") + reason
+                + " hooks=0 engine_calls=0 mutation=0");
+        diagnostics::ProcessSnapshotPublisher().Publish(std::move(diagnosticState));
+        ui::RequestDiagnosticUIBootstrap();
         return;
     }
+    diagnosticState.legacyGuardState = "clear";
+    logger.Add(
+        diagnostics::LogSeverity::Info,
+        diagnostics::LogCategory::LegacyGuard,
+        "Legacy runtime guard clear");
 
     const BuildIdentity identityCandidate{
         .platform = Platform::IOS,
@@ -52,16 +86,24 @@ __attribute__((constructor)) void V2Entry() {
     const bindings::StrictRuntimeProfileValidator validator;
     const InertInitializationReport report = InitializeInert(identityCandidate, profiles, validator);
 
-    std::fprintf(
-        stderr,
-        "[ServerHostV2] build=%s state=%s profile=%s hooks=%d engine_calls=%d mutation=%d detail=%s\n",
-        kBuildId,
-        StateName(report.state),
-        report.profileId.empty() ? "none" : report.profileId.c_str(),
-        report.hooksInstalled ? 1 : 0,
-        report.engineCallsEnabled ? 1 : 0,
-        report.mutationEnabled ? 1 : 0,
-        report.detail.c_str());
+    diagnosticState.startupState = "runtime-inert-diagnostics-available";
+    diagnosticState.profileState = StateName(report.state);
+    if (!report.profileId.empty())
+        diagnosticState.profileState += std::string(":") + report.profileId;
+    diagnosticState.detail = report.detail;
+
+    const diagnostics::LogSeverity severity =
+        report.state == InertInitializationState::ProfileValidated
+        ? diagnostics::LogSeverity::Info
+        : diagnostics::LogSeverity::Warning;
+    logger.Add(
+        severity,
+        diagnostics::LogCategory::Profile,
+        std::string("state=") + StateName(report.state)
+            + " profile=" + (report.profileId.empty() ? "none" : report.profileId)
+            + " hooks=0 engine_calls=0 mutation=0 detail=" + report.detail);
+    diagnostics::ProcessSnapshotPublisher().Publish(std::move(diagnosticState));
+    ui::RequestDiagnosticUIBootstrap();
 }
 
 }  // namespace
