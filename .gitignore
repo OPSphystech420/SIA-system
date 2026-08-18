@@ -21,4 +21,5 @@
 # Guard against old Theos stamp directories appearing in the iOS source project.
 /SourceV2/Build/IOS/Bindings/
 /SourceV2/Build/IOS/Bootstrap/
+/SourceV2/Build/IOS/Tests/
 /SourceV2/Build/IOS/UE/
