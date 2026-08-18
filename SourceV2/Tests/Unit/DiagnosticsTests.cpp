@@ -20,6 +20,14 @@ bool ContainsStatusValue(const ui::DiagnosticPresentationModel& model,
         });
 }
 
+bool ContainsContractLabel(
+    const ui::DiagnosticPresentationModel& model, std::string_view expected) {
+    return std::any_of(model.ContractRows().begin(), model.ContractRows().end(),
+        [expected](const ui::DiagnosticStatusRow& row) {
+            return row.label == expected;
+        });
+}
+
 }  // namespace
 
 void RunDiagnosticsTests(TestContext& context) {
@@ -122,6 +130,10 @@ void RunDiagnosticsTests(TestContext& context) {
     unsafeReport.captureState = "complete pointer=0x1234567890";
     unsafeReport.profileRootState = "token=private-root";
     unsafeReport.retryOrAbortReason = "address=0xabcdef1234";
+    unsafeReport.relationshipCaptureState = "complete pointer=0x9999999999";
+    unsafeReport.lifecycleState = "map token=private-lifecycle";
+    unsafeReport.worldRelationshipState = "match address=0x8888888888";
+    unsafeReport.netDriverState = "none token=private-driver";
     unsafeReport.discoveryGeneration = 2;
     unsafeReport.scansStarted = 1;
     unsafeReport.hooks = 99;
@@ -131,12 +143,20 @@ void RunDiagnosticsTests(TestContext& context) {
         unsafeReport.knownNames.push_back({
             "name" + std::to_string(index), "pass",
             "pointer=0x1111111111 token=secret"});
+        unsafeReport.engineChecks.push_back({
+            "engine" + std::to_string(index), "pass",
+            "pointer=0x7777777777 token=engine-secret"});
+        unsafeReport.netDriverDefinitions.push_back({
+            "definition" + std::to_string(index),
+            "token=primary-secret", "address=0x6666666666"});
     }
     publisher.PublishContractReport(std::move(unsafeReport));
     const auto contractSnapshot = publisher.Capture();
     V2_EXPECT(context, contractSnapshot->scansStarted == 1);
     V2_EXPECT(context, contractSnapshot->contracts.has_value());
     V2_EXPECT(context, contractSnapshot->contracts->knownNames.size() <= 24);
+    V2_EXPECT(context, contractSnapshot->contracts->engineChecks.size() <= 24);
+    V2_EXPECT(context, contractSnapshot->contracts->netDriverDefinitions.size() <= 24);
     V2_EXPECT(context, contractSnapshot->contracts->hooks == 0);
     V2_EXPECT(context, contractSnapshot->contracts->engineCalls == 0);
     V2_EXPECT(context, contractSnapshot->contracts->mutation == 0);
@@ -145,7 +165,18 @@ void RunDiagnosticsTests(TestContext& context) {
     V2_EXPECT(context, copiedContract.find("1234567890") == std::string::npos);
     V2_EXPECT(context, copiedContract.find("abcdef1234") == std::string::npos);
     V2_EXPECT(context, copiedContract.find("private-root") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("9999999999") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("private-lifecycle") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("engine-secret") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("primary-secret") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("6666666666") == std::string::npos);
     V2_EXPECT(context, copiedContract.size() < 20000);
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "Engine"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "GameViewport"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "World"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "NetDriver"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "NetDriverDefinitions"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "Generation"));
 
     snapshotLogger.Add(LogSeverity::Info, LogCategory::Profile, "later snapshot mutation");
     publisher.Publish({

@@ -33,6 +33,10 @@ DiagnosticState SafeState(DiagnosticState state) {
         auto& report = *state.contracts;
         report.captureState = SafeStateField(report.captureState);
         report.profileRootState = SafeStateField(report.profileRootState);
+        report.relationshipCaptureState = SafeStateField(report.relationshipCaptureState);
+        report.lifecycleState = SafeStateField(report.lifecycleState);
+        report.worldRelationshipState = SafeStateField(report.worldRelationshipState);
+        report.netDriverState = SafeStateField(report.netDriverState);
         report.retryOrAbortReason = RedactDiagnosticText(
             report.retryOrAbortReason, kIdentityReasonLimit);
         const auto safeChecks = [](std::vector<ContractCheck>& checks) {
@@ -47,6 +51,20 @@ DiagnosticState SafeState(DiagnosticState state) {
         safeChecks(report.knownNames);
         safeChecks(report.knownObjects);
         safeChecks(report.reflectionChecks);
+        safeChecks(report.engineChecks);
+        safeChecks(report.gameViewportChecks);
+        safeChecks(report.worldChecks);
+        safeChecks(report.netDriverChecks);
+        safeChecks(report.netDriverDefinitionChecks);
+        safeChecks(report.generationChecks);
+        if (report.netDriverDefinitions.size() > kMaximumReportChecks)
+            report.netDriverDefinitions.resize(kMaximumReportChecks);
+        for (NetDriverDefinitionReport& definition : report.netDriverDefinitions) {
+            definition.defName = SafeStateField(definition.defName);
+            definition.driverClassName = SafeStateField(definition.driverClassName);
+            definition.driverClassNameFallback = SafeStateField(
+                definition.driverClassNameFallback);
+        }
         report.hooks = 0;
         report.engineCalls = 0;
         report.mutation = 0;

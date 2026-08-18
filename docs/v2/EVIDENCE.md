@@ -14,7 +14,7 @@ an active blocker.
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
 | V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed + statically validated | Latest receipt `V2-G2B-MULTIREGION-BUILD-009`: clean tagged source `852e260…e7947`, dylib/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`, manifest SHA `29eaa59…f89e`; exact artifact passed Gate 2B device execution. |
-| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C is unblocked but remains unstarted. |
+| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C is host/static implemented and awaits its own device report. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
 | V2-EV-010 | Gate 1.5 device-tested artifact is exact `.2` input SHA `421211…58c32`, source `8fb09e6…477`. | device verified for bounded functions | Manifest/dSYM plus user runtime receipt. Sideloadly re-signs after input identity. |
@@ -43,6 +43,9 @@ an active blocker.
 | V2-EV-033 | A token-bounded logical owned copy can safely span adjacent readable VM regions. | device verified positive path + static negative paths | `.3` completed the prior failing two-chunk TheIsland capture; 290 normal/UBSan assertions retain gap, unreadable and unmap/copy fail-closed coverage. |
 | V2-EV-034 | One clean `.3` raw input contains only the Gate 2B multi-region correction. | device executed | `V2-G2B-MULTIREGION-BUILD-009`: dylib SHA `b5e5f0e…e07829`, UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`; menu and TheIsland captures passed. |
 | V2-EV-035 | Gate 2B completes generation-bound read-only contracts across menu-to-world transition. | device verified | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: generation `1→2`, previous invalidated, objects `61177→107275`, chunks `1→2`, all validators repeated, zero capabilities. Optional return-menu capture was not reported. |
+| V2-EV-036 | Gate 2B is closed by the user-confirmed `.3` multi-region correction. | device verified / gate closed | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: menu generation 1 `61177/1/32ms`, TheIsland generation 2 `107275/2/44ms`, previous invalidated and every required validator passed with zero capabilities. The immutable `.2` world-region abort remains unchanged. No return-menu capture or longer soak is inferred; `Class Engine.World` is not a live UWorld; parameter ABI/native dispatch remain absent. Docs baseline commit is `7d5e4555ed9f89f5eeeed89ac7c95c7f4072d37c`. |
+| V2-EV-037 | `DEC-V2-NO-HOOK-FIRST-HOST` makes hooks non-prerequisite for first IP Listen and forbids broad Dedicated forcing. | architecture decision, not runtime evidence | Engine/definitions will be revalidated before Host; current world will be dispatched directly after Gate 3; original GetNetMode is retained. Optional inert observation/narrow policy is conditional on a post-transport demonstrated replication gap. Existing hook/GetNetMode evidence is preserved. |
+| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; device pending | Exact `GEngine`/`GWorld` roots, `0x780/0xBF8/0x18/0x70/0x1D8/0x2B8/0x2C0`, fresh-snapshot identity/class/full-name checks, canonical empty TArray, mismatch failure, optional relations and separate world generation are covered by host tests. Live values and lifecycle transitions require the named device artifact/report. See `evidence/GATE2C_LIVE_RELATIONSHIPS.md`. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -114,9 +117,10 @@ Detailed reviews:
 - [Gate 2B read-only contracts](evidence/GATE2B_READ_ONLY_CONTRACTS.md)
 - [Gate 2B device capture abort](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md)
 - [Gate 2B device PASS](evidence/GATE2B_DEVICE_PASS_004.md)
+- [Gate 2C live relationship cards and device protocol](evidence/GATE2C_LIVE_RELATIONSHIPS.md)
 
 ## Evidence required next
 
 Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C is
-unblocked but remains unstarted; no Engine/World/NetDriver relationship evidence
-is requested in this workflow.
+implemented and ready for its isolated device protocol after the clean artifact
+receipt is recorded. Gate 3, hosting, travel and hooks remain closed.

@@ -19,6 +19,9 @@
 
 namespace serverhost::v2::bindings::ue {
 
+class WorldRelationshipCapture;
+class WorldRelationshipReadBoundary;
+
 struct DiscoveryGeneration final {
     std::uint64_t value{};
 };
@@ -76,7 +79,15 @@ public:
     [[nodiscard]] std::int32_t MaxChunks() const noexcept;
 
 private:
+    struct OwnedObjectRecord final {
+        std::uint64_t objectWord{};
+        std::size_t chunkIndex{};
+        std::size_t itemOffset{};
+    };
+
     std::vector<serverhost::v2::ue::ObjectItemSnapshot> items_;
+    std::vector<platform::OwnedMemoryCopy> ownedItemChunks_;
+    std::vector<OwnedObjectRecord> ownedRecords_;
     DiscoveryGeneration generation_;
     std::int32_t num_{};
     std::int32_t max_{};
@@ -84,6 +95,8 @@ private:
     std::int32_t maxChunks_{};
 
     friend class ReadOnlySnapshotCapture;
+    friend class WorldRelationshipCapture;
+    friend class WorldRelationshipReadBoundary;
 };
 
 struct ReflectionIdentity final {

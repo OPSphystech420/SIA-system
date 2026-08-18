@@ -32,8 +32,9 @@ DiagnosticPresentationModel::DiagnosticPresentationModel(
     }
     const ReadOnlyContractReport& report = *snapshot.contracts;
     contractRows_.push_back({"Capture", report.captureState});
+    contractRows_.push_back({"Relationship capture", report.relationshipCaptureState});
     contractRows_.push_back({"Profile roots", report.profileRootState});
-    contractRows_.push_back({"Generation", std::to_string(report.discoveryGeneration)});
+    contractRows_.push_back({"Lifecycle", report.lifecycleState});
     contractRows_.push_back({"Previous invalidated",
                              report.previousGenerationInvalidated ? "yes" : "not applicable"});
     contractRows_.push_back({"FName blocks / entries",
@@ -63,6 +64,40 @@ DiagnosticPresentationModel::DiagnosticPresentationModel(
     for (const ContractCheck& check : report.reflectionChecks)
         contractRows_.push_back({"Reflection " + check.label,
                                  check.state + ": " + check.detail});
+    const auto appendSection = [this](
+        std::string label, const std::vector<ContractCheck>& checks) {
+        contractRows_.push_back({std::move(label), ""});
+        for (const ContractCheck& check : checks) {
+            contractRows_.push_back({
+                "  " + check.label, check.state + ": " + check.detail});
+        }
+    };
+    appendSection("Engine", report.engineChecks);
+    appendSection("GameViewport", report.gameViewportChecks);
+    appendSection("World", report.worldChecks);
+    contractRows_.push_back({"  Lifecycle state", report.lifecycleState});
+    contractRows_.push_back({"  GWorld / ViewportWorld", report.worldRelationshipState});
+    appendSection("NetDriver", report.netDriverChecks);
+    contractRows_.push_back({"  Presence", report.netDriverState});
+    appendSection("NetDriverDefinitions", report.netDriverDefinitionChecks);
+    for (const NetDriverDefinitionReport& definition : report.netDriverDefinitions) {
+        contractRows_.push_back({
+            "  " + definition.defName,
+            "primary=" + definition.driverClassName
+                + " fallback=" + definition.driverClassNameFallback});
+    }
+    appendSection("Generation", report.generationChecks);
+    contractRows_.push_back({
+        "  Discovery / world",
+        std::to_string(report.discoveryGeneration) + " / "
+            + std::to_string(report.worldGeneration)});
+    contractRows_.push_back({
+        "  Previous world invalidated",
+        report.previousWorldInvalidated ? "yes" : "no"});
+    contractRows_.push_back({
+        "  Relationship bytes / duration ms",
+        std::to_string(report.relationshipCopiedBytes) + " / "
+            + std::to_string(report.relationshipDurationMilliseconds)});
     contractRows_.push_back({"Capabilities", "hooks=0 engine_calls=0 mutation=0"});
 }
 
@@ -103,7 +138,7 @@ std::string DiagnosticPresentationModel::CopyableLogs() const {
 }
 
 std::string DiagnosticPresentationModel::CopyableContractsAndLogs() const {
-    std::string text = "Gate 2B read-only contracts\n";
+    std::string text = "Gate 2C live read-only relationships\n";
     for (const DiagnosticStatusRow& row : contractRows_)
         text += row.label + "=" + row.value + "\n";
     text += "\nBounded logs\n";

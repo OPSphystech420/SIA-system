@@ -1,9 +1,11 @@
-# Server-Host V2 Gate 2B read-only contracts
+# Server-Host V2 Gate 2C live relationships
 
 This is the separate Server-Host V2 implementation. Gate 1 provides the
 portable typed foundation. Gate 1.5 added the UE-free Sideloadly diagnostic
-surface. Gate 2A added exact Mach-O image/profile identity. Gate 2B adds one
+surface. Gate 2A added exact Mach-O image/profile identity. Gate 2B added one
 explicit bounded capture of names, object items and minimal reflection identity.
+Gate 2C adds value-only Engine, GameViewport, World, NetDriver and
+NetDriverDefinitions relationships inside a fresh Gate 2B owned snapshot.
 
 The iOS dylib contains a bounded structured/redacted logger, immutable
 diagnostic snapshots, a scene-safe UIKit floating button and a transparent
@@ -58,13 +60,15 @@ linked.
 source lists and the rule that raw address/ASLR/Mach-O operations stay in
 the approved low Bindings boundary. Host-local tests use synthetic Mach-O and
 sparse memory buffers for malformed/ambiguous/mismatch, mutation/retry,
-unmap/read failure, overflow/permission, cycle, generation and limit cases;
-they never read arbitrary host-process addresses.
+unmap/read failure, overflow/permission, relationship, world-generation and
+limit cases; they never read arbitrary host-process addresses.
 
 The exact 1.10280 profile uses UUID plus stable segment identity and the full
 `__TEXT,__text` SHA-256. `CheckedMemoryReader` can be created only from a unique
 exact-match proof. Gate 2B derives heap tokens only from checked root copies,
 uses the checked platform copier for owned bytes, double-samples mutable headers and
-publishes only an immutable bounded report. Gate 2C and hosting have not
-started. There is no hook, native engine call, host/client behavior or gameplay
-mutation.
+publishes only an immutable bounded report. Gate 2C first creates that fresh
+owned snapshot, then independently cross-checks exact GEngine/GWorld roots and
+typed same-snapshot relationships. It never retains a heap pointer between
+captures. Hosting has not started. There is no hook, native engine call,
+host/client behavior or gameplay mutation.

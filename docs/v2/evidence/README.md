@@ -48,6 +48,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2B device PASS 004](GATE2B_DEVICE_PASS_004.md) — exact `.3` completed
   owned snapshots in both menu and TheIsland, generation invalidation/count
   change, repeated validators and unchanged zero capabilities.
+- [Gate 2C live relationships](GATE2C_LIVE_RELATIONSHIPS.md) — exact GEngine,
+  GWorld, Engine/Viewport/World/NetDriver/definition cards, typed bounded
+  capture, independent world generation, static acceptance and device protocol.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

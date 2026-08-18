@@ -36,7 +36,7 @@ int main() {
     serverhost::v2::tests::RunDiagnosticsTests(context);
     std::cout << "[v2] Gate 2A image identity and checked memory\n" << std::flush;
     serverhost::v2::tests::RunPlatformBoundaryTests(context);
-    std::cout << "[v2] Gate 2B owned read-only snapshots\n" << std::flush;
+    std::cout << "[v2] Gate 2B snapshots and Gate 2C live relationships\n" << std::flush;
     serverhost::v2::tests::RunReadOnlySnapshotCaptureTests(context);
     std::cout << "[v2] presentation state machine\n" << std::flush;
     serverhost::v2::tests::RunPresentationStateMachineTests(context);

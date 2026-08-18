@@ -55,6 +55,18 @@ struct UObjectLayout final {
     uint64 outerWord;
 };
 
+struct FNetDriverDefinitionLayout final {
+    FName defName;
+    FName driverClassName;
+    FName driverClassNameFallback;
+};
+
+struct TArrayHeaderLayout final {
+    uint64 dataWord;
+    int32 num;
+    int32 max;
+};
+
 struct UFieldLayout final {
     UObjectLayout object;
     const void* next;
@@ -171,6 +183,14 @@ static_assert(offsetof(UObjectLayout, index) == 0xC);
 static_assert(offsetof(UObjectLayout, classObjectWord) == 0x10);
 static_assert(offsetof(UObjectLayout, name) == 0x18);
 static_assert(offsetof(UObjectLayout, outerWord) == 0x20);
+static_assert(sizeof(FNetDriverDefinitionLayout) == 0x18);
+static_assert(offsetof(FNetDriverDefinitionLayout, defName) == 0x0);
+static_assert(offsetof(FNetDriverDefinitionLayout, driverClassName) == 0x8);
+static_assert(offsetof(FNetDriverDefinitionLayout, driverClassNameFallback) == 0x10);
+static_assert(sizeof(TArrayHeaderLayout) == 0x10);
+static_assert(offsetof(TArrayHeaderLayout, dataWord) == 0x0);
+static_assert(offsetof(TArrayHeaderLayout, num) == 0x8);
+static_assert(offsetof(TArrayHeaderLayout, max) == 0xC);
 static_assert(sizeof(UFieldLayout) == 0x30);
 static_assert(offsetof(UFieldLayout, next) == 0x28);
 static_assert(sizeof(FStructBaseChainLayout) == 0x10);

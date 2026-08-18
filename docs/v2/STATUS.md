@@ -5,7 +5,7 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2B handoff complete; Gate 2C not started
+active workflow: Gate 2C implemented and host/static verified; clean artifact/device capture pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -14,7 +14,7 @@ Gate 2B .2 menu capture: device verified
 Gate 2B .2 TheIsland capture: fail-closed VM-region abort
 Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
-Gate 2C: unblocked; not started
+Gate 2C: exact cards and read-only capture implemented; device pending
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -25,8 +25,10 @@ split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
 investigation is closed as an external reproduced baseline limitation. Gate 2B
 read-only name/object/reflection capture now completes in both the main menu and
 TheIsland on `.3`, including generation replacement and changed object counts.
-Gate 2B is complete for its named scope. Gate 2C Engine, World and NetDriver
-relationship discovery is unblocked but has not started.
+Gate 2B is complete for its named scope. Gate 2C now has exact-binary cards,
+typed fresh-snapshot relationship capture, independent world generation and
+host-static coverage. Its live values remain unverified until the named clean
+artifact is executed under the Gate 2C device protocol.
 
 ## Immutable Gate 1.5 result
 
@@ -390,6 +392,7 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Close the Gate 2B workflow without another build. Gate 2C may be planned in a
-separate task, but do not infer authorization here to start Engine/World/
-NetDriver discovery, hooks, UE calls, hosting or mutation.
+Build and inspect only the clean Gate 2C V2 artifact, then execute the bounded
+menu/TheIsland/same-world/optional-return capture protocol in
+[`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
+Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

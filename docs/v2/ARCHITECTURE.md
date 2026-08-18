@@ -57,6 +57,24 @@ signatures, vtable slots and calling conventions are never promoted by analogy.
    and device evidence proves that no game-native path exists.
 9. The typed surface grows per workflow. FreshSDK is an input to a curated
    layer, not a public V2 SDK.
+10. **`DEC-V2-NO-HOOK-FIRST-HOST`** — the first V2 IP Listen transport is a
+    no-hook workflow. `UEngine::Init` is not a required hook: exact Engine
+    identity and definitions are explicitly revalidated before the future Host
+    command. `UWorld::BeginPlay` is not a required hook: future Start targets
+    the current validated world through the Gate 3 game-thread dispatcher.
+    `UNetDriver::GetNetMode` initially returns its original value, broad
+    Dedicated forcing is forbidden, and hook transport is not a dependency of
+    first Listen. An inert observer may be introduced only after a concrete
+    lifecycle/replication contract cannot be proved by read-only observation or
+    a direct call. A behavior-changing narrow GetNetMode policy requires both a
+    successful original-mode transport test and a demonstrated replication gap.
+
+The authoritative post-Gate-2B workflow order is: Gate 2C live relationships;
+Gate 3 game-thread dispatcher; Host native-contract research; minimal IP Listen
+with original NetMode; typed client travel; replication validation; optional
+inert hooks or narrow policy only if required; remote-player gameplay; then
+save, administration and stability. Earlier evidence is retained even where
+this decision changes the order of future work.
 
 ## 3. Proposed source tree and build files
 
@@ -85,7 +103,7 @@ SourceV2/
     Reflection.hpp/.cpp        UFunction/FProperty descriptors and validation
   Model/
     Engine/
-      EngineViews.hpp/.cpp     Engine, viewport, world, driver, connection
+      LiveRelationships.hpp/.cpp Engine, viewport, world, driver, generations
       GameplayViews.hpp/.cpp   GameModeBase, PlayerController, PlayerState
     ShooterGame/
       ShooterViews.hpp/.cpp    game mode/state, ShooterPC/state, PlayerData
@@ -192,6 +210,13 @@ boundary plus an immutable diagnostics receipt. The runtime performs no
 FNamePool/GUObjectArray scan, UE discovery, hook, engine call or mutation. Raw
 Mach-O addresses and ASLR slide remain private to `Bindings/Platform` and never
 enter the UI snapshot.
+
+Gate 2C adds `LiveRelationshipProfile`, typed value-only relationship views and
+an explicit bounded capture. Every relationship read begins with a fresh Gate
+2B owned snapshot; raw roots and object storage stay in `Bindings`, while the UI
+receives only names, class-validation results, lifecycle state and discovery/
+world generations. No pointer survives capture, and no timer, per-frame poll,
+hook, native call or mutation is introduced.
 
 ## 4. Dependency graph
 

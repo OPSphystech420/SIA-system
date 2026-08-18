@@ -22,8 +22,9 @@ over-restrictive TUObjectArray capacity validator. The `.2` correction then
 completed the exact main-menu snapshot, but its TheIsland generation-2 capture
 failed closed at a VM-region boundary. A bounded multi-region `.3` correction
 was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
-as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. This does not by itself authorize Gate 2C,
-Gate 3 dispatch, Gate 4 hooks or any later behavior.
+as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C is now
+host/static implemented and awaits its dedicated device protocol; this does not
+authorize Gate 3 dispatch, hosting, travel, hooks or any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
@@ -32,7 +33,7 @@ Gate 3 dispatch, Gate 4 hooks or any later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | unblocked; not started | unverified/not started; requires a separate workflow |
+| 2C — Engine/world relationships/invalidation | implemented; host/static verified; device pending | fresh Gate 2B-owned capture, strict Engine/Viewport/World/optional relationship validation, independent world generation and zero capabilities; live values remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -248,7 +249,7 @@ policy, writes, Legacy linking or continuous rendering after Close.
 
 ## Gate 2B — FNamePool, GUObjectArray and reflection discovery
 
-State: implemented and host/iOS-compile validated; device verification pending.
+State: complete; device verified by `V2-G2B-MULTIREGION-DEVICE-PASS-004`.
 
 Entry: Gate 2A causal classification permits progression and its exact match
 proof/checked reader remain unchanged.
@@ -263,24 +264,31 @@ identities, validate known names/core classes/function identity and publish only
 a bounded immutable report. ABI-008 invocation remains deferred; function
 parameter offsets remain unavailable.
 
-Exit: host/static tests and iOS compile pass; the named raw artifact is built;
-then a user capture in menu/local world must confirm known names/objects,
-generation change and zero hooks/engine calls/mutation. Until that device result,
-Gate 2C remains closed.
+Exit: `.3` passed menu and TheIsland captures, generation replacement, every
+required validator and zero hooks/engine calls/mutation. Return-to-menu capture
+and a longer soak were not reported. `Class Engine.World` remains class metadata,
+not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 
 ## Gate 2C — Engine/world relationships and generation invalidation
 
-State: not started; explicitly outside the Gate 2A workflow.
+State: implemented and host/static verified; exact device capture pending.
 
 Entry: Gate 2B read-only discovery passes.
 
 Goal: validate Engine, GameViewport, World and NetDriver relationships and prove
 world-generation invalidation without calls or writes.
 
-Work/exit: resolve ABI-009/010; check exact classes/full names/ownership across
-menu and local-world transitions; increment generation and reject stale handles
-on world change; publish only bounded immutable summaries. Hooks, calls and
-mutation remain forbidden.
+Work: ABI-009/010 cards are implemented through exact native roots, strict
+class/full-name/non-CDO validation, canonical definitions decoding, independent
+GWorld/ViewportWorld reads, optional same-snapshot relationships, stability
+resampling and a separate world generation. Every request first creates a fresh
+Gate 2B owned snapshot. No pointer, timer or cache crosses captures.
+
+Exit: build one clean raw artifact; execute menu, TheIsland, repeated same-world
+capture and optional natural return-menu capture; confirm relationship state,
+world-generation transitions/stability and `hooks=0 engine_calls=0 mutation=0`.
+Death/respawn is outside PASS/FAIL. Details are in
+`evidence/GATE2C_LIVE_RELATIONSHIPS.md`.
 
 ## Deferred production UI compatibility workflow
 
@@ -325,117 +333,89 @@ Required user device artifacts: thread-ID breadcrumbs for submit/drain,
 queue-high-water mark, world-generation timeline, foreground/background result,
 crash report if any.
 
-## Gate 4 — inert hook transport and GetNetMode observation
+## Gate 4 — Host native-contract research
 
-Goal: prove a reversible observer hook and deepen GetNetMode evidence while
-returning the exact original behavior.
+Goal: close only the exact native contracts needed for an original-NetMode IP
+Listen. This gate adds no hook and starts no transport.
 
-Entry:
-
-- Gate 3 passes;
-- one backend has reviewed install/original/uninstall and exception/reentrancy
-  test plan;
-- exact target instructions come from `Extra_For_Host/110280.i64`.
+Entry: Gate 3 passes and the current world can be resolved through a validated
+generation-bound handle on the proven game thread.
 
 Work:
 
-- **IDA:** complete direct/indirect GetNetMode caller ledger and effect-category
-  confidence (ABI-016/017);
-- **Static:** test HookLease state, overflow, reentrancy guard and fixed observer
-  records;
-- **Build:** install LifecycleObserver and NetModeObserver only; no return-value
-  mutation and no ProcessEvent-wide diagnostic hook;
-- **Device:** install/uninstall, menu/map/no-host soak, new-thread behavior and
-  foreground/background.
+- **IDA:** close ABI-012/013/018/022/023 for existing definition selection,
+  `UWorld::Listen`, ShooterGame host preparation, login rejection and cleanup;
+- **Static:** define narrow typed arguments, ownership, preconditions,
+  postconditions, rollback and unsupported-profile failures without calling
+  them;
+- **Build:** publish contract availability only. `UEngine::Init` and
+  `UWorld::BeginPlay` hooks are not prerequisites.
 
-Exit:
+Exit: every planned direct call has an exact 1.10280 type/ownership/lifecycle
+card and a fail-closed validator. No listener, driver, hook, ProcessEvent,
+GetNetMode policy or mutation is enabled by this research gate.
 
-- observer return matches original for every sampled call;
-- no allocation, mutex, reflection, name conversion or formatted logging occurs
-  in callback;
-- original-call recursion, prior exception handling, new/exiting threads and
-  uninstall are proven for the selected backend;
-- 15-minute no-host A/B run has no behavior, crash or material hot-path change;
-- backend failure disables observation and all dependent later behavior.
-
-Required user artifacts: package/profile hash, install/uninstall breadcrumbs,
-per-caller bounded counter table, performance sample, before/after screenshots,
-symbolicated failure if present.
-
-Caller RVAs are diagnostic identifiers for this exact profile, not production
-policy selectors.
-
-## Gate 5 — typed client travel and cleanup
-
-Goal: prove one typed mutating native binding independently of host creation.
-
-Entry:
-
-- Gates 1–4 pass;
-- ABI-004/014 FString and SetClientTravel cards are complete;
-- a known control host endpoint and rollback/return path are available.
-
-Work:
-
-- **IDA:** confirm exact SetClientTravel ABI, ownership and connection guards;
-- **Static:** ClientService state/error/repeat/cleanup tests with fake binding;
-- **Build:** add only typed travel and observed connection/controller readiness;
-- **Device:** connect the physical iPhone V2 client to the preserved known host
-  topology, then return and repeat.
-
-Exit:
-
-- owned URL/options live for the required call duration and are released by the
-  correct allocator;
-- transport, controller and gameplay readiness are reported separately;
-- repeated Start while active fails clearly; return invalidates all identities;
-- two connect/return cycles produce no stale pointer, duplicate command or
-  secret-bearing log.
-
-Required user artifacts: server and client timestamps/logs, endpoint-redacted
-travel request, connection/controller identity timeline, two-cycle result and
-screenshots.
-
-## Gate 6 — game-native host preparation and minimal IP listen
+## Gate 5 — minimal IP Listen with original NetMode
 
 Goal: start one IP GameNetDriver through the closest proven ShooterGame-native
-initialization path, without broad GetNetMode forcing.
+path without a behavior-changing hook.
 
 Entry:
 
-- Gate 5 passes;
-- ABI-012/013 NetDriverDefinition and Listen cards are complete;
-- ABI-018 native host preparation and ABI-022 login rejection are resolved well
-  enough to avoid raw flag patches;
-- definition/string/array ownership is proven, or an existing definition can be
-  used read-only.
+- Gate 4 Host native-contract research passes;
+- the current validated world is dispatched through Gate 3;
+- an existing validated GameNetDriver definition can be used read-only, or its
+  exact ownership-safe construction contract is complete.
 
 Work:
 
-- **IDA:** trace ShooterGame listen/dedicated state writers and call chain; prove
-  lifecycle point, preconditions and rollback;
-- **Static:** HostService transition, idempotence, failure and generation tests;
-- **Build:** add the narrow native preparation and Listen binding; original
-  GetNetMode remains unchanged; no Ark login raw bypass;
-- **Device:** start host once, verify bound port and driver/world ownership, then
-  connect physical iPhone to transport and stop cleanly.
+- **Static:** HostService start/idempotence/failure/rollback/generation tests;
+- **Build:** make the narrow native preparation and Listen calls on the current
+  validated world; GetNetMode returns its original value; no broad Dedicated
+  forcing, login flag patch, Init hook or BeginPlay hook;
+- **Device:** start once, verify the driver/world/port receipt, connect one
+  physical client at transport level, stop cleanly, then start/stop again.
 
 Exit:
 
-- one GameNetDriver/IpNetDriver is created for the requested world, has no
-  ServerConnection, owns the expected world and binds the requested port;
-- second Start is rejected and failure cleans partial driver state;
-- one physical iPhone creates an observed UNetConnection;
-- Stop destroys the named driver without implicit save; a second start/stop
-  succeeds;
-- no GetNetMode result was modified and no raw login-lock flag was patched.
+- one GameNetDriver/IpNetDriver belongs to the requested world, has no
+  ServerConnection and binds the requested port;
+- one physical client creates an observed UNetConnection; gameplay is not yet
+  claimed;
+- duplicate Start is rejected and partial failure/Stop clean the named driver;
+- original GetNetMode is unchanged and all hooks remain absent.
 
-Required user artifacts: exact profile/contract report, server port/driver/world
-receipt, paired server/client transport logs, start/stop/start timeline,
-pre/post sky/weather screenshots and symbolicated failure if any.
+Required user artifacts: exact contract report, server port/driver/world
+receipt, paired transport logs, start/stop/start timeline and pre/post host
+world screenshots.
 
-If the native preparation contract is not proved, this gate remains blocked; a
-caller whitelist or broad forced Dedicated is not an exit substitute.
+## Gate 6 — typed client travel and cleanup
+
+Goal: prove the typed client travel path against the Gate 5 listener.
+
+Entry:
+
+- Gate 5 transport passes;
+- ABI-004/014 FString and SetClientTravel cards are complete;
+- a rollback/return path is available.
+
+Work:
+
+- **IDA:** confirm exact SetClientTravel ABI, string ownership and connection
+  guards;
+- **Static:** ClientService state/error/repeat/cleanup tests;
+- **Build:** add only typed travel and observed connection/controller readiness;
+- **Device:** connect, return naturally where possible, and repeat.
+
+Exit:
+
+- URL/options survive exactly the call duration and use the correct ownership;
+- transport, controller and gameplay readiness remain separate receipts;
+- return invalidates identities and two cycles show no duplicate or stale use;
+- GetNetMode remains original and no hook is introduced.
+
+Required user artifacts: endpoint-redacted travel request, paired timestamps,
+connection/controller timeline, two-cycle result and screenshots.
 
 ## Gate 7 — replication correctness with native semantics
 
@@ -445,16 +425,13 @@ weather, animation, audio and save preconditions.
 Entry:
 
 - Gate 6 transport passes;
-- GetNetMode caller ledger and hosted observer data are available;
 - a repeatable near/far movement scenario is defined.
 
 Work:
 
-- **IDA:** finish exact state mutations and caller classifications implicated by
-  transport/far replication;
+- **IDA:** finish exact state mutations implicated by transport/far replication;
 - **Build:** adjust only the proven game-native preparation sequence; behavior-
-  changing GetNetMode policy requires a separate evidence decision and is not
-  presumed necessary;
+  changing GetNetMode policy and hook transport remain absent;
 - **Device:** A/B original Listen/native setup against the 0.2.11 known control
   and current broad-forced reference, using the same map/character/path.
 
@@ -464,15 +441,37 @@ Exit:
   movement/idle scenarios;
 - host and client sky/weather/render/audio/animation remain comparable to the
   unforced control;
-- driver mode/caller counters and game-state snapshots explain the result;
+- driver and game-state snapshots explain the result or identify a concrete
+  unresolved replication gap;
 - no dedicated-only caller whitelist is embedded in release code;
-- 20-minute hosted run has bounded hook/dispatcher overhead and no crash.
+- 20-minute hosted run has bounded dispatcher overhead and no crash.
 
 Required user artifacts: timestamped A/B/C video or screenshots, near/far
-milestones, per-caller counters, game/world/driver snapshots, network logs and
-crash/performance report.
+milestones, game/world/driver snapshots, network logs and crash/performance
+report.
 
-## Gate 8 — remote player gameplay
+## Gate 8 — optional inert hooks or narrow policy, only if required
+
+State: conditional. Skip this gate entirely when Gate 7 replication passes with
+read-only observation and direct calls.
+
+Entry: original-NetMode Gate 5 transport passed and Gate 7 produced a concrete,
+repeatable replication gap that cannot be explained or fixed through the proven
+native preparation/direct-call contracts.
+
+Work/exit: first prove a reversible inert observer returning the exact original
+value, including install/original/uninstall, exception chaining, recursion,
+thread lifecycle and soak. Only its bounded evidence may justify a separately
+reviewed narrow policy. Broad Dedicated forcing is forbidden; caller RVAs are
+diagnostic identifiers, not an automatic release whitelist. A behavior change
+must close the named replication gap without changing unrelated world/weather/
+render/audio behavior, and must fail closed if transport or policy validation
+is unavailable.
+
+This conditional gate implements `DEC-V2-NO-HOOK-FIRST-HOST`: hooks are evidence
+infrastructure of last resort, not dependencies of first Listen.
+
+## Gate 9 — remote player gameplay
 
 Goal: move new and returning remote clients from transport to stable gameplay,
 preferring observed native flow and using the evidenced RPC pair only as a
@@ -480,7 +479,7 @@ bounded compatibility fallback.
 
 Entry:
 
-- Gate 7 replication passes;
+- Gate 7 replication passes, with Gate 8 either skipped or narrowly passed;
 - ABI-008/019/020/021 ProcessEvent, player initialization, recovery functions
   and minimum identity fields are complete;
 - exact eligibility and once-per-session rules are reviewed.
@@ -513,7 +512,7 @@ reconnect, function contract report, identity/recovery state timeline, RPC count
 This is the first “stable gameplay” gate. Passing transport alone is not a
 release claim.
 
-## Gate 9 — client lifecycle and repeated sessions
+### Gate 9 completion — client lifecycle and repeated sessions
 
 Goal: prove normal leave, cleanup and reconnect without persistence loss or
 stale state.
@@ -577,11 +576,11 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Run `PLAN-G2A-DEATH-CAUSAL-001` only: A without injected dylib, B with exact Gate
-2A closed for 30+ seconds, and C after restart with the same panel open. Use the
-same save/map/character, no EOS and no other mods. Apply the fixed result matrix
-before any code change.
+Build and run only the named Gate 2C raw artifact under the protocol in
+`evidence/GATE2C_LIVE_RELATIONSHIPS.md`. Capture menu, TheIsland, repeated same
+world and optional natural return-menu relationships. Do not use death/respawn
+as PASS/FAIL.
 
-Do not start Gate 2B or 2C in the same workflow. Hooks, `ProcessEvent`, native
-calls, hosting, client travel, save, administration and mutation remain
-forbidden.
+Do not start Gate 3, Host research, hosting or travel in this workflow. Hooks,
+`ProcessEvent`, engine calls, NetMode policy, save, administration and mutation
+remain forbidden.

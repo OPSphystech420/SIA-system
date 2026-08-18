@@ -23,6 +23,25 @@ Status meanings:
 Priorities are `P0` (blocks the next gate), `P1` (blocks stable gameplay), `P2`
 (later iOS workflow) and `P3` (deferred platform/product).
 
+## 0. Active architecture decision
+
+`DEC-V2-NO-HOOK-FIRST-HOST` is authoritative for future workflow ordering.
+First IP Listen is implemented without behavior-changing hooks. Engine and
+definitions are explicitly checked immediately before Host rather than through
+an `UEngine::Init` hook; Start uses the current validated world through the
+future Gate 3 dispatcher rather than requiring a `UWorld::BeginPlay` hook.
+GetNetMode remains original, broad Dedicated forcing is forbidden, and hook
+transport is not a first-Listen dependency. An inert observer is permitted only
+when a named lifecycle/replication contract cannot be proved read-only or by a
+direct call. Any later narrow behavior policy additionally requires successful
+original-mode transport and a demonstrated replication gap.
+
+Ordered queue: Gate 2C live relationships; Gate 3 dispatcher; Host native-
+contract research; minimal IP Listen/original NetMode; typed travel;
+replication validation; optional inert hooks/narrow policy only if required;
+remote gameplay; save/administration/stability. Existing hook/GetNetMode
+evidence remains valid research and is not deleted by this scheduling decision.
+
 ## 1. Contract backlog
 
 | ID | Contract / current knowledge | Status | Missing proof and acceptance evidence | Exact proving source | Priority / gate |
@@ -35,8 +54,8 @@ Priorities are `P0` (blocks the next gate), `P1` (blocks stable gameplay), `P2`
 | ABI-006 | IDA resolves the root conflict: enclosing `FUObjectArray` RVA `0x5D434D8`, direct `ObjObjects/TUObjectArray` RVA `0x5D434E8` at `+0x10`. Item offsets are `0/8/C/10`, size `0x18`, chunks contain `0x10000` items and header offsets are `0/10/14/18/1C`. `.3` device-validated menu `61177/1` and TheIsland `107275/2` live objects/chunks against reserve `25231360/385`; generation 2 invalidated generation 1. | device-proven for exact menu and TheIsland snapshots | Gate 2B proof complete. World-generation semantics and live UWorld relationships belong to Gate 2C. | Exact IDA functions/weak-pointer validators; both FreshSDK trees; `V2-G2B-MULTIREGION-DEVICE-PASS-004`. | G2B complete |
 | ABI-007 | Current UObject layout is `0x28`: flags/index/class/name/outer at `8/C/10/18/20`. Required UField/UStruct/UClass relationships are curated; UFunction is `0xE0` with FunctionFlags at `0xB0`. `.3` passed all nine class/function relationships, owned metadata and FunctionFlags in menu and TheIsland; native dispatch was not used. | device-proven for bounded Gate 2B subset | Gate 2B proof complete. `NumParms`, `ParmsSize` and `ReturnValueOffset` remain unavailable until separately proven. | Both FreshSDK trees; exact `110280.i64` data flow; `V2-G2B-MULTIREGION-DEVICE-PASS-004`. | G2B complete |
 | ABI-008 | Generation-bound UFunction identity and FunctionFlags validation are implemented without parameter ABI, transport or calls. Exact ProcessEvent RVA `0x250147C` is recorded as evidence only and never resolved/invoked in Gate 2B. | partial; invocation deferred | Prove vtable/calling convention/parameter offsets and harmless game-thread call only in its later authorized workflow. No FunctionFlags mutation. | `110280.i64`; Gate 2B evidence; later developer-only invocation card. | P1 invocation / later gate |
-| ABI-009 | `UEngine` relationships: GameViewport at `0x780`, NetDriverDefinitions at `0xBF8`; definition size `0x18`. | exact-binary + sdk+source | Convert binary findings into profile cards; validate live Engine full name, TArray and definition names/classes without mutation. | `Reference/NetDriverDefinitions-1.10280.md`; both FreshSDK Engine files; `110280.i64`; read-only device report. | P0 / G2 |
-| ABI-010 | `UGameViewportClient::World` and `UWorld` relationships: NetDriver, AuthorityGameMode, GameState. FreshSDK gives current offsets including NetDriver `0x1D8`. | sdk+source | Exact live relationship/class checks across launch, map load and return; confirm GWorld resolver rather than trusting profile RVA. | FreshSDK Engine classes; `110280.i64`; lifecycle device snapshots. | P0 / G2-G3 |
+| ABI-009 | Exact `GEngine` is an inline pointer slot at RVA `0x5DB8CF0`; `UEngine::GameViewport=0x780`, `NetDriverDefinitions=0xBF8`, and `sizeof(FNetDriverDefinition)=0x18`. Gate 2C implements a strict unique non-CDO `ShooterEngine Transient.ShooterEngine_*` validator and canonical TArray decoding; `{null,0,0}` is valid empty. | exact-binary + sdk/source; host-static implemented | Run the named Gate 2C artifact in menu/map and capture the live Engine/definitions values. Runtime contents, including exact GameNetDriver names, remain device-unverified until that report. | `GATE2C_LIVE_RELATIONSHIPS.md`; exact `sub_100F844A4`, `sub_100F8510C`, `sub_103D869C0`; both FreshSDK trees; Sishen typed pattern. | P0 / G2C device |
+| ABI-010 | Exact `GWorld` is an inline pointer slot at RVA `0x5DBA4F0`; `UGameViewportClient::World=0x70`; `UWorld::{NetDriver,AuthorityGameMode,GameState}=0x1D8/0x2B8/0x2C0`. Gate 2C independently cross-validates GWorld/ViewportWorld, class chains and optional same-snapshot identities, with a distinct world generation. | exact-binary + sdk/source; host-static implemented | Device-capture menu/loading/map/optional return-menu transitions. A return-menu result and longer soak are not claimed in advance. NetDriver presence is not treated as hosting proof. | `GATE2C_LIVE_RELATIONSHIPS.md`; exact GWorld xrefs/writers, `sub_1038C04E0`, `sub_103E0AA28`, `sub_1018865E4`; FreshSDK/Sishen/UE4.17. | P0 / G2C device |
 | ABI-011 | `UNetDriver`/`UNetConnection` relationships and client/server connection arrays. | sdk+source | Curate required fields; validate ownership and connection state across listen, connect, disconnect and travel; never retain raw elements. | FreshSDK Engine; `110280.i64`; two-device lifecycle log. | P1 / G5-G7 |
 | ABI-012 | FNetDriverDefinition lookup and CreateNetDriver primary/fallback behavior are confirmed for 1.10280. Current legacy intentionally injects IP primary/fallback. | exact-binary | Decide whether an existing validated GameNetDriver definition can be used; if construction is required, prove FName/FString/TArray allocation and transfer ownership. Verify created class and fallback result. | `NetDriverDefinitions-1.10280.md`; `110280.i64`; read-only definitions report then host device gate. | P1 / G6 |
 | ABI-013 | `UWorld::Listen` game-native driver lifecycle: no existing driver, create named GameNetDriver, bind world/collections, InitListen, cleanup on failure. | exact-binary + closest-engine-source | Exact 1.10280 callable signature, URL/error ownership, safe lifecycle point and postconditions: owned driver, bound port, no ServerConnection. | `110280.i64`; `Reference/NetDriverDefinitions-1.10280.md`; UE4.17 `World.cpp`; device listen receipt. | P1 / G6 |

@@ -5,7 +5,10 @@
 #include "SourceV2/Bindings/Platform/ExactProfileSelector.hpp"
 #include "SourceV2/Bindings/Platform/ImageIdentityResolver.hpp"
 #include "SourceV2/Bindings/Profiles/ReadOnlyContracts_1_10280.hpp"
+#include "SourceV2/Bindings/Profiles/LiveRelationships_1_10280.hpp"
 #include "SourceV2/Bindings/UE/ReadOnlySnapshotCapture.hpp"
+#include "SourceV2/Bindings/UE/WorldRelationshipCapture.hpp"
+#include "SourceV2/Model/Engine/LiveRelationships.hpp"
 
 #include <algorithm>
 #include <array>
@@ -41,12 +44,34 @@ constexpr std::uintptr_t kImageBase = 0x100000000ULL;
 constexpr std::uint64_t kNameRva = 0x6000;
 constexpr std::uint64_t kFUObjectRva = 0x17000;
 constexpr std::uint64_t kObjectRva = kFUObjectRva + 0x10;
+constexpr std::uint64_t kGEngineRva = 0x25000;
+constexpr std::uint64_t kGWorldRva = 0x25008;
 constexpr std::uintptr_t kNameBlockAddress = 0x200000000ULL;
 constexpr std::uintptr_t kChunkTableAddress = 0x210000000ULL;
 constexpr std::uintptr_t kItemChunkAddress = 0x220000000ULL;
 constexpr std::uintptr_t kMetadataAddress = 0x230000000ULL;
 constexpr std::size_t kObjectCount = 0x410E;
 constexpr std::size_t kMetadataStride = 0x100;
+constexpr std::int32_t kLiveEngineIndex = 0x800;
+constexpr std::int32_t kLiveViewportIndex = 0x801;
+constexpr std::int32_t kLiveWorldIndex = 0x802;
+constexpr std::int32_t kLiveNetDriverIndex = 0x803;
+constexpr std::int32_t kLiveGameModeIndex = 0x804;
+constexpr std::int32_t kLiveGameStateIndex = 0x805;
+constexpr std::int32_t kDuplicateEngineItemIndex = 0x806;
+constexpr std::int32_t kReplacementWorldIndex = 0x807;
+constexpr std::uintptr_t kLiveEngineAddress = 0x240000000ULL;
+constexpr std::uintptr_t kLiveViewportAddress = 0x241000000ULL;
+constexpr std::uintptr_t kLiveWorldAddress = 0x242000000ULL;
+constexpr std::uintptr_t kLiveNetDriverAddress = 0x243000000ULL;
+constexpr std::uintptr_t kLiveGameModeAddress = 0x244000000ULL;
+constexpr std::uintptr_t kLiveGameStateAddress = 0x245000000ULL;
+constexpr std::uintptr_t kReplacementWorldAddress = 0x246000000ULL;
+constexpr std::uintptr_t kDefinitionsAddress = 0x247000000ULL;
+
+constexpr std::uint64_t MetadataObjectAddress(std::int32_t index) {
+    return kMetadataAddress + static_cast<std::size_t>(index) * kMetadataStride;
+}
 
 #pragma pack(push, 1)
 struct HeaderWire final {
@@ -247,6 +272,7 @@ struct Fixture final {
     std::shared_ptr<SparseMemorySource> memory;
     CheckedMemoryReader reader;
     bindings::profiles::ReadOnlyContractProfile profile;
+    bindings::profiles::LiveRelationshipProfile relationshipProfile;
 };
 
 bindings::BuildProfile IdentityProfile(const ResolvedImageIdentity& resolved) {
@@ -312,6 +338,16 @@ Fixture MakeFixture() {
     addName("CoreUObject");
     addName("KismetStringLibrary");
     addName("Conv_StringToName");
+    addName("ShooterEngine");
+    addName("Transient");
+    addName("TheIsland");
+    addName("GameModeBase");
+    addName("GameStateBase");
+    addName("AuthorityGameMode");
+    addName("GameState");
+    addName("IpNetDriver");
+    addName("/Script/OnlineSubsystemEOS.NetDriverEOS");
+    addName("/Script/OnlineSubsystemUtils.IpNetDriver");
 
     Store(image, kNameRva + 0xC8, std::uint32_t{0});
     Store(image, kNameRva + 0xCC, static_cast<std::uint32_t>(nameCursor));
@@ -323,9 +359,12 @@ Fixture MakeFixture() {
         return static_cast<std::uint64_t>(
             kMetadataAddress + static_cast<std::size_t>(index) * kMetadataStride);
     };
-    const std::array<std::int32_t, 12> populated{
-        0x1, 0x2, 0x3, 0x4, 0x44, 0x1A8, 0x266, 0x358,
-        0x37F, 0x380, 0x712, 0x410D,
+    const std::array<std::int32_t, 24> populated{
+        0x1, 0x2, 0x3, 0x4, 0x5, 0x44, 0x13D, 0x1A8, 0x1E2, 0x266,
+        0x358, 0x359, 0x37F, 0x380, 0x712, kLiveEngineIndex,
+        kLiveViewportIndex, kLiveWorldIndex, kLiveNetDriverIndex,
+        kLiveGameModeIndex, kLiveGameStateIndex, kReplacementWorldIndex,
+        0x410D, 0x6,
     };
     for (const std::int32_t index : populated) {
         FUObjectItemLayout item{
@@ -351,6 +390,8 @@ Fixture MakeFixture() {
     writeObject(0x2, "CoreUObject", 0x37F, std::nullopt);
     writeObject(0x3, "Engine", 0x37F, std::nullopt);
     writeObject(0x4, "KismetStringLibrary", 0x37F, 0x3);
+    writeObject(0x5, "Transient", 0x37F, std::nullopt);
+    writeObject(0x6, "None", 0x37F, std::nullopt);
     writeObject(0x37F, "Class", 0x37F, 0x2);
     writeObject(0x380, "Function", 0x37F, 0x2);
     writeObject(0x1, "Object", 0x37F, 0x2);
@@ -358,10 +399,102 @@ Fixture MakeFixture() {
     writeObject(0x1A8, "Engine", 0x37F, 0x3);
     writeObject(0x266, "GameViewportClient", 0x37F, 0x3);
     writeObject(0x358, "GameEngine", 0x37F, 0x3);
+    writeObject(0x359, "ShooterEngine", 0x37F, 0x3);
+    writeObject(0x13D, "GameModeBase", 0x37F, 0x3);
+    writeObject(0x1E2, "GameStateBase", 0x37F, 0x3);
     writeObject(0x712, "World", 0x37F, 0x3);
     writeObject(0x410D, "Conv_StringToName", 0x380, 0x4);
     Store(metadata, static_cast<std::size_t>(0x410D) * kMetadataStride + 0xB0,
           static_cast<std::uint32_t>(serverhost::v2::ue::EFunctionFlags::Native));
+    Store(metadata, static_cast<std::size_t>(0x358) * kMetadataStride + 0x40,
+          objectAddress(0x1A8));
+    Store(metadata, static_cast<std::size_t>(0x359) * kMetadataStride + 0x40,
+          objectAddress(0x358));
+    Store(metadata, static_cast<std::size_t>(0x266) * kMetadataStride + 0x40,
+          objectAddress(0x1));
+    Store(metadata, static_cast<std::size_t>(0x712) * kMetadataStride + 0x40,
+          objectAddress(0x1));
+    Store(metadata, static_cast<std::size_t>(0x44) * kMetadataStride + 0x40,
+          objectAddress(0x1));
+    Store(metadata, static_cast<std::size_t>(0x13D) * kMetadataStride + 0x40,
+          objectAddress(0x1));
+    Store(metadata, static_cast<std::size_t>(0x1E2) * kMetadataStride + 0x40,
+          objectAddress(0x1));
+
+    const auto setObjectItemAddress = [&](std::int32_t index, std::uint64_t address) {
+        FUObjectItemLayout item{
+            .objectWord = address,
+            .flags = 0,
+            .clusterIndex = 0,
+            .serialNumber = index + 100,
+            .pad_0014 = 0,
+        };
+        Store(chunk, static_cast<std::size_t>(index) * sizeof(item), item);
+    };
+    setObjectItemAddress(kLiveEngineIndex, kLiveEngineAddress);
+    setObjectItemAddress(kLiveViewportIndex, kLiveViewportAddress);
+    setObjectItemAddress(kLiveWorldIndex, kLiveWorldAddress);
+    setObjectItemAddress(kLiveNetDriverIndex, kLiveNetDriverAddress);
+    setObjectItemAddress(kLiveGameModeIndex, kLiveGameModeAddress);
+    setObjectItemAddress(kLiveGameStateIndex, kLiveGameStateAddress);
+    setObjectItemAddress(kReplacementWorldIndex, kReplacementWorldAddress);
+
+    const auto makeLiveObject = [&names, &objectAddress](
+        std::size_t extent, std::int32_t index, serverhost::v2::ue::FName name,
+        std::int32_t classIndex) {
+        std::vector<std::byte> bytes(extent);
+        UObjectLayout object{};
+        object.vtableWord = 0x7777;
+        object.index = index;
+        object.classObjectWord = objectAddress(classIndex);
+        object.name = name;
+        object.outerWord = objectAddress(0x5);
+        Store(bytes, 0, object);
+        (void)names;
+        return bytes;
+    };
+    auto liveEngine = makeLiveObject(
+        0xC08, kLiveEngineIndex,
+        serverhost::v2::ue::FName{names.at("ShooterEngine").comparisonIndex, 2},
+        0x359);
+    Store(liveEngine, 0x780, static_cast<std::uint64_t>(kLiveViewportAddress));
+    TArrayHeaderLayout definitionHeader{
+        .dataWord = kDefinitionsAddress, .num = 1, .max = 1};
+    Store(liveEngine, 0xBF8, definitionHeader);
+    auto liveViewport = makeLiveObject(
+        0x78, kLiveViewportIndex,
+        serverhost::v2::ue::FName{names.at("GameViewportClient").comparisonIndex, 2},
+        0x266);
+    Store(liveViewport, 0x70, static_cast<std::uint64_t>(kLiveWorldAddress));
+    auto liveWorld = makeLiveObject(
+        0x2C8, kLiveWorldIndex, names.at("TheIsland"), 0x712);
+    Store(liveWorld, 0x1D8, std::uint64_t{0});
+    Store(liveWorld, 0x2B8, static_cast<std::uint64_t>(kLiveGameModeAddress));
+    Store(liveWorld, 0x2C0, static_cast<std::uint64_t>(kLiveGameStateAddress));
+    auto liveNetDriver = makeLiveObject(
+        0x148, kLiveNetDriverIndex,
+        serverhost::v2::ue::FName{names.at("IpNetDriver").comparisonIndex, 2}, 0x44);
+    auto liveGameMode = makeLiveObject(
+        0x28, kLiveGameModeIndex,
+        serverhost::v2::ue::FName{names.at("AuthorityGameMode").comparisonIndex, 2},
+        0x13D);
+    auto liveGameState = makeLiveObject(
+        0x28, kLiveGameStateIndex,
+        serverhost::v2::ue::FName{names.at("GameState").comparisonIndex, 2}, 0x1E2);
+    auto replacementWorld = makeLiveObject(
+        0x2C8, kReplacementWorldIndex,
+        serverhost::v2::ue::FName{names.at("TheIsland").comparisonIndex, 3}, 0x712);
+    Store(replacementWorld, 0x2B8, static_cast<std::uint64_t>(kLiveGameModeAddress));
+    Store(replacementWorld, 0x2C0, static_cast<std::uint64_t>(kLiveGameStateAddress));
+    std::vector<std::byte> definitions(sizeof(FNetDriverDefinitionLayout) * 4U);
+    const FNetDriverDefinitionLayout definition{
+        names.at("GameNetDriver"),
+        names.at("/Script/OnlineSubsystemEOS.NetDriverEOS"),
+        names.at("/Script/OnlineSubsystemUtils.IpNetDriver")};
+    Store(definitions, 0, definition);
+
+    Store(image, kGEngineRva, static_cast<std::uint64_t>(kLiveEngineAddress));
+    Store(image, kGWorldRva, static_cast<std::uint64_t>(kLiveWorldAddress));
 
     std::vector<std::byte> table(sizeof(std::uint64_t));
     Store(table, 0, kItemChunkAddress);
@@ -382,6 +515,14 @@ Fixture MakeFixture() {
     memory->Add(kChunkTableAddress, std::move(table));
     memory->Add(kItemChunkAddress, std::move(chunk));
     memory->Add(kMetadataAddress, std::move(metadata));
+    memory->Add(kLiveEngineAddress, std::move(liveEngine));
+    memory->Add(kLiveViewportAddress, std::move(liveViewport));
+    memory->Add(kLiveWorldAddress, std::move(liveWorld));
+    memory->Add(kLiveNetDriverAddress, std::move(liveNetDriver));
+    memory->Add(kLiveGameModeAddress, std::move(liveGameMode));
+    memory->Add(kLiveGameStateAddress, std::move(liveGameState));
+    memory->Add(kReplacementWorldAddress, std::move(replacementWorld));
+    memory->Add(kDefinitionsAddress, std::move(definitions));
 
     LoadedImageRecord record{
         .path = "/Applications/ShooterGame.app/ShooterGame",
@@ -415,7 +556,29 @@ Fixture MakeFixture() {
         {0x712, "Class Engine.World"},
         {0x410D, "Function Engine.KismetStringLibrary.Conv_StringToName"},
     }};
-    return {memory, reader.Value(), profile};
+    auto relationshipProfile = bindings::profiles::kLiveRelationshipsIOS_1_10280;
+    relationshipProfile.identityProfileId = "synthetic-gate2b";
+    relationshipProfile.gEngineRva = kGEngineRva;
+    relationshipProfile.gWorldRva = kGWorldRva;
+    return {memory, reader.Value(), profile, relationshipProfile};
+}
+
+ContractResult<bindings::ue::WorldRelationshipCaptureResult> CaptureRelationships(
+    Fixture& fixture, model::engine::WorldGenerationTracker& tracker,
+    std::uint64_t discoveryGeneration,
+    const bindings::ue::RelationshipCaptureLimits& limits = {},
+    const std::atomic_bool* cancellation = nullptr) {
+    ReadOnlySnapshotCapture discoveryCapture;
+    auto discovery = discoveryCapture.Capture(
+        fixture.reader, fixture.profile, {discoveryGeneration}, {});
+    if (!discovery) {
+        return ContractResult<bindings::ue::WorldRelationshipCaptureResult>::Failure(
+            discovery.Error().category, discovery.Error().context);
+    }
+    bindings::ue::WorldRelationshipCapture relationshipCapture;
+    return relationshipCapture.Capture(
+        fixture.reader, fixture.relationshipProfile, discovery.Value(), tracker,
+        limits, cancellation);
 }
 
 bool AllPassed(const std::vector<ContractCheck>& checks) {
@@ -661,6 +824,365 @@ void RunReadOnlySnapshotCaptureTests(TestContext& context) {
         timeLimited.reader, timeLimited.profile, {16}, timeLimits);
     V2_EXPECT(context, !timeLimitResult
         && timeLimitResult.Error().category == ContractErrorCategory::LimitExceeded);
+
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.gEngineRva == 0x5DB8CF0);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.gWorldRva == 0x5DBA4F0);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.engineGameViewportOffset
+            == 0x780);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.engineNetDriverDefinitionsOffset
+            == 0xBF8);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.netDriverDefinitionBytes
+            == 0x18);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.gameViewportWorldOffset
+            == 0x70);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.worldNetDriverOffset
+            == 0x1D8);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.worldAuthorityGameModeOffset
+            == 0x2B8);
+    V2_EXPECT(context,
+        bindings::profiles::kLiveRelationshipsIOS_1_10280.worldGameStateOffset
+            == 0x2C0);
+
+    Fixture live = MakeFixture();
+    model::engine::WorldGenerationTracker liveTracker;
+    auto liveResult = CaptureRelationships(live, liveTracker, 100);
+    V2_EXPECT(context, liveResult);
+    V2_EXPECT(context, liveResult.Value().snapshot.engine.className == "ShooterEngine");
+    V2_EXPECT(context, liveResult.Value().snapshot.engine.fullName
+        == "ShooterEngine Transient.ShooterEngine_1");
+    V2_EXPECT(context, liveResult.Value().snapshot.gameViewport.has_value());
+    V2_EXPECT(context, liveResult.Value().snapshot.world.has_value());
+    V2_EXPECT(context, liveResult.Value().snapshot.lifecycleState == "map");
+    V2_EXPECT(context, liveResult.Value().snapshot.worldRelationshipState == "match");
+    V2_EXPECT(context, !liveResult.Value().snapshot.netDriver.has_value());
+    V2_EXPECT(context, liveResult.Value().snapshot.authorityGameMode.has_value());
+    V2_EXPECT(context, liveResult.Value().snapshot.gameState.has_value());
+    V2_EXPECT(context,
+        liveResult.Value().snapshot.netDriverDefinitions.definitions.size() == 1);
+    V2_EXPECT(context,
+        liveResult.Value().snapshot.netDriverDefinitions.definitions[0].defName
+            == "GameNetDriver");
+    V2_EXPECT(context,
+        liveResult.Value().snapshot.netDriverDefinitions.definitions[0].driverClassName
+            == "/Script/OnlineSubsystemEOS.NetDriverEOS");
+    V2_EXPECT(context,
+        liveResult.Value().snapshot.netDriverDefinitions.definitions[0]
+                .driverClassNameFallback
+            == "/Script/OnlineSubsystemUtils.IpNetDriver");
+
+    Fixture ambiguousEngine = MakeFixture();
+    const FUObjectItemLayout duplicateEngineItem{
+        .objectWord = kLiveEngineAddress,
+        .flags = 0,
+        .clusterIndex = 0,
+        .serialNumber = kDuplicateEngineItemIndex + 100,
+        .pad_0014 = 0,
+    };
+    ambiguousEngine.memory->Write(
+        kItemChunkAddress
+            + static_cast<std::size_t>(kDuplicateEngineItemIndex)
+                * sizeof(FUObjectItemLayout),
+        duplicateEngineItem);
+    model::engine::WorldGenerationTracker ambiguousTracker;
+    auto ambiguousResult = CaptureRelationships(ambiguousEngine, ambiguousTracker, 101);
+    V2_EXPECT(context, !ambiguousResult
+        && ambiguousResult.Error().context.find("multiple") != std::string::npos);
+
+    Fixture engineCdo = MakeFixture();
+    engineCdo.memory->Write(
+        kLiveEngineAddress + 0x8,
+        serverhost::v2::ue::EObjectFlags::ClassDefaultObject);
+    model::engine::WorldGenerationTracker cdoTracker;
+    auto cdoResult = CaptureRelationships(engineCdo, cdoTracker, 102);
+    V2_EXPECT(context, !cdoResult
+        && cdoResult.Error().context.find("default object") != std::string::npos);
+
+    Fixture wrongEngineClass = MakeFixture();
+    wrongEngineClass.memory->Write(
+        kLiveEngineAddress + 0x10, MetadataObjectAddress(0x358));
+    model::engine::WorldGenerationTracker wrongEngineClassTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        wrongEngineClass, wrongEngineClassTracker, 103));
+
+    Fixture wrongEngineName = MakeFixture();
+    auto wrongNameDiscovery = capture.Capture(
+        wrongEngineName.reader, wrongEngineName.profile, {104}, {});
+    V2_EXPECT(context, wrongNameDiscovery);
+    const auto plainEngineName = wrongNameDiscovery.Value().names.Find("Engine");
+    V2_EXPECT(context, plainEngineName.has_value());
+    wrongEngineName.memory->Write(kLiveEngineAddress + 0x18, *plainEngineName);
+    model::engine::WorldGenerationTracker wrongEngineNameTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        wrongEngineName, wrongEngineNameTracker, 105));
+
+    Fixture emptyDefinitions = MakeFixture();
+    emptyDefinitions.memory->Write(
+        kLiveEngineAddress + 0xBF8, TArrayHeaderLayout{});
+    model::engine::WorldGenerationTracker emptyDefinitionsTracker;
+    auto emptyDefinitionsResult = CaptureRelationships(
+        emptyDefinitions, emptyDefinitionsTracker, 106);
+    V2_EXPECT(context, emptyDefinitionsResult);
+    V2_EXPECT(context,
+        emptyDefinitionsResult.Value().snapshot.netDriverDefinitions.canonicalEmpty);
+    V2_EXPECT(context,
+        emptyDefinitionsResult.Value().snapshot.netDriverDefinitions.count == 0);
+
+    Fixture allocatedEmptyDefinitions = MakeFixture();
+    allocatedEmptyDefinitions.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = kDefinitionsAddress, .num = 0, .max = 1});
+    model::engine::WorldGenerationTracker allocatedEmptyDefinitionsTracker;
+    auto allocatedEmptyDefinitionsResult = CaptureRelationships(
+        allocatedEmptyDefinitions, allocatedEmptyDefinitionsTracker, 107);
+    V2_EXPECT(context, allocatedEmptyDefinitionsResult);
+    V2_EXPECT(context,
+        !allocatedEmptyDefinitionsResult.Value().snapshot.netDriverDefinitions.canonicalEmpty);
+
+    Fixture unreadableAllocatedEmpty = MakeFixture();
+    unreadableAllocatedEmpty.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = 0x333000000ULL, .num = 0, .max = 1});
+    model::engine::WorldGenerationTracker unreadableAllocatedEmptyTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        unreadableAllocatedEmpty, unreadableAllocatedEmptyTracker, 108));
+
+    Fixture nullDataPopulated = MakeFixture();
+    nullDataPopulated.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = 0, .num = 1, .max = 1});
+    model::engine::WorldGenerationTracker nullDataTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        nullDataPopulated, nullDataTracker, 109));
+    Fixture invertedArray = MakeFixture();
+    invertedArray.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = kDefinitionsAddress, .num = 2, .max = 1});
+    model::engine::WorldGenerationTracker invertedArrayTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        invertedArray, invertedArrayTracker, 110));
+    Fixture nonNullZeroCapacity = MakeFixture();
+    nonNullZeroCapacity.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = kDefinitionsAddress, .num = 0, .max = 0});
+    model::engine::WorldGenerationTracker nonNullZeroTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        nonNullZeroCapacity, nonNullZeroTracker, 111));
+
+    Fixture duplicateDefinition = MakeFixture();
+    FNetDriverDefinitionLayout firstDefinition{};
+    std::span<std::byte> firstDefinitionBytes(
+        reinterpret_cast<std::byte*>(&firstDefinition), sizeof(firstDefinition));
+    V2_EXPECT(context, duplicateDefinition.memory->Copy(
+        kDefinitionsAddress, firstDefinitionBytes));
+    duplicateDefinition.memory->Write(
+        kDefinitionsAddress + sizeof(firstDefinition), firstDefinition);
+    duplicateDefinition.memory->Write(
+        kLiveEngineAddress + 0xBF8,
+        TArrayHeaderLayout{.dataWord = kDefinitionsAddress, .num = 2, .max = 2});
+    model::engine::WorldGenerationTracker duplicateDefinitionTracker;
+    auto duplicateDefinitionResult = CaptureRelationships(
+        duplicateDefinition, duplicateDefinitionTracker, 112);
+    V2_EXPECT(context, !duplicateDefinitionResult
+        && duplicateDefinitionResult.Error().context.find("duplicate")
+            != std::string::npos);
+
+    Fixture invalidDefinitionName = MakeFixture();
+    invalidDefinitionName.memory->Write(
+        kDefinitionsAddress,
+        serverhost::v2::ue::FName{std::numeric_limits<std::int32_t>::max(), 0});
+    model::engine::WorldGenerationTracker invalidDefinitionTracker;
+    auto invalidDefinitionResult = CaptureRelationships(
+        invalidDefinitionName, invalidDefinitionTracker, 113);
+    V2_EXPECT(context, !invalidDefinitionResult
+        && invalidDefinitionResult.Error().context.find("invalid FName")
+            != std::string::npos);
+
+    Fixture nullViewport = MakeFixture();
+    nullViewport.memory->Write(kLiveEngineAddress + 0x780, std::uint64_t{0});
+    model::engine::WorldGenerationTracker nullViewportTracker;
+    auto nullViewportResult = CaptureRelationships(
+        nullViewport, nullViewportTracker, 114);
+    V2_EXPECT(context, nullViewportResult);
+    V2_EXPECT(context, !nullViewportResult.Value().snapshot.gameViewport.has_value());
+    V2_EXPECT(context, nullViewportResult.Value().snapshot.lifecycleState == "loading");
+
+    Fixture wrongViewport = MakeFixture();
+    wrongViewport.memory->Write(
+        kLiveViewportAddress + 0x10, MetadataObjectAddress(0x712));
+    model::engine::WorldGenerationTracker wrongViewportTracker;
+    V2_EXPECT(context, !CaptureRelationships(wrongViewport, wrongViewportTracker, 115));
+
+    Fixture nullGWorld = MakeFixture();
+    nullGWorld.memory->Write(kImageBase + kGWorldRva, std::uint64_t{0});
+    model::engine::WorldGenerationTracker nullGWorldTracker;
+    auto nullGWorldResult = CaptureRelationships(nullGWorld, nullGWorldTracker, 116);
+    V2_EXPECT(context, nullGWorldResult);
+    V2_EXPECT(context, nullGWorldResult.Value().snapshot.world.has_value());
+    V2_EXPECT(context, nullGWorldResult.Value().snapshot.lifecycleState == "loading");
+
+    Fixture mismatchedWorld = MakeFixture();
+    mismatchedWorld.memory->Write(
+        kImageBase + kGWorldRva,
+        static_cast<std::uint64_t>(kReplacementWorldAddress));
+    model::engine::WorldGenerationTracker mismatchTracker;
+    auto mismatchResult = CaptureRelationships(mismatchedWorld, mismatchTracker, 117);
+    V2_EXPECT(context, !mismatchResult
+        && mismatchResult.Error().context == "GWorld/ViewportWorld mismatch");
+
+    Fixture absentWorld = MakeFixture();
+    absentWorld.memory->Write(
+        kImageBase + kGWorldRva, std::uint64_t{0x333000000ULL});
+    absentWorld.memory->Write(
+        kLiveViewportAddress + 0x70, std::uint64_t{0x333000000ULL});
+    model::engine::WorldGenerationTracker absentWorldTracker;
+    auto absentWorldResult = CaptureRelationships(absentWorld, absentWorldTracker, 118);
+    V2_EXPECT(context, !absentWorldResult
+        && absentWorldResult.Error().category == ContractErrorCategory::NotFound);
+
+    Fixture wrongWorldClass = MakeFixture();
+    wrongWorldClass.memory->Write(
+        kLiveWorldAddress + 0x10, MetadataObjectAddress(0x13D));
+    model::engine::WorldGenerationTracker wrongWorldTracker;
+    V2_EXPECT(context, !CaptureRelationships(wrongWorldClass, wrongWorldTracker, 119));
+
+    Fixture optionalNone = MakeFixture();
+    optionalNone.memory->Write(kLiveWorldAddress + 0x1D8, std::uint64_t{0});
+    optionalNone.memory->Write(kLiveWorldAddress + 0x2B8, std::uint64_t{0});
+    optionalNone.memory->Write(kLiveWorldAddress + 0x2C0, std::uint64_t{0});
+    model::engine::WorldGenerationTracker optionalNoneTracker;
+    auto optionalNoneResult = CaptureRelationships(optionalNone, optionalNoneTracker, 120);
+    V2_EXPECT(context, optionalNoneResult);
+    V2_EXPECT(context, !optionalNoneResult.Value().snapshot.netDriver.has_value());
+    V2_EXPECT(context, !optionalNoneResult.Value().snapshot.authorityGameMode.has_value());
+    V2_EXPECT(context, !optionalNoneResult.Value().snapshot.gameState.has_value());
+
+    Fixture optionalDriver = MakeFixture();
+    optionalDriver.memory->Write(
+        kLiveWorldAddress + 0x1D8,
+        static_cast<std::uint64_t>(kLiveNetDriverAddress));
+    model::engine::WorldGenerationTracker optionalDriverTracker;
+    auto optionalDriverResult = CaptureRelationships(
+        optionalDriver, optionalDriverTracker, 121);
+    V2_EXPECT(context, optionalDriverResult);
+    V2_EXPECT(context, optionalDriverResult.Value().snapshot.netDriver.has_value());
+
+    Fixture wrongOptionalClass = MakeFixture();
+    wrongOptionalClass.memory->Write(
+        kLiveWorldAddress + 0x2C0,
+        static_cast<std::uint64_t>(kLiveGameModeAddress));
+    model::engine::WorldGenerationTracker wrongOptionalTracker;
+    V2_EXPECT(context, !CaptureRelationships(
+        wrongOptionalClass, wrongOptionalTracker, 122));
+
+    Fixture wrongClassAnchor = MakeFixture();
+    wrongClassAnchor.memory->Write(
+        MetadataObjectAddress(0x13D) + 0x20, MetadataObjectAddress(0x2));
+    model::engine::WorldGenerationTracker wrongClassAnchorTracker;
+    auto wrongClassAnchorResult = CaptureRelationships(
+        wrongClassAnchor, wrongClassAnchorTracker, 123);
+    V2_EXPECT(context, !wrongClassAnchorResult
+        && wrongClassAnchorResult.Error().context.find("class anchor")
+            != std::string::npos);
+
+    Fixture repeatedWorld = MakeFixture();
+    model::engine::WorldGenerationTracker repeatedTracker;
+    auto repeatedFirst = CaptureRelationships(repeatedWorld, repeatedTracker, 125);
+    auto repeatedSecond = CaptureRelationships(repeatedWorld, repeatedTracker, 126);
+    V2_EXPECT(context, repeatedFirst && repeatedSecond);
+    V2_EXPECT(context, repeatedFirst.Value().snapshot.worldGeneration == 1);
+    V2_EXPECT(context, repeatedSecond.Value().snapshot.worldGeneration == 1);
+    V2_EXPECT(context, !repeatedSecond.Value().snapshot.previousWorldInvalidated);
+    const auto oldWorldHandle = repeatedFirst.Value().snapshot.world->identity;
+    V2_EXPECT(context, !oldWorldHandle.Validate(
+        repeatedSecond.Value().snapshot.discoveryGeneration,
+        repeatedSecond.Value().snapshot.worldGeneration));
+
+    Fixture nullToWorld = MakeFixture();
+    nullToWorld.memory->Write(kImageBase + kGWorldRva, std::uint64_t{0});
+    nullToWorld.memory->Write(kLiveViewportAddress + 0x70, std::uint64_t{0});
+    model::engine::WorldGenerationTracker nullToWorldTracker;
+    auto nullWorldFirst = CaptureRelationships(nullToWorld, nullToWorldTracker, 127);
+    V2_EXPECT(context, nullWorldFirst);
+    V2_EXPECT(context, nullWorldFirst.Value().snapshot.worldGeneration == 0);
+    nullToWorld.memory->Write(
+        kImageBase + kGWorldRva, static_cast<std::uint64_t>(kLiveWorldAddress));
+    nullToWorld.memory->Write(
+        kLiveViewportAddress + 0x70,
+        static_cast<std::uint64_t>(kLiveWorldAddress));
+    auto nullWorldSecond = CaptureRelationships(nullToWorld, nullToWorldTracker, 128);
+    V2_EXPECT(context, nullWorldSecond);
+    V2_EXPECT(context, nullWorldSecond.Value().snapshot.worldGeneration == 1);
+    V2_EXPECT(context, nullWorldSecond.Value().snapshot.previousWorldInvalidated);
+
+    Fixture worldToNull = MakeFixture();
+    model::engine::WorldGenerationTracker worldToNullTracker;
+    auto worldToNullFirst = CaptureRelationships(worldToNull, worldToNullTracker, 129);
+    worldToNull.memory->Write(kImageBase + kGWorldRva, std::uint64_t{0});
+    worldToNull.memory->Write(kLiveViewportAddress + 0x70, std::uint64_t{0});
+    auto worldToNullSecond = CaptureRelationships(worldToNull, worldToNullTracker, 130);
+    V2_EXPECT(context, worldToNullFirst && worldToNullSecond);
+    V2_EXPECT(context, worldToNullSecond.Value().snapshot.worldGeneration == 2);
+    V2_EXPECT(context, worldToNullSecond.Value().snapshot.previousWorldInvalidated);
+
+    Fixture replacedWorld = MakeFixture();
+    model::engine::WorldGenerationTracker replacedWorldTracker;
+    auto replacedFirst = CaptureRelationships(replacedWorld, replacedWorldTracker, 131);
+    replacedWorld.memory->Write(
+        kImageBase + kGWorldRva,
+        static_cast<std::uint64_t>(kReplacementWorldAddress));
+    replacedWorld.memory->Write(
+        kLiveViewportAddress + 0x70,
+        static_cast<std::uint64_t>(kReplacementWorldAddress));
+    auto replacedSecond = CaptureRelationships(replacedWorld, replacedWorldTracker, 132);
+    V2_EXPECT(context, replacedFirst && replacedSecond);
+    V2_EXPECT(context, replacedSecond.Value().snapshot.worldGeneration == 2);
+    V2_EXPECT(context, replacedSecond.Value().snapshot.previousWorldInvalidated);
+    V2_EXPECT(context, !replacedFirst.Value().snapshot.world->identity.Validate(
+        replacedSecond.Value().snapshot.discoveryGeneration,
+        replacedSecond.Value().snapshot.worldGeneration));
+
+    Fixture unsupportedRelationships = MakeFixture();
+    auto unsupportedDiscovery = capture.Capture(
+        unsupportedRelationships.reader, unsupportedRelationships.profile, {133}, {});
+    V2_EXPECT(context, unsupportedDiscovery);
+    unsupportedRelationships.relationshipProfile.identityProfileId = "unsupported";
+    model::engine::WorldGenerationTracker unsupportedTracker;
+    bindings::ue::WorldRelationshipCapture relationshipCapture;
+    auto unsupportedRelationshipResult = relationshipCapture.Capture(
+        unsupportedRelationships.reader,
+        unsupportedRelationships.relationshipProfile,
+        unsupportedDiscovery.Value(), unsupportedTracker);
+    V2_EXPECT(context, !unsupportedRelationshipResult
+        && unsupportedRelationshipResult.Error().category
+            == ContractErrorCategory::UnsupportedProfile);
+
+    Fixture cancelledRelationships = MakeFixture();
+    std::atomic_bool relationshipCancelled{true};
+    model::engine::WorldGenerationTracker cancelledRelationshipTracker;
+    auto cancelledRelationshipResult = CaptureRelationships(
+        cancelledRelationships, cancelledRelationshipTracker, 134, {},
+        &relationshipCancelled);
+    V2_EXPECT(context, !cancelledRelationshipResult
+        && cancelledRelationshipResult.Error().category
+            == ContractErrorCategory::Cancelled);
+    Fixture boundedRelationships = MakeFixture();
+    bindings::ue::RelationshipCaptureLimits tinyRelationshipLimits;
+    tinyRelationshipLimits.maximumCopiedBytes = 1;
+    model::engine::WorldGenerationTracker boundedRelationshipTracker;
+    auto boundedRelationshipResult = CaptureRelationships(
+        boundedRelationships, boundedRelationshipTracker, 135,
+        tinyRelationshipLimits);
+    V2_EXPECT(context, !boundedRelationshipResult
+        && boundedRelationshipResult.Error().category
+            == ContractErrorCategory::LimitExceeded);
 }
 
 }  // namespace serverhost::v2::tests

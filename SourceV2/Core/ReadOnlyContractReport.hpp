@@ -12,6 +12,12 @@ struct ContractCheck final {
     std::string detail;
 };
 
+struct NetDriverDefinitionReport final {
+    std::string defName;
+    std::string driverClassName;
+    std::string driverClassNameFallback;
+};
+
 struct ReadOnlyContractReport final {
     std::string captureState{"not-started"};
     std::string profileRootState{"not-evaluated"};
@@ -32,9 +38,24 @@ struct ReadOnlyContractReport final {
     std::uint64_t copiedBytes{};
     std::uint64_t durationMilliseconds{};
     bool previousGenerationInvalidated{};
+    std::string relationshipCaptureState{"not-started"};
+    std::string lifecycleState{"unavailable"};
+    std::string worldRelationshipState{"not-evaluated"};
+    std::string netDriverState{"not-evaluated"};
+    std::uint64_t worldGeneration{};
+    bool previousWorldInvalidated{};
+    std::uint64_t relationshipCopiedBytes{};
+    std::uint64_t relationshipDurationMilliseconds{};
     std::vector<ContractCheck> knownNames;
     std::vector<ContractCheck> knownObjects;
     std::vector<ContractCheck> reflectionChecks;
+    std::vector<ContractCheck> engineChecks;
+    std::vector<ContractCheck> gameViewportChecks;
+    std::vector<ContractCheck> worldChecks;
+    std::vector<ContractCheck> netDriverChecks;
+    std::vector<ContractCheck> netDriverDefinitionChecks;
+    std::vector<ContractCheck> generationChecks;
+    std::vector<NetDriverDefinitionReport> netDriverDefinitions;
     std::uint32_t hooks{};
     std::uint32_t engineCalls{};
     std::uint32_t mutation{};

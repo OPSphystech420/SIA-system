@@ -91,6 +91,12 @@ fail_if_match \
     --glob '!SourceV2/Build/**' --glob '!SourceV2/Tests/**'
 
 fail_if_match \
+    "Gate 2C must not contain hosting, travel, dispatch, hook, call, or mutation APIs" \
+    'UWorld::Listen|SetClientTravel|CreateNetDriver|DestroyNamedNetDriver|CreateNamedNetDriver|FURL|GetNetMode *\(|MSHookFunction|hookFunction|FIOSAsyncTask|CommandDispatcher|RequestHost|RequestJoin|SaveWorld|ProcessEvent *\(' \
+    SourceV2 --glob '*.{h,hpp,c,cpp,m,mm}' \
+    --glob '!SourceV2/Tests/**'
+
+fail_if_match \
     "a V2 source list references the Legacy runtime" \
     '(HostingRuntime|Source/Hosting|Source/UnrealEngine|Menu/HostMenu|MenuLoad/|Utilities/|ServerHost\.dylib)' \
     SourceV2.mk SourceV2/Build/IOS/Makefile

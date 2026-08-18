@@ -824,6 +824,12 @@ ContractResult<ReadOnlyContractSnapshot> ReadOnlySnapshotCapture::Capture(
     output.report.durationMilliseconds = static_cast<std::uint64_t>(
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - budget.started).count());
+    output.objects.ownedItemChunks_ = std::move(itemChunkCopies);
+    output.objects.ownedRecords_.reserve(privateItems.size());
+    for (const PrivateItem& item : privateItems) {
+        output.objects.ownedRecords_.push_back({
+            item.objectWord, item.chunkIndex, item.itemOffset});
+    }
     return ContractResult<ReadOnlyContractSnapshot>::Success(std::move(output));
 }
 

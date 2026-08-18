@@ -1,6 +1,6 @@
 ARCHS = arm64
 TARGET = iphone:clang:16.5:15.0
-V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.3
+V2_BUILD_ID ?= gate2c-live-relationships-20260818.1
 V2_SOURCE_REVISION ?= unavailable
 V2_CFLAGS ?= -fobjc-arc -fno-modules -Wall -Wextra -Wpedantic -Werror
 V2_REPOSITORY_ROOT := $(abspath ../../..)
@@ -39,6 +39,7 @@ ServerHostV2_FILES = \
     $(V2_SOURCE_ROOT)/UE/Name.cpp \
     $(V2_SOURCE_ROOT)/UE/ObjectArray.cpp \
     $(V2_SOURCE_ROOT)/UE/Reflection.cpp \
+    $(V2_SOURCE_ROOT)/Model/Engine/LiveRelationships.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/MachOImageView.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/MemorySource.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/LoadedImageCatalog.cpp \
@@ -46,6 +47,7 @@ ServerHostV2_FILES = \
     $(V2_SOURCE_ROOT)/Bindings/Platform/ExactProfileSelector.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/CheckedMemoryReader.cpp \
     $(V2_SOURCE_ROOT)/Bindings/UE/ReadOnlySnapshotCapture.cpp \
+    $(V2_SOURCE_ROOT)/Bindings/UE/WorldRelationshipCapture.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Validation/ProfileValidator.cpp \
     $(V2_SOURCE_ROOT)/Tests/Static/LayoutTests.cpp \
     $(V2_REPOSITORY_ROOT)/ImGui/imgui.cpp \

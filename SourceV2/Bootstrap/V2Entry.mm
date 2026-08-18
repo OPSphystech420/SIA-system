@@ -1,5 +1,6 @@
 #include "SourceV2/Bindings/Profiles/IOS_1_10280.hpp"
 #include "SourceV2/Bindings/Profiles/ReadOnlyContracts_1_10280.hpp"
+#include "SourceV2/Bindings/Profiles/LiveRelationships_1_10280.hpp"
 #include "SourceV2/Bindings/Platform/CheckedMemoryReader.hpp"
 #include "SourceV2/Bindings/Platform/ExactProfileSelector.hpp"
 #include "SourceV2/Bindings/Platform/LoadedImageCatalog.hpp"
@@ -36,7 +37,7 @@ __attribute__((constructor)) void V2Entry() {
         .startupState = "diagnostic-bootstrap",
         .profileState = "not-evaluated",
         .legacyGuardState = "not-evaluated",
-        .detail = "Gate 2B exact identity starting; capture remains explicit and read-only",
+        .detail = "Gate 2C exact identity starting; capture remains explicit and read-only",
     };
     logger.Add(
         diagnostics::LogSeverity::Info,
@@ -87,7 +88,7 @@ __attribute__((constructor)) void V2Entry() {
     const bindings::platform::IdentityReceipt& receipt = selection.receipt;
     diagnosticState.startupState = selection.state
             == bindings::platform::ProfileMatchState::ExactMatch
-        ? "gate2b-read-only-contract-capture-available"
+        ? "gate2c-live-relationship-capture-available"
         : "runtime-refused-diagnostics-available";
     diagnosticState.profileState = receipt.profileMatchState;
     if (!receipt.profileId.empty())
@@ -100,7 +101,7 @@ __attribute__((constructor)) void V2Entry() {
     diagnosticState.textFingerprint = receipt.shortenedTextFingerprint;
     diagnosticState.identityReason = receipt.reason;
     diagnosticState.detail = selection.state == bindings::platform::ProfileMatchState::ExactMatch
-        ? "Unique exact profile matched; press Capture to create owned name/object contracts"
+        ? "Unique exact profile matched; press Capture for fresh owned objects and live relationships"
         : "Identity mismatch or ambiguity refused all later discovery";
 
     if (selection.match.has_value()) {
@@ -108,7 +109,8 @@ __attribute__((constructor)) void V2Entry() {
             *selection.match, memory);
         if (reader) {
             diagnostics::ConfigureReadOnlyContractCapture(
-                reader.Value(), bindings::profiles::kReadOnlyContractsIOS_1_10280);
+                reader.Value(), bindings::profiles::kReadOnlyContractsIOS_1_10280,
+                bindings::profiles::kLiveRelationshipsIOS_1_10280);
         } else {
             diagnosticState.startupState = "runtime-refused-diagnostics-available";
             diagnosticState.detail = "Exact identity matched but checked capture boundary refused initialization";

@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.3
-V2_PACKAGE_VERSION := 0.3.2~gate2b.20260818.3
+V2_BUILD_ID ?= gate2c-live-relationships-20260818.1
+V2_PACKAGE_VERSION := 0.4.0~gate2c.20260818.1
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
@@ -25,6 +25,7 @@ V2_PRODUCTION_SOURCES := \
     SourceV2/UE/Name.cpp \
     SourceV2/UE/ObjectArray.cpp \
     SourceV2/UE/Reflection.cpp \
+    SourceV2/Model/Engine/LiveRelationships.cpp \
     SourceV2/Diagnostics/Logger.cpp \
     SourceV2/Diagnostics/DiagnosticSnapshot.cpp \
     SourceV2/UI/DiagnosticPresentationModel.cpp \
@@ -36,6 +37,7 @@ V2_PRODUCTION_SOURCES := \
     SourceV2/Bindings/Platform/ExactProfileSelector.cpp \
     SourceV2/Bindings/Platform/CheckedMemoryReader.cpp \
     SourceV2/Bindings/UE/ReadOnlySnapshotCapture.cpp \
+    SourceV2/Bindings/UE/WorldRelationshipCapture.cpp \
     SourceV2/Bindings/Validation/ProfileValidator.cpp \
     SourceV2/Bootstrap/InertInitialization.cpp \
     SourceV2/Bootstrap/LegacyRuntimeGuard.cpp
