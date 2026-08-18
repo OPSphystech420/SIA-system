@@ -5,7 +5,7 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2C implemented and host/static verified; clean artifact/device capture pending
+active workflow: Gate 2C clean artifact ready; device capture pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -14,7 +14,7 @@ Gate 2B .2 menu capture: device verified
 Gate 2B .2 TheIsland capture: fail-closed VM-region abort
 Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
-Gate 2C: exact cards and read-only capture implemented; device pending
+Gate 2C: exact cards/read-only capture statically verified and packaged; device pending
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -381,6 +381,28 @@ NetDriver instance discovery occurred.
 
 Full report: [Gate 2B device PASS 004](evidence/GATE2B_DEVICE_PASS_004.md).
 
+## Gate 2C clean build receipt
+
+Result ID: `V2-G2C-BUILD-010`
+
+```text
+Build ID: gate2c-live-relationships-20260818.1
+Source revision: 695b230d9db8438142c48aa4b9eb6479e3e1fe35
+Source tag: v2-gate2c-live-relationships-20260818.1-source
+Raw dylib SHA-256: 9a0aee70e9012dd57a1fa543b035f5037d7e0ed26c800e8e029ef4c438ffefb4
+Mach-O / dSYM UUID: 53A00208-554E-334F-815E-59A9694AFD15
+dSYM DWARF SHA-256: cf55bb237a7cb8bdbc9eceb29a21d5f33f76cdc6150605d1376f13ba66cd2aed
+Manifest SHA-256: 342e58f8315ccc03e535235b0ee7a3bcff98b27116d49d0239c6fa033cc641d9
+Archive .deb SHA-256: 65984a8265a0e15dd73f80dfd34613d1360f41cc8fe17fc3959b0dc3038a45a2
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2c-live-relationships-20260818.1/ServerHostV2.dylib`.
+Normal and UBSan-only runs each pass 383 assertions; boundary, arm64 iOS,
+package, injection-isolation and dSYM audits pass. The artifact has not been
+installed or executed, so live Engine/Viewport/World/NetDriver values and world
+transitions remain device-unverified.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -392,7 +414,7 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Build and inspect only the clean Gate 2C V2 artifact, then execute the bounded
+Execute only the clean Gate 2C V2 raw artifact under the bounded
 menu/TheIsland/same-world/optional-return capture protocol in
 [`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
 Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

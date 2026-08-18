@@ -1,7 +1,7 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
-Status: exact-binary/sdk/source cards and host-static implementation complete;
-clean iOS artifact and device execution pending.
+Status: exact-binary/sdk/source cards, host-static implementation and clean iOS
+artifact complete; device execution pending.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -167,7 +167,8 @@ generation validation and the immutable report says
 
 ## Static acceptance
 
-Host tests cover unique/ambiguous Engine, CDO and wrong class/full name;
+Normal and independent UBSan-only host runs each pass 383 assertions. Tests
+cover unique/ambiguous Engine, CDO and wrong class/full name;
 canonical empty and malformed arrays; valid/duplicate/invalid-name definitions;
 nullable/wrong Viewport; null/mismatched/absent/wrong World; optional and wrong-
 class relationships; stable, null-transition and replacement generations; stale
@@ -178,18 +179,37 @@ hooks and mutation paths.
 
 ## Artifact receipt
 
-To be filled from the clean tagged build:
+Result ID: `V2-G2C-BUILD-010`
 
 ```text
 build_id=gate2c-live-relationships-20260818.1
-source_revision=<pending>
-source_tag=<pending>
-dylib_sha256=<pending>
-dsym_uuid=<pending>
-manifest=<pending>
-archival_deb=<pending>
+source_revision=695b230d9db8438142c48aa4b9eb6479e3e1fe35
+source_tag=v2-gate2c-live-relationships-20260818.1-source
+dylib_sha256=9a0aee70e9012dd57a1fa543b035f5037d7e0ed26c800e8e029ef4c438ffefb4
+dsym_uuid=53A00208-554E-334F-815E-59A9694AFD15
+dsym_dwarf_sha256=cf55bb237a7cb8bdbc9eceb29a21d5f33f76cdc6150605d1376f13ba66cd2aed
+manifest_sha256=342e58f8315ccc03e535235b0ee7a3bcff98b27116d49d0239c6fa033cc641d9
+archival_deb_sha256=65984a8265a0e15dd73f80dfd34613d1360f41cc8fe17fc3959b0dc3038a45a2
 raw_dylib=packages/v2/injection/gate2c-live-relationships-20260818.1/ServerHostV2.dylib
+manifest=packages/v2/injection/gate2c-live-relationships-20260818.1/manifest.txt
+archival_deb=packages/v2/com.mhga.serverhost.v2_0.4.0~gate2c.20260818.1_iphoneos-arm.deb
 ```
+
+The clean tagged build reran 383 host assertions and the boundary audit, then
+compiled/linked arm64 UIKit/Metal/ImGui, inspected package metadata/payload,
+verified Legacy/gameplay-symbol isolation, copied the package dylib
+byte-identically, and matched the Mach-O/dSYM UUID. The v4 manifest records all
+Gate 2C RVAs/offsets, separate-generation contract and
+`DEC-V2-NO-HOOK-FIRST-HOST`. No package was installed or executed.
+
+Packaging incident: the first packaging attempt encountered stale Gate 2B
+control metadata and was rejected by the expected-path check, but Theos had
+already replaced the ignored archival Gate 2B `.3` container path. Its
+canonical raw dylib, dSYM and manifest were not changed and retain hashes
+`b5e5f0e…e07829`, `3832a56…8bedd` and `29eaa59…ff89e`. The archive path was
+restored from that exact raw dylib and original metadata and passes V2 package
+inspection; its current container SHA is `e3054a9e…891fe`, not the immutable
+historical `.deb` SHA `e1147e8f…c8f8`. The historical receipt is not rewritten.
 
 ## Device protocol
 
@@ -199,8 +219,9 @@ raw_dylib=packages/v2/injection/gate2c-live-relationships-20260818.1/ServerHostV
 3. Enter ordinary TheIsland without a host operation.
 4. Capture again.
 5. Verify live World, `GWorld/ViewportWorld=match`, optional GameMode/GameState
-   presence and the expected pre-host `net_driver=none` (or report any observed
-   non-null driver without calling it hosting).
+   presence and the observed pre-host NetDriver state. Null must report
+   `net_driver=none`; a validated non-null driver is reported without calling
+   it hosting.
 6. Verify world-generation transition and
    `previous_world_invalidated=yes`.
 7. Capture again in the same world; world generation must not change.

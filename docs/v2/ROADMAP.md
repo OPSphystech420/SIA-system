@@ -23,7 +23,7 @@ completed the exact main-menu snapshot, but its TheIsland generation-2 capture
 failed closed at a VM-region boundary. A bounded multi-region `.3` correction
 was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
 as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C is now
-host/static implemented and awaits its dedicated device protocol; this does not
+packaged as `V2-G2C-BUILD-010` and awaits its dedicated device protocol; this does not
 authorize Gate 3 dispatch, hosting, travel, hooks or any later behavior.
 
 | Gate | State | Strongest claim |
@@ -33,7 +33,7 @@ authorize Gate 3 dispatch, hosting, travel, hooks or any later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | implemented; host/static verified; device pending | fresh Gate 2B-owned capture, strict Engine/Viewport/World/optional relationship validation, independent world generation and zero capabilities; live values remain unverified |
+| 2C — Engine/world relationships/invalidation | clean artifact ready; device pending | fresh Gate 2B-owned capture, strict Engine/Viewport/World/optional relationship validation, independent world generation and zero capabilities; live values remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -271,7 +271,7 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 
 ## Gate 2C — Engine/world relationships and generation invalidation
 
-State: implemented and host/static verified; exact device capture pending.
+State: clean artifact `V2-G2C-BUILD-010` ready; exact device capture pending.
 
 Entry: Gate 2B read-only discovery passes.
 

@@ -30,7 +30,7 @@ rewrite a PASS or FAIL into a later conclusion.
 | PLAN-G2A-SIDELOAD-001 | 2A | Inject the single Gate 2A artifact; verify exact image/profile receipt, zero scans/capabilities, fail-close behavior and rolled-over read-only stability/touches | One exact profile, no address disclosure, no later discovery, panel lifecycle and ordinary menu/local-world stability | partially executed: identity PASS; death-triggered stability FAIL; wrong-profile negative unexecuted |
 | PLAN-G2A-DEATH-CAUSAL-001 | 2A | Same-save death baseline without injection; B/C were conditional controls | Classify whether injection is necessary for the symptom | closed after arm A; external baseline reproduced; B/C waived by user |
 | PLAN-G2B-DISCOVERY-001 | 2B | Explicit bounded FNamePool, GUObjectArray and reflection capture only through the provenance reader | Owned known-name/object/reflection snapshots; generation invalidation; zero capabilities | complete via `V2-G2B-MULTIREGION-DEVICE-PASS-004` |
-| PLAN-G2C-RELATIONSHIPS-001 | 2C | Fresh Gate 2B snapshot followed by bounded Engine/GameViewport/World/NetDriver/definition relationships and world-generation invalidation | Exact relationships, same-world generation stability, stale-generation refusal and zero capabilities | implemented and host/static verified; clean artifact/device execution pending |
+| PLAN-G2C-RELATIONSHIPS-001 | 2C | Fresh Gate 2B snapshot followed by bounded Engine/GameViewport/World/NetDriver/definition relationships and world-generation invalidation | Exact relationships, same-world generation stability, stale-generation refusal and zero capabilities | clean artifact ready; device execution pending |
 
 ## Immutable V2 execution rows
 
@@ -58,6 +58,7 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G2B-MULTIREGION-STATIC-003 | 2026-08-18 | Gate 2B `.3` source before clean artifact receipt | 290 normal + 290 UBSan-only assertions; adjacent-readable composition, gap, unreadable, unmap/copy failure and redacted type-context tests; boundary audit | PASS | Each underlying copy remains within one queried readable region; composed owned result is returned only after full success. Exact TheIsland result remains device-unverified. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
 | V2-G2B-MULTIREGION-BUILD-009 | 2026-08-18 | clean revision `852e260d353c9a67a18e5763f358f1242b6e7947`, tag `v2-gate2b-readonly-contracts-20260818.3-source`; `gate2b-readonly-contracts-20260818.3`; raw dylib SHA-256 `b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`; Mach-O/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`; package SHA `e1147e8fee5f7fa64bf1fe90d4e109448da1949e202117287f3deee363b7c8f8` | 290 normal + 290 UBSan-only assertions; boundary audit; iOS arm64 build; package/control/payload/build/source ID and injection isolation audits; dSYM DWARF SHA `3832a56…8bedd`; manifest SHA `29eaa59…ff89e`; no installation/execution | PASS | Single replacement artifact ready for menu/TheIsland repeat; live multi-region behavior remains device-unverified | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
 | V2-G2B-MULTIREGION-DEVICE-PASS-004 | 2026-08-18 | exact `.3` artifact/source above | User Sideloadly execution: menu generation 1 completed in 32 ms with FNames `178/390585`, objects `61177/25231360`, chunks `1/385`, copied bytes `24675204`; TheIsland generation 2 completed in 44 ms with FNames `180/399365`, objects `107275/25231360`, chunks `2/385`, copied bytes `26049956`; previous invalidated=yes; all ten names, nine objects/functions and reflection validators passed twice. | PASS: Gate 2B device verified | Exact profile, owned snapshots, menu-to-world generation replacement and multi-region positive path passed with scans=1 and hooks/engine calls/mutation=0. Optional return-menu capture and longer soak not reported; Gate 2C not started. | [Gate 2B device PASS](evidence/GATE2B_DEVICE_PASS_004.md) |
+| V2-G2C-BUILD-010 | 2026-08-18 | clean revision `695b230d9db8438142c48aa4b9eb6479e3e1fe35`, tag `v2-gate2c-live-relationships-20260818.1-source`; `gate2c-live-relationships-20260818.1`; raw dylib SHA-256 `9a0aee70e9012dd57a1fa543b035f5037d7e0ed26c800e8e029ef4c438ffefb4`; Mach-O/dSYM UUID `53A00208-554E-334F-815E-59A9694AFD15`; package SHA-256 `65984a8265a0e15dd73f80dfd34613d1360f41cc8fe17fc3959b0dc3038a45a2` | 383 normal + 383 UBSan-only assertions; exact relationship/array/generation negatives; boundary audit; arm64 iOS build; package/control/payload/build/source ID and injection isolation audits; dSYM DWARF SHA `cf55bb2…d2aed`; v4 manifest SHA `342e58f…641d9`; no installation/execution | PASS | Gate 2C compiled/statically validated and ready for `PLAN-G2C-RELATIONSHIPS-001`; all live values, lifecycle observations and device world-generation transitions remain unverified; Gate 3/hosting remain closed | [Gate 2C report](evidence/GATE2C_LIVE_RELATIONSHIPS.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -69,6 +70,14 @@ Gate 2A raw dylib payload. Content inspection passes, but the current container
 SHA is `46264cbf9471acb4eef9c28a35c25ac74972b91f50ae1dd8761bad514a4194db`,
 not the historical byte SHA. The Gate 2A injection dylib and manifest remain at
 their recorded hashes.
+
+The first Gate 2C packaging attempt was rejected because stale Gate 2B control
+metadata generated the wrong expected path, but Theos had already replaced the
+ignored Gate 2B `.3` archive container. The canonical `.3` raw dylib/dSYM/
+manifest remain unchanged at their recorded hashes. The archive path was
+restored with that exact raw dylib and original metadata and passes inspection;
+its current container SHA is `e3054a9e8408ee280dccb802ac203c68202384d9c88ee36d67fd307ab33891fe`,
+not the historical `e1147e8f…c8f8`. The immutable build row is not rewritten.
 
 ## PLAN-G1.5-SIDELOAD-001 exact protocol
 
