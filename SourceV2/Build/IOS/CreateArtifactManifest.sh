@@ -85,7 +85,7 @@ dsym_sha=$(shasum -a 256 "$dsym_dwarf" | awk '{print $1}')
 
 manifest="$stage_dir/manifest.txt"
 {
-    echo 'format=serverhost-v2-injection-manifest-v3'
+    echo 'format=serverhost-v2-injection-manifest-v4'
     echo 'artifact_role=sideloadly-input-before-resigning'
     printf 'build_id=%s\n' "$build_id"
     printf 'git_revision=%s\n' "$source_revision"
@@ -112,6 +112,18 @@ manifest="$stage_dir/manifest.txt"
     echo 'gate2b_fname_pool_rva=0x5BB5180'
     echo 'gate2b_fuobjectarray_rva=0x5D434D8'
     echo 'gate2b_tuobjectarray_rva=0x5D434E8'
+    echo 'gate2c_gengine_rva=0x5DB8CF0'
+    echo 'gate2c_gworld_rva=0x5DBA4F0'
+    echo 'gate2c_engine_gameviewport_offset=0x780'
+    echo 'gate2c_engine_netdriverdefinitions_offset=0xBF8'
+    echo 'gate2c_netdriverdefinition_size=0x18'
+    echo 'gate2c_gameviewport_world_offset=0x70'
+    echo 'gate2c_world_netdriver_offset=0x1D8'
+    echo 'gate2c_world_authoritygamemode_offset=0x2B8'
+    echo 'gate2c_world_gamestate_offset=0x2C0'
+    echo 'gate2c_capture=fresh-gate2b-owned-snapshot,explicit,bounded,read-only'
+    echo 'gate2c_world_generation=separate-from-discovery-generation'
+    echo 'architecture_decision=DEC-V2-NO-HOOK-FIRST-HOST'
     echo 'runtime_capabilities_before_capture=scans_started=0,hooks=0,engine_calls=0,mutation=0'
     echo 'runtime_capabilities_after_explicit_capture=scans_started=1,hooks=0,engine_calls=0,mutation=0'
     printf 'host_cppflags=%s\n' "$V2_HOST_CPPFLAGS"
