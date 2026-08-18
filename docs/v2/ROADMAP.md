@@ -31,7 +31,12 @@ before relationship reads. A narrow `.3` source correction canonicalizes only
 the exact transient-package alias and adds bounded address-free name-shape
 failure evidence while preserving every strict class/name validator. It is
 packaged as clean `.3` receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`. This does
-not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
+not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior. The
+exact `.3` then completed its first TheIsland relationship capture as
+`V2-G2C-MAP-RELATIONSHIPS-PASS-003`: Engine, GameViewport, World/GWorld match,
+definitions and normal pre-host `net_driver=none` passed with world generation
+1 and zero capabilities. Same-world stability and lifecycle transition/
+invalidation remain required before Gate 2C closes.
 
 | Gate | State | Strongest claim |
 |---|---|---|
@@ -40,7 +45,7 @@ not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | `.1` and `.2` device aborts; clean `.3` ready | prerequisite snapshots device-proven for both attempts; fixed dump-index and isolated full-name assumptions corrected narrowly; all live relationships/world transitions remain unverified |
+| 2C — Engine/world relationships/invalidation | `.3` first map subset passed; transition evidence pending | exact native Engine and definitions, GameViewport, live World, GWorld match, normal null NetDriver and world generation 1 device-proven; same-world stability, menu lifecycle and transition invalidation remain open |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -279,8 +284,9 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 ## Gate 2C — Engine/world relationships and generation invalidation
 
 State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`; `.2`
-immutable device abort `V2-G2C-ENGINE-FULLNAME-ABORT-002`; clean `.3` correction
-artifact `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012` ready for isolated execution.
+immutable device abort `V2-G2C-ENGINE-FULLNAME-ABORT-002`; exact `.3` first-map
+PASS `V2-G2C-MAP-RELATIONSHIPS-PASS-003`. Gate remains open for same-world
+generation stability and lifecycle transition/invalidation evidence.
 
 Entry: Gate 2B read-only discovery passes.
 
@@ -299,7 +305,10 @@ canonicalizes only exact owner `/Engine/Transient` to `Transient`, keeps the
 required numbered full-name shape, runs direct-class/ancestry checks first and
 returns bounded printable observed-name shape if it still fails. Every request
 still creates a fresh Gate 2B owned snapshot; no pointer, timer or cache crosses
-captures.
+captures. The `.3` TheIsland capture device-validated the strict native Engine
+path, GameViewport, populated definitions, same-identity GWorld/ViewportWorld
+and normal null NetDriver. It established world generation 1 but had no prior
+accepted relationship capture.
 
 Exit: build one clean raw artifact; execute menu, TheIsland, repeated same-world
 capture and optional natural return-menu capture; confirm relationship state,
@@ -593,10 +602,12 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Build and run only the named Gate 2C raw artifact under the protocol in
-`evidence/GATE2C_LIVE_RELATIONSHIPS.md`. Capture menu, TheIsland, repeated same
-world and optional natural return-menu relationships. Do not use death/respawn
-as PASS/FAIL.
+Keep the exact `.3` process/world active and capture the same TheIsland once
+more: discovery generation must advance while world generation remains 1 and
+`previous_world_invalidated=no`. If naturally possible, return to menu without
+restarting and capture the transition, then re-enter TheIsland and capture the
+menu-to-map direction. If natural return is unavailable, use a later menu-first
+run. Do not use death/respawn as PASS/FAIL.
 
 Do not start Gate 3, Host research, hosting or travel in this workflow. Hooks,
 `ProcessEvent`, engine calls, NetMode policy, save, administration and mutation

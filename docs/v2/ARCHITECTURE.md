@@ -235,6 +235,14 @@ Class/CDO/direct-UClass/ancestry checks precede the instance full-name check;
 failure exposes only bounded printable name shape and never an address. No
 root, offset, capability or lifetime rule changes.
 
+Device result `V2-G2C-MAP-RELATIONSHIPS-PASS-003` validates this boundary in
+one live TheIsland capture: the native Engine root, exact dynamic ShooterEngine
+class/ancestry, GameViewport, GWorld/ViewportWorld identity, definitions and a
+normal null NetDriver all passed through typed value views. Discovery and world
+generation remain deliberately separate. The first capture established world
+generation 1; it does not yet prove same-world stability or transition
+invalidation, so no raw handle may be retained and Gate 3 remains closed.
+
 ## 4. Dependency graph
 
 ```mermaid

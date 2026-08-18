@@ -621,3 +621,22 @@ the archival `.deb` SHA is
 Both 393-assertion SourceV2 suites and all boundary, arm64, package, manifest,
 dSYM and injection-isolation audits pass. The exact `.3` runtime behavior
 awaits the bounded Gate 2C device repeat.
+
+## 2026-08-19 — Gate 2C `.3` first TheIsland relationship PASS
+
+`V2-G2C-MAP-RELATIONSHIPS-PASS-003` executed the exact `.3` input in an already
+loaded local TheIsland world. The fresh prerequisite snapshot completed in
+45 ms with 180/399,305 FName blocks/entries, 106,725 valid objects in two chunks
+and every required validator passing. The relationship phase completed in 2 ms
+and 10,240 bytes. Native Engine ownership, exact non-CDO ShooterEngine direct
+class and GameEngine/Engine ancestry, GameViewport, live World and the
+independent GWorld/ViewportWorld identity comparison all passed. The populated
+definitions array decoded one `GameNetDriver` with EOS primary and IpNetDriver
+fallback; the expected pre-host NetDriver state was `none`.
+
+Discovery/world generation was `1/1`; there was no previous accepted world to
+invalidate. Hooks, engine calls and mutation stayed zero, and the user reported
+no errors. This device-verifies the map relationship subset without rewriting
+the immutable `.1/.2` aborts. Gate 2C remains open for repeated same-world
+generation stability, menu lifecycle and transition invalidation. Gate 3 and
+hosting remain closed.

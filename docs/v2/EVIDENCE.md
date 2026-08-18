@@ -13,8 +13,8 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed historically + latest build statically validated | Latest receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`: clean tagged source `f459839…de6d3`, raw dylib SHA `4b7ddd7…2ae3`, dylib/dSYM UUID `78EAF0B0-9C08-39BE-B37B-25E4A8EC7629`, manifest SHA `a821b4a…6749b`. Its `.3` behavior is not device-proven; exact `.2` remains the immutable full-name abort. |
-| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.1` and `.2` aborted fail-closed at distinct Engine identity predicates; Gate 2C remains the active workflow. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | latest artifact device executed | Exact `.3` input `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`: clean tagged source `f459839…de6d3`, raw dylib SHA `4b7ddd7…2ae3`, dylib/dSYM UUID `78EAF0B0-9C08-39BE-B37B-25E4A8EC7629`, manifest SHA `a821b4a…6749b`. It produced `V2-G2C-MAP-RELATIONSHIPS-PASS-003`; exact `.1/.2` remain immutable aborts. |
+| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.3` passed its first TheIsland relationship capture after immutable `.1/.2` aborts; generation transition/stability and menu lifecycle evidence remain open. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
 | V2-EV-010 | Gate 1.5 device-tested artifact is exact `.2` input SHA `421211…58c32`, source `8fb09e6…477`. | device verified for bounded functions | Manifest/dSYM plus user runtime receipt. Sideloadly re-signs after input identity. |
@@ -45,11 +45,12 @@ an active blocker.
 | V2-EV-035 | Gate 2B completes generation-bound read-only contracts across menu-to-world transition. | device verified | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: generation `1→2`, previous invalidated, objects `61177→107275`, chunks `1→2`, all validators repeated, zero capabilities. Optional return-menu capture was not reported. |
 | V2-EV-036 | Gate 2B is closed by the user-confirmed `.3` multi-region correction. | device verified / gate closed | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: menu generation 1 `61177/1/32ms`, TheIsland generation 2 `107275/2/44ms`, previous invalidated and every required validator passed with zero capabilities. The immutable `.2` world-region abort remains unchanged. No return-menu capture or longer soak is inferred; `Class Engine.World` is not a live UWorld; parameter ABI/native dispatch remain absent. Docs baseline commit is `7d5e4555ed9f89f5eeeed89ac7c95c7f4072d37c`. |
 | V2-EV-037 | `DEC-V2-NO-HOOK-FIRST-HOST` makes hooks non-prerequisite for first IP Listen and forbids broad Dedicated forcing. | architecture decision, not runtime evidence | Engine/definitions will be revalidated before Host; current world will be dispatched directly after Gate 3; original GetNetMode is retained. Optional inert observation/narrow policy is conditional on a post-transport demonstrated replication gap. Existing hook/GetNetMode evidence is preserved. |
-| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; `.1` device relationship claim contradicted | `V2-G2C-BUILD-010` compiled the exact roots/offsets and bounded capture, but `V2-G2C-ENGINE-VALIDATOR-ABORT-001` stopped before relationship bytes. The implementation claim remains static; no live relationship is inferred. |
+| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; map subset device verified | `V2-G2C-MAP-RELATIONSHIPS-PASS-003` completed a fresh TheIsland relationship capture: native Engine, GameViewport, World/GWorld match, definitions and normal null NetDriver passed in 2 ms/10,240 relationship bytes with zero capabilities. Menu lifecycle and world-generation transitions/stability remain unverified. |
 | V2-EV-039 | Gate 2C `.1` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | The fresh Gate 2B snapshot completed in 37 ms with 110,906 objects/two chunks and every prerequisite validator passed, then the relationship phase aborted on the combined ShooterEngine identity validator with zero relationship bytes and zero capabilities. See `evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md`. |
-| V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | contradicted; source correction retained | UClass object-array index `0x359` was dump-instance data, not ABI. `.2` removed it, but the `.2` device run failed its earlier full-name predicate, so the corrected direct-UClass path was not reached live. The fresh-snapshot exact-class design and static relocated-class/wrong-package coverage remain valid but device-unproven. |
+| V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | fixed-index claim contradicted; dynamic replacement device verified | UClass object-array index `0x359` remains rejected as dump-instance data. `.3` resolved the direct class by fresh snapshot identity and device-validated exact `Class ShooterGame.ShooterEngine`, non-CDO state and GameEngine/Engine ancestry. No index or pointer is retained across captures. |
 | V2-EV-041 | Gate 2C `.2` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | `V2-G2C-ENGINE-FULLNAME-ABORT-002`: the 46 ms fresh snapshot completed with 107,279 objects/two chunks and all prerequisite validators passing; relationship capture accepted zero bytes and rejected the Engine instance full name. Runtime class `ShooterEngine` was reached; later CDO/direct-UClass/ancestry and all fields were not. Zero capabilities were retained. |
-| V2-EV-042 | The exact transient owner may be represented as raw `Transient` or `/Engine/Transient` while the required published Engine identity remains `ShooterEngine Transient.ShooterEngine_<digits>`. | exact FreshSDK + closest source; host-static validated | FreshSDK `FName::ToString` selects text after the last `/`, and its dump records `Package Transient` plus the numbered Engine full name; UE 4.17 constructs `/Engine/Transient`. `.3` canonicalizes only that proven Engine-owner alias, keeps all class/CDO/ancestry/name checks, and emits bounded address-free observed-name shape on failure. Canonical-alias positive and unnumbered negative pass 393 normal/UBSan-only assertions; device behavior remains unverified. |
+| V2-EV-042 | The exact transient owner may be represented as raw `Transient` or `/Engine/Transient` while the required published Engine identity remains `ShooterEngine Transient.ShooterEngine_<digits>`. | exact FreshSDK + closest source; host-static and device positive path verified | FreshSDK `FName::ToString` selects text after the last `/`, and its dump records `Package Transient` plus the numbered Engine full name; UE 4.17 constructs `/Engine/Transient`. `.3` retains every strict validator, passed the live Engine identity and relationship path, and still has 393 normal/UBSan negative assertions. |
+| V2-EV-043 | Exact `.3` resolves the live TheIsland Engine/Viewport/World/definitions relationship subset read-only. | device verified for first map capture | `V2-G2C-MAP-RELATIONSHIPS-PASS-003`: fresh discovery generation 1 completed in 45 ms with 106,725 objects/two chunks; relationships completed in 2 ms/10,240 bytes; GEngine and exact ShooterEngine chain passed; GameViewport and World passed; GWorld/ViewportWorld matched; one GameNetDriver decoded EOS primary/IpNetDriver fallback; `net_driver=none`; world generation established at 1; hooks/calls/mutation stayed zero. Same-world stability, transition invalidation and menu lifecycle are not inferred. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -114,6 +115,13 @@ root's runtime class name was `ShooterEngine`, but the instance full-name check
 failed before CDO/direct-class/ancestry and all relationship fields. No live
 relationship or world generation is claimed; zero capabilities were retained.
 
+`V2-G2C-MAP-RELATIONSHIPS-PASS-003` is the exact `.3` first-map relationship
+PASS. It device-validates the native Engine root, strict ShooterEngine identity,
+GameViewport, same-identity GWorld/ViewportWorld, definitions decoding and the
+normal pre-host `net_driver=none` state. World generation 1 was established,
+but no earlier relationship snapshot existed, so transition invalidation and
+same-world stability remain unproven. It does not rewrite `.1` or `.2`.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -137,10 +145,14 @@ Detailed reviews:
 - [Gate 2C live relationship cards and device protocol](evidence/GATE2C_LIVE_RELATIONSHIPS.md)
 - [Gate 2C `.1` Engine-validator abort](evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md)
 - [Gate 2C `.2` Engine full-name abort](evidence/GATE2C_DEVICE_ENGINE_FULLNAME_ABORT_002.md)
+- [Gate 2C `.3` first map relationship PASS](evidence/GATE2C_DEVICE_MAP_PASS_003.md)
 
 ## Evidence required next
 
 Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
-`.1` and `.2` are immutable fail-closed device aborts. Execute only clean `.3`
-receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012` under the isolated Gate 2C
-protocol. Gate 3, hosting, travel and hooks remain closed.
+`.1` and `.2` are immutable fail-closed device aborts; `.3` has one passing map
+relationship capture. Repeat Capture in the same process/world to prove world-
+generation stability, then capture a natural lifecycle transition if possible.
+After an accepted menu capture, re-enter TheIsland to cover the menu-to-map
+direction; if return is unavailable, use a later menu-first run. Gate 3,
+hosting, travel and hooks remain closed.

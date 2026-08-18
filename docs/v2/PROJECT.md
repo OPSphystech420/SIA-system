@@ -32,9 +32,10 @@ The near-term platform is iOS:
   longer soak were not reported;
 - active workflow: Gate 2C read-only Engine/world relationships. `.1` and `.2`
   aborted fail-closed at distinct Engine identity predicates with zero
-  capabilities; `.3` narrow transient-owner/full-name correction is packaged
-  from a clean tagged revision and ready for isolated device execution. Gate 3
-  has not started.
+  capabilities; exact `.3` passed its first TheIsland Engine/Viewport/World/
+  definitions capture with world generation 1 and zero capabilities. Same-
+  world generation stability and lifecycle transition/invalidation remain
+  pending. Gate 3 has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

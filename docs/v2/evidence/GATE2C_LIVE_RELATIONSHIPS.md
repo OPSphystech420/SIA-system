@@ -1,8 +1,9 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
 Status: exact-binary/sdk/source cards and implementation complete; `.1` and
-`.2` are immutable fail-closed Engine-identity aborts; clean `.3` narrow
-transient-owner/full-name correction is ready for isolated device execution.
+`.2` are immutable fail-closed Engine-identity aborts; exact `.3` has passed one
+TheIsland relationship capture. Same-world generation stability and lifecycle
+transition/invalidation remain pending, so Gate 2C is still open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -312,26 +313,52 @@ archival_deb=packages/v2/com.mhga.serverhost.v2_0.4.2~gate2c.20260818.3_iphoneos
 
 The source tag resolves to the revision embedded in both dylib and manifest.
 The package/raw dylib bytes match, the dSYM UUID matches, and no package was
-installed or executed. This is build/static evidence only.
+installed or executed as part of this build receipt. Device execution is the
+separate result below.
 
-## Corrected `.3` device protocol
+## `.3` first TheIsland relationship result
 
-1. In the main menu, press Capture once.
-2. Verify Engine/Viewport identities, definitions and a permitted menu/loading
-   World state.
-3. Enter ordinary TheIsland without a host operation.
-4. Capture again.
-5. Verify live World, `GWorld/ViewportWorld=match`, optional GameMode/GameState
-   presence and the observed pre-host NetDriver state. Null must report
-   `net_driver=none`; a validated non-null driver is reported without calling
-   it hosting.
-6. Verify world-generation transition and
-   `previous_world_invalidated=yes`.
-7. Capture again in the same world; world generation must not change.
-8. If naturally possible, return to menu and capture once more. This optional
-   result is recorded but not invented when unavailable.
-9. Do not use death/respawn as PASS/FAIL.
-10. In every state confirm exactly:
+Result ID: `V2-G2C-MAP-RELATIONSHIPS-PASS-003`
+
+The exact `.3` input was captured once in an already loaded ordinary TheIsland
+world. Fresh discovery generation 1 completed in 45 ms with 180/399,305 FName
+blocks/entries, 106,725 valid objects in two chunks and 26,045,310 owned bytes;
+all required FName, object/function and reflection validators passed. The
+relationship phase completed in 2 ms/10,240 bytes.
+
+The native Engine root resolved to one fresh live identity. Exact non-CDO
+ShooterEngine direct UClass plus GameEngine/Engine ancestry passed. GameViewport
+and the live World passed, and independent GWorld/ViewportWorld reads resolved
+to the same generation-bound identity. Lifecycle was `map`; world generation 1
+was established; and NetDriver correctly reported the normal pre-host state
+`none`. The populated definitions array had one GameNetDriver:
+
+```text
+primary=OnlineSubsystemEOS.NetDriverEOS
+fallback=OnlineSubsystemUtils.IpNetDriver
+```
+
+The report did not expose AuthorityGameMode/GameState presence, so no presence
+claim is made. Because this was the first accepted relationship capture, no
+prior world could be invalidated. Hooks, engine calls and mutation stayed zero.
+See [Gate 2C `.3` map PASS 003](GATE2C_DEVICE_MAP_PASS_003.md).
+
+## Remaining corrected `.3` device protocol
+
+1. While the exact current process and TheIsland world remain active, Capture
+   again. Discovery generation should become 2 while world generation remains
+   1 and `previous_world_invalidated=no`.
+2. If naturally possible, return to menu without restarting and capture once
+   more. Record the lifecycle and world transition; do not invent a null World
+   if the game retains/replaces one.
+3. After any accepted menu capture, enter ordinary TheIsland and capture again
+   to prove the menu-to-map direction. If natural return is unavailable, use a
+   later menu-first run. Repeat once in the same world when needed.
+4. Verify Engine/Viewport identities, definitions, GWorld/ViewportWorld state
+   and optional relationships in every accepted report. A null driver remains
+   `net_driver=none` and is not hosting proof.
+5. Do not use death/respawn as PASS/FAIL.
+6. In every state confirm exactly:
 
 ```text
 hooks=0
@@ -340,10 +367,10 @@ mutation=0
 ```
 
 Use only build `gate2c-live-relationships-20260818.3`; `.1` and `.2` cannot
-satisfy this protocol. PASS requires no raw address output, no relationship
-abort/mismatch, bounded duration, correct same-world generation stability and
-all applicable identity/class/FName checks. Gate 3 and hosting remain closed
-after this artifact.
+satisfy this protocol. Gate closure still requires no raw address output, no
+relationship abort/mismatch, bounded duration, correct same-world generation
+stability and applicable transition invalidation. Gate 3 and hosting remain
+closed.
 
 ## Preserved limitations
 
@@ -351,5 +378,5 @@ after this artifact.
 - No longer Gate 2B or Gate 2C soak is claimed.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
-- Gate 2C live values are not device-proven until the protocol above is
-  returned for the exact corrected `.3` artifact.
+- The first Gate 2C TheIsland relationship values are device-proven, but menu
+  lifecycle, same-world stability and transition invalidation are not.

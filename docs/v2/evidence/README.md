@@ -58,6 +58,10 @@ here must create or update one summary claim and the corresponding contract in
   — exact `.2` TheIsland prerequisite snapshot PASS, isolated instance
   full-name failure, retained zero capabilities and narrow `.3` canonicalization/
   bounded diagnostic correction.
+- [Gate 2C `.3` map relationship PASS 003](GATE2C_DEVICE_MAP_PASS_003.md)
+  — exact `.3` first TheIsland capture validated the native Engine, Viewport,
+  World/GWorld match, definitions and normal null NetDriver with world
+  generation 1; stability and lifecycle transition evidence remain pending.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .1/.2 device aborts recorded; clean .3 artifact ready
+active workflow: Gate 2C .3 first TheIsland relationship capture passed; generation transition/stability pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -16,7 +16,7 @@ Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
 Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
-Gate 2C .3: clean raw artifact ready; 393 normal/UBSan assertions and all audits pass
+Gate 2C .3: exact map relationship subset device-pass; world generation 1 established
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -34,8 +34,10 @@ object index incorrectly treated as runtime ABI. Corrected `.2` resolved the
 runtime class name but its device run isolated an earlier strict instance full-
 name failure. `.3` preserves the numbered full-name requirement, canonicalizes
 only the exact `/Engine/Transient` owner alias and adds bounded address-free
-observed-name diagnostics after class-chain validation. All live relationships
-and world-generation behavior remain unverified.
+observed-name diagnostics after class-chain validation. Its first exact
+TheIsland capture then passed Engine, GameViewport, World/GWorld match,
+definitions and normal `net_driver=none`, establishing world generation 1.
+Same-world stability and lifecycle transition/invalidation remain unverified.
 
 ## Immutable Gate 1.5 result
 
@@ -501,7 +503,28 @@ The source tag resolves to the manifest revision. The clean source passes 393
 normal and 393 UBSan-only assertions, boundary audit, arm64 compile, package/
 control/payload/build/source identity and injection-isolation inspection. The
 package/raw dylib bytes and dylib/dSYM UUIDs match. No artifact was installed or
-executed; live relationships remain unverified.
+executed as part of the build receipt. The user subsequently executed this
+exact input; its result is recorded separately below.
+
+## Gate 2C `.3` first map relationship PASS
+
+Result ID: `V2-G2C-MAP-RELATIONSHIPS-PASS-003`
+
+In an already loaded ordinary TheIsland world, the exact `.3` artifact completed
+a fresh Gate 2B snapshot in 45 ms with 106,725 valid objects/two chunks and all
+required name/object/reflection validators passing. The relationship capture
+then completed in 2 ms/10,240 bytes. Native Engine ownership and the unique
+non-CDO exact ShooterEngine direct class/ancestry passed; GameViewport and World
+passed; GWorld and ViewportWorld matched; lifecycle was `map`; and NetDriver was
+the normal pre-host state `none`. The populated definitions array contained one
+GameNetDriver with primary `OnlineSubsystemEOS.NetDriverEOS` and fallback
+`OnlineSubsystemUtils.IpNetDriver`. Discovery/world generation was `1/1`, with
+no previous accepted world to invalidate. Hooks, engine calls and mutation
+remained zero, and the user reported no errors.
+
+This first map capture does not prove same-world generation stability, a menu
+lifecycle state, transition invalidation, or AuthorityGameMode/GameState
+presence. Full report: [Gate 2C `.3` map PASS 003](evidence/GATE2C_DEVICE_MAP_PASS_003.md).
 
 ## Deferred production UI debt
 
@@ -514,7 +537,9 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Execute only corrected `gate2c-live-relationships-20260818.3` under the bounded
-menu/TheIsland/same-world/optional-return capture protocol in
-[`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
-Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.
+In the same `.3` process and TheIsland world, capture again. Discovery generation
+must advance to 2 while world generation remains 1 and previous invalidated is
+no. If naturally possible, return to menu without restarting and capture the
+lifecycle transition, then re-enter TheIsland and capture again. If natural
+return is unavailable, use a later menu-first run. Do not start Gate 3, hooks,
+UE calls, hosting or mutation in this workflow.
