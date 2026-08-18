@@ -28,6 +28,14 @@ bool ContainsContractLabel(
         });
 }
 
+bool ContainsContractRow(const ui::DiagnosticPresentationModel& model,
+                         std::string_view label, std::string_view value) {
+    return std::any_of(model.ContractRows().begin(), model.ContractRows().end(),
+        [label, value](const ui::DiagnosticStatusRow& row) {
+            return row.label == label && row.value == value;
+        });
+}
+
 }  // namespace
 
 void RunDiagnosticsTests(TestContext& context) {
@@ -134,6 +142,10 @@ void RunDiagnosticsTests(TestContext& context) {
     unsafeReport.lifecycleState = "map token=private-lifecycle";
     unsafeReport.worldRelationshipState = "match address=0x8888888888";
     unsafeReport.netDriverState = "none token=private-driver";
+    unsafeReport.authorityGameModeState =
+        "present: GameModeBase class validated token=private-gamemode";
+    unsafeReport.gameStateState =
+        "present: GameStateBase class validated address=0x5555555555";
     unsafeReport.discoveryGeneration = 2;
     unsafeReport.scansStarted = 1;
     unsafeReport.hooks = 99;
@@ -170,13 +182,31 @@ void RunDiagnosticsTests(TestContext& context) {
     V2_EXPECT(context, copiedContract.find("engine-secret") == std::string::npos);
     V2_EXPECT(context, copiedContract.find("primary-secret") == std::string::npos);
     V2_EXPECT(context, copiedContract.find("6666666666") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("private-gamemode") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("5555555555") == std::string::npos);
     V2_EXPECT(context, copiedContract.size() < 20000);
     V2_EXPECT(context, ContainsContractLabel(contractModel, "Engine"));
     V2_EXPECT(context, ContainsContractLabel(contractModel, "GameViewport"));
     V2_EXPECT(context, ContainsContractLabel(contractModel, "World"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "  AuthorityGameMode"));
+    V2_EXPECT(context, ContainsContractLabel(contractModel, "  GameState"));
     V2_EXPECT(context, ContainsContractLabel(contractModel, "NetDriver"));
     V2_EXPECT(context, ContainsContractLabel(contractModel, "NetDriverDefinitions"));
     V2_EXPECT(context, ContainsContractLabel(contractModel, "Generation"));
+
+    ReadOnlyContractReport relationshipPresenceReport;
+    relationshipPresenceReport.captureState = "complete";
+    relationshipPresenceReport.relationshipCaptureState = "complete";
+    relationshipPresenceReport.authorityGameModeState =
+        "present: GameModeBase class validated";
+    relationshipPresenceReport.gameStateState = "none";
+    publisher.PublishContractReport(std::move(relationshipPresenceReport));
+    const ui::DiagnosticPresentationModel relationshipPresenceModel(*publisher.Capture());
+    V2_EXPECT(context, ContainsContractRow(
+        relationshipPresenceModel, "  AuthorityGameMode",
+        "present: GameModeBase class validated"));
+    V2_EXPECT(context, ContainsContractRow(
+        relationshipPresenceModel, "  GameState", "none"));
 
     snapshotLogger.Add(LogSeverity::Info, LogCategory::Profile, "later snapshot mutation");
     publisher.Publish({

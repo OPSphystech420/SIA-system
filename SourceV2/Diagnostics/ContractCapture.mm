@@ -116,6 +116,16 @@ private:
                 relationshipResult.snapshot.worldRelationshipState;
             report.netDriverState = relationshipResult.snapshot.netDriver.has_value()
                 ? "present" : "none";
+            if (!relationshipResult.snapshot.world.has_value()) {
+                report.authorityGameModeState = "not-applicable: world=none";
+                report.gameStateState = "not-applicable: world=none";
+            } else {
+                report.authorityGameModeState =
+                    relationshipResult.snapshot.authorityGameMode.has_value()
+                    ? "present: GameModeBase class validated" : "none";
+                report.gameStateState = relationshipResult.snapshot.gameState.has_value()
+                    ? "present: GameStateBase class validated" : "none";
+            }
             report.worldGeneration = relationshipResult.snapshot.worldGeneration;
             report.previousWorldInvalidated =
                 relationshipResult.snapshot.previousWorldInvalidated;

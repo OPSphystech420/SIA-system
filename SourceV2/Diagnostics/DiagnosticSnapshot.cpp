@@ -37,6 +37,9 @@ DiagnosticState SafeState(DiagnosticState state) {
         report.lifecycleState = SafeStateField(report.lifecycleState);
         report.worldRelationshipState = SafeStateField(report.worldRelationshipState);
         report.netDriverState = SafeStateField(report.netDriverState);
+        report.authorityGameModeState = SafeStateField(
+            report.authorityGameModeState);
+        report.gameStateState = SafeStateField(report.gameStateState);
         report.retryOrAbortReason = RedactDiagnosticText(
             report.retryOrAbortReason, kIdentityReasonLimit);
         const auto safeChecks = [](std::vector<ContractCheck>& checks) {

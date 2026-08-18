@@ -42,6 +42,8 @@ struct ReadOnlyContractReport final {
     std::string lifecycleState{"unavailable"};
     std::string worldRelationshipState{"not-evaluated"};
     std::string netDriverState{"not-evaluated"};
+    std::string authorityGameModeState{"not-evaluated"};
+    std::string gameStateState{"not-evaluated"};
     std::uint64_t worldGeneration{};
     bool previousWorldInvalidated{};
     std::uint64_t relationshipCopiedBytes{};

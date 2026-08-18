@@ -77,6 +77,8 @@ DiagnosticPresentationModel::DiagnosticPresentationModel(
     appendSection("World", report.worldChecks);
     contractRows_.push_back({"  Lifecycle state", report.lifecycleState});
     contractRows_.push_back({"  GWorld / ViewportWorld", report.worldRelationshipState});
+    contractRows_.push_back({"  AuthorityGameMode", report.authorityGameModeState});
+    contractRows_.push_back({"  GameState", report.gameStateState});
     appendSection("NetDriver", report.netDriverChecks);
     contractRows_.push_back({"  Presence", report.netDriverState});
     appendSection("NetDriverDefinitions", report.netDriverDefinitionChecks);

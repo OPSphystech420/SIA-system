@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate2c-live-relationships-20260818.3
-V2_PACKAGE_VERSION := 0.4.2~gate2c.20260818.3
+V2_BUILD_ID ?= gate2c-live-relationships-20260819.4
+V2_PACKAGE_VERSION := 0.4.3~gate2c.20260819.4
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
