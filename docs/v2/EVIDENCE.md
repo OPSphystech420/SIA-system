@@ -13,7 +13,7 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | statically validated | Latest receipt `V2-G2B-BUILD-007`: clean tagged source `ff9637b…c9`, dylib/dSYM UUID `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`, manifest SHA `956d912…d78`. Earlier receipts remain immutable. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | statically validated | Latest receipt `V2-G2B-CAPACITY-FIX-BUILD-008`: clean tagged source `739f274…24af`, dylib/dSYM UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`, manifest SHA `88c29c9…a17cc`. Earlier receipts remain immutable. |
 | V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity is device verified; its death symptom reproduced without injection. Gate 2B is active and Gate 2C remains unstarted. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
@@ -37,6 +37,7 @@ an active blocker.
 | V2-EV-027 | Gate 2B `.1` completes a live owned name/object/reflection snapshot. | contradicted | `V2-G2B-CAPTURE-ABORT-001`: three generations aborted on the same TUObjectArray relationship validator before a completed report. Exact identity/UI lifecycle and zero capabilities passed. |
 | V2-EV-028 | Reserved TUObjectArray capacity must fit the same limit as allocated chunks/current objects. | contradicted by audit | `.1` conflated capacity with work. Exact lookup uses live Num/table fields; the correction keeps operational limits on Num/copied bytes and applies semantic overflow-safe relationships to Max fields. Device recheck pending. |
 | V2-EV-029 | The Gate 2B capacity-policy correction preserves bounded work and address-free failures. | statically validated; device pending | 280 normal + 280 UBSan-only assertions, boundary audit and iOS arm64 compile pass. Tests cover large valid reserve capacity, insufficient reserve envelope, configured capacity limit, allocated-chunk limit and counter-only rejection text. |
+| V2-EV-030 | One clean replacement `.2` Gate 2B raw input corresponds to the capacity-policy correction. | compiled/statically inspected; device pending | `V2-G2B-CAPACITY-FIX-BUILD-008`: dylib SHA `56e9ebb…03a6c`, UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`, manifest SHA `88c29c9…a17cc`, archival package SHA `ceffbde…bad83`; package/injection audits pass. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -99,6 +100,6 @@ Detailed reviews:
 ## Evidence required next
 
 Gate 2B exact resolver cards remain valid, but `.1` device capture contradicted
-the completed-snapshot claim. Finish and execute the single `.2` capacity-policy
-correction, then return its bounded Contracts report. Gate 2C evidence is not
-requested.
+the completed-snapshot claim. Execute only the single manifested `.2`
+capacity-policy correction and return its bounded Contracts report. Gate 2C
+evidence is not requested.

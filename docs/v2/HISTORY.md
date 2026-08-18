@@ -496,3 +496,15 @@ and hosting remain unstarted.
 
 The correction passed 280 normal and 280 UBSan-only host assertions, the strict
 boundary audit and an iOS arm64 compile before clean artifact packaging.
+
+## 2026-08-18 — Gate 2B capacity correction handoff built
+
+`V2-G2B-CAPACITY-FIX-BUILD-008` was built from clean revision
+`739f274c5b01c29703bbc9b34b40ad6a167c24af` and tag
+`v2-gate2b-readonly-contracts-20260818.2-source`. The raw dylib SHA-256 is
+`56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c`;
+Mach-O/dSYM UUID is `F02EC54E-DEB7-35AA-B91C-C868547BCD03`; manifest SHA is
+`88c29c99dafb6522caedcef27c4538dcb1df43bd06385dc82519658ae3ea17cc`;
+the archival `.deb` SHA is
+`ceffbde6f34f3323459a3e2754cf18ce09e6d353336564caee01e401a44bad83`.
+The replacement awaits one menu capture before the world-stage protocol.

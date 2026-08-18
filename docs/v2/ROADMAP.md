@@ -19,7 +19,7 @@ any injection and is now a deferred external baseline limitation; arms B/C were
 waived. Gate 2B read-only contracts were packaged as `V2-G2B-BUILD-007`; its
 device execution reached the exact profile but deterministically aborted on an
 over-restrictive TUObjectArray capacity validator. The fail-closed `.2`
-correction remains within Gate 2B and awaits a repeat. This does not authorize Gate 2C,
+correction is built as `V2-G2B-CAPACITY-FIX-BUILD-008` and awaits a repeat. This does not authorize Gate 2C,
 Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
@@ -28,7 +28,7 @@ Gate 3 dispatch, Gate 4 hooks or any later behavior.
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
-| 2B — name/object/reflection discovery | `.1` device abort; capacity-validator correction active | exact identity/UI and fail-closed zero capabilities device-confirmed; completed live owned snapshot contradicted; `.2` repeat pending |
+| 2B — name/object/reflection discovery | `.1` device abort; corrected `.2` artifact ready | exact identity/UI and fail-closed zero capabilities device-confirmed; completed live owned snapshot contradicted; `.2` menu repeat pending |
 | 2C — Engine/world relationships/invalidation | not started | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 

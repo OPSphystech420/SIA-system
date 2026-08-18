@@ -10,7 +10,7 @@ Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
 Gate 2B .1: exact identity/UI device verified; contract capture aborted fail-closed
-Gate 2B .2: object-capacity validator correction under verification
+Gate 2B .2: capacity-validator correction built; device repeat pending
 Gate 2C: not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
@@ -290,6 +290,28 @@ dylib contents, embedded build/source identity, arm64 Mach-O, matching UUID,
 Legacy/gameplay isolation and the boundary audit passed. This is a build/static
 receipt only; live FName/object/reflection capture remains device-unverified.
 
+## Gate 2B capacity correction build receipt
+
+Result ID: `V2-G2B-CAPACITY-FIX-BUILD-008`
+
+```text
+Build ID: gate2b-readonly-contracts-20260818.2
+Source revision: 739f274c5b01c29703bbc9b34b40ad6a167c24af
+Source tag: v2-gate2b-readonly-contracts-20260818.2-source
+Raw dylib SHA-256: 56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c
+Mach-O / dSYM UUID: F02EC54E-DEB7-35AA-B91C-C868547BCD03
+dSYM DWARF SHA-256: 3360fabf343e1f5db2acdf2d35aff476cd80f1156116aadaea14784c0bed2771
+Manifest SHA-256: 88c29c99dafb6522caedcef27c4538dcb1df43bd06385dc82519658ae3ea17cc
+Archive .deb SHA-256: ceffbde6f34f3323459a3e2754cf18ce09e6d353336564caee01e401a44bad83
+```
+
+Canonical replacement Sideloadly input:
+`packages/v2/injection/gate2b-readonly-contracts-20260818.2/ServerHostV2.dylib`.
+The clean tag resolves to the embedded/manifest revision. Normal and UBSan-only
+suites each pass 280 assertions; boundary, iOS package and injection audits
+pass. This replaces `.1` only for the pending Gate 2B device protocol and does
+not turn `V2-G2B-CAPTURE-ABORT-001` into a PASS.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -301,6 +323,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Finish the single corrected Gate 2B `.2` artifact, then repeat one bounded menu
+Inject only the corrected Gate 2B `.2` raw artifact and repeat one bounded menu
 capture before attempting the local-world captures. Do not start Gate 2C, hosting,
 Engine/World/NetDriver discovery, hooks, UE calls or mutation.

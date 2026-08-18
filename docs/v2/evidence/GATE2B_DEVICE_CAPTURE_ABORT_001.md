@@ -86,3 +86,10 @@ limit/relationship; no pointer, address or ASLR value is exposed. A repeat on
 the single replacement artifact is required. The correction passes 280 normal
 and 280 UBSan-only assertions, the boundary audit and iOS arm64 compile. Gate 2C
 and hosting remain unstarted.
+
+Replacement receipt: `V2-G2B-CAPACITY-FIX-BUILD-008`, build
+`gate2b-readonly-contracts-20260818.2`, source
+`739f274c5b01c29703bbc9b34b40ad6a167c24af`, raw dylib SHA-256
+`56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c`,
+Mach-O/dSYM UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`, manifest SHA-256
+`88c29c99dafb6522caedcef27c4538dcb1df43bd06385dc82519658ae3ea17cc`.

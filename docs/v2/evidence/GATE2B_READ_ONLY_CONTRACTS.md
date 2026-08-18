@@ -270,10 +270,14 @@ by this receipt.
 
 ## Device protocol
 
-1. Inject only the Gate 2B raw `ServerHostV2.dylib` through Sideloadly.
+1. Inject only
+   `packages/v2/injection/gate2b-readonly-contracts-20260818.2/ServerHostV2.dylib`
+   through Sideloadly.
 2. In main menu verify the exact identity card and `scans_started=0`.
 3. Open Contracts and press **Capture read-only contracts** once.
-4. Wait for `capture=complete`; copy the bounded report/logs.
+4. Wait for `capture=complete`; copy the bounded report/logs. If the capture
+   aborts, stop this run and report the new reason/counters before entering a
+   world.
 5. Confirm all ten known FNames and nine core object/function checks pass.
 6. Enter an ordinary TheIsland local world and capture again.
 7. Confirm discovery generation changed, previous generation is invalidated,
@@ -299,3 +303,8 @@ the `.1` 4,000,000 element capacity ceiling and `MaxChunks <= 128` requirement
 were not ABI facts. Only live Num fields bound copying; Max fields now receive
 overflow-safe capacity-envelope validation. Detailed intake:
 [Gate 2B device capture abort 001](GATE2B_DEVICE_CAPTURE_ABORT_001.md).
+
+The correction is packaged as `V2-G2B-CAPACITY-FIX-BUILD-008`: build `.2`,
+source `739f274c5b01c29703bbc9b34b40ad6a167c24af`, dylib SHA
+`56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c`
+and UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`. Device repeat is pending.
