@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .3 first map subset passed; clean .4 full-repeat artifact ready
+active workflow: Gate 2C .4 first map receipt passed; same-world/lifecycle evidence pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -17,7 +17,7 @@ Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
 Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
 Gate 2C .3: exact map relationship subset device-pass; world generation 1 established
-Gate 2C .4: optional GameMode/GameState presence receipt added; clean raw artifact ready
+Gate 2C .4: first map capture passed with GameMode/GameState present and class-validated
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -40,7 +40,8 @@ TheIsland capture then passed Engine, GameViewport, World/GWorld match,
 definitions and normal `net_driver=none`, establishing world generation 1.
 The public `.3` report omitted optional AuthorityGameMode/GameState presence.
 Narrow `.4` publishes those already-validated views without a new read. Same-
-world stability and lifecycle transition/invalidation remain unverified.
+world stability and lifecycle transition/invalidation remain unverified. Its
+first device capture now confirms the positive optional-presence path.
 
 ## Immutable Gate 1.5 result
 
@@ -549,8 +550,25 @@ Canonical Sideloadly input:
 `.4` adds only bounded redacted AuthorityGameMode/GameState present/none/not-
 applicable rows sourced from existing owned views. Normal and UBSan-only suites
 each pass 399 assertions; boundary, arm64, package, manifest, dSYM and injection-
-isolation checks pass. It has not been device-executed. Full report:
+isolation checks pass. It subsequently produced the first-map result below.
+Full build report:
 [Gate 2C `.4` receipt correction](evidence/GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md).
+
+## Gate 2C `.4` optional relationships map PASS
+
+Result ID: `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004`
+
+The exact `.4` input completed a first capture in an already loaded ordinary
+TheIsland world. Fresh discovery generation 1 completed in 43 ms with 106,725
+valid objects/two chunks and all prerequisite validators passing. Relationships
+completed in 2 ms/10,240 bytes. Engine, GameViewport, World, GWorld match,
+definitions and normal null NetDriver passed; AuthorityGameMode and GameState
+were both present and their GameModeBase/GameStateBase relationships validated.
+World generation 1 was established with no prior `.4` world to invalidate.
+Capabilities remained zero and the bounded logs contain no error entry.
+
+This is not transition or same-world generation evidence. Full device report:
+[Gate 2C `.4` map PASS 004](evidence/GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
 
 ## Deferred production UI debt
 
@@ -563,8 +581,8 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Inject only `gate2c-live-relationships-20260819.4`. Capture main menu, enter
-TheIsland and capture, then repeat Capture in the same world. Confirm both
-optional-presence rows, generation transition/stability and zero capabilities.
-If naturally possible, return to menu and capture once more. Do not start Gate
-3, hooks, UE calls, hosting or mutation in this workflow.
+In the same `.4` process and unchanged TheIsland world, Capture again. Require
+top-level previous discovery invalidated yes, discovery/world `2/1`, previous
+world invalidated no, both optional relationships valid and zero capabilities.
+Then capture a natural menu transition/re-entry if possible; otherwise use a
+later menu-first run. Do not start Gate 3, hooks, UE calls, hosting or mutation.

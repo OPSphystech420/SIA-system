@@ -68,24 +68,26 @@ for the raw dylib and
 `18d4dd6dab7d02325d4e2ce3f513cf1cbe0403d7263424669b2a5bcae674e8f6`
 for the archive. No old package was rebuilt.
 
-## Required `.4` device protocol
+## Subsequent `.4` device result
+
+The first `.4` capture was performed in an already loaded TheIsland world and
+passed as `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004`. Both new rows were
+present and class-validated; the complete map relationship subset and zero
+capabilities passed. See
+[the device report](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
+
+## Remaining `.4` device protocol
 
 Use only the `.4` raw dylib above for the remaining Gate 2C evidence:
 
-1. Start in the main menu and Capture once.
-2. Confirm Engine/Viewport/definitions, the reported lifecycle and both
-   optional-presence rows. If World is absent, each row must say
-   `not-applicable: world=none`.
-3. Enter ordinary TheIsland and Capture.
-4. Confirm live World, `GWorld/ViewportWorld=match`, NetDriver state and explicit
-   AuthorityGameMode/GameState presence/validated-class state.
-5. Confirm a world-generation transition and prior-world invalidation when the
-   validated world identity changes.
-6. Capture again in the same TheIsland world. Discovery generation advances;
-   world generation does not; previous-world-invalidated remains no.
-7. If naturally possible, return to menu and Capture once more. Record the
-   actual lifecycle/root state without assuming null.
-8. In every capture confirm `hooks=0 engine_calls=0 mutation=0`.
+1. In the same process and unchanged TheIsland world, Capture again. Discovery
+   generation must advance to 2 while world generation remains 1; discovery
+   previous invalidated is yes and previous world invalidated is no.
+2. If naturally possible, return to menu and Capture. Record the actual
+   lifecycle/root and optional-presence states without assuming null.
+3. Re-enter TheIsland and Capture to prove the opposite transition. If natural
+   return is unavailable, perform a later menu-first run.
+4. In every capture confirm `hooks=0 engine_calls=0 mutation=0`.
 
 Death/respawn is not PASS/FAIL. Gate 3, Host research, hosting, travel, hooks,
 GetNetMode policy, calls and mutation remain closed.

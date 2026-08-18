@@ -662,3 +662,20 @@ the archive SHA is
 Both 399-assertion SourceV2 suites and every boundary, arm64, package, dSYM and
 injection-isolation audit pass. The full `.4` device sequence remains pending;
 Gate 3 and hosting remain closed.
+
+## 2026-08-19 — Gate 2C `.4` optional relationships map PASS
+
+`V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004` executed the exact `.4` input in
+an already loaded ordinary TheIsland world. Fresh discovery generation 1
+completed in 43 ms with 180/399,305 FName blocks/entries, 106,725 valid objects
+in two chunks and every prerequisite validator passing. The relationship phase
+completed in 2 ms/10,240 bytes. Engine/Viewport/World/GWorld/definitions and the
+normal null NetDriver state passed. The new receipt explicitly showed
+AuthorityGameMode and GameState present with validated GameModeBase and
+GameStateBase relationships. Hooks, engine calls and mutation remained zero;
+the supplied bounded logs contain no error entry.
+
+This proves the `.4` positive optional-publication map path. It is still the
+first accepted `.4` world (`discovery/world=1/1`), so same-world stability,
+menu lifecycle and transition invalidation remain open. Gate 3 and hosting are
+not started.

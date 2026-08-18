@@ -65,6 +65,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2C `.4` optional relationship receipt correction](GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md)
   — publishes already-validated AuthorityGameMode/GameState presence without
   new reads; clean raw artifact and full repeat protocol.
+- [Gate 2C `.4` optional relationships map PASS 004](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md)
+  — first `.4` TheIsland capture passed with both optional relationships
+  present/class-validated; generation stability and lifecycle transition remain.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

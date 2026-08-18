@@ -3,8 +3,10 @@
 Status: exact-binary/sdk/source cards and implementation complete; `.1` and
 `.2` are immutable fail-closed Engine-identity aborts; exact `.3` has passed one
 TheIsland relationship capture but omitted optional relationship presence from
-the public receipt. Clean `.4` corrects only that receipt and is ready for the
-full menu/map/same-world sequence. Gate 2C remains open.
+the public receipt. Clean `.4` corrects only that receipt and was built for the
+full sequence. Its first TheIsland capture now passes with both optional
+relationships present/class-validated. Same-world and lifecycle transition
+evidence remain pending, so Gate 2C stays open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -368,21 +370,39 @@ Both 399-assertion SourceV2 suites, boundary audit, arm64 build and every
 artifact/injection audit pass. See
 [Gate 2C `.4` receipt correction](GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md).
 
-## Required `.4` device protocol
+## `.4` first TheIsland device result
 
-1. Start in the main menu and Capture once. Verify Engine/Viewport,
-   definitions, lifecycle and both optional-presence rows.
-2. Enter ordinary TheIsland and Capture. Verify live World,
-   `GWorld/ViewportWorld=match`, NetDriver and explicit AuthorityGameMode/
-   GameState present/none validated state.
-3. Verify the world-generation transition and prior-world invalidation when
-   the validated world identity changes.
-4. Capture again in the same world. Discovery generation advances; world
-   generation does not; previous-world-invalidated remains no.
-5. If naturally possible, return to menu and capture once more. Record actual
-   lifecycle/root state without assuming null.
-6. Do not use death/respawn as PASS/FAIL.
-7. In every state confirm exactly:
+Result ID: `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004`
+
+The exact `.4` artifact completed fresh discovery generation 1 in 43 ms with
+180/399,305 FName blocks/entries, 106,725 valid objects/two chunks and every
+prerequisite validator passing. Relationships completed in 2 ms/10,240 bytes.
+The live Engine, GameViewport, World, GWorld match, definitions and normal null
+NetDriver state all passed. The new rows reported:
+
+```text
+AuthorityGameMode=present: GameModeBase class validated
+GameState=present: GameStateBase class validated
+```
+
+World generation 1 was established; there was no prior accepted `.4` world.
+Capabilities remained zero and the bounded logs contain no error entry. Full
+result: [Gate 2C `.4` map PASS 004](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
+
+## Remaining `.4` device protocol
+
+1. While the current process and unchanged TheIsland world remain active,
+   Capture again. Require top-level discovery previous invalidated yes,
+   discovery/world `2/1` and previous world invalidated no.
+2. Reconfirm Engine/Viewport/World/definitions, optional presence and zero
+   capabilities. FName/object counts may change; world identity may not.
+3. If naturally possible, return to menu and capture. Record actual lifecycle,
+   root comparison, optional states and world-generation transition without
+   assuming null.
+4. Re-enter TheIsland and capture to prove the opposite transition. If natural
+   return is unavailable, perform a later menu-first run.
+5. Do not use death/respawn as PASS/FAIL.
+6. In every state confirm exactly:
 
 ```text
 hooks=0
@@ -402,7 +422,6 @@ closed.
 - No longer Gate 2B or Gate 2C soak is claimed.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
-- The first Gate 2C TheIsland relationship values are device-proven, but menu
-  lifecycle, same-world stability and transition invalidation are not.
-- `.4` optional-presence publication is statically/artifact validated but not
-  device-proven.
+- The first `.4` TheIsland relationship values and positive optional-presence
+  publication are device-proven, but menu lifecycle, same-world stability and
+  transition invalidation are not.

@@ -35,8 +35,9 @@ The near-term platform is iOS:
   capabilities; exact `.3` passed its first TheIsland Engine/Viewport/World/
   definitions capture with world generation 1 and zero capabilities, but its
   public receipt omitted optional GameMode/GameState presence. Clean `.4`
-  publishes those existing validated views and is ready for the full menu/map/
-  same-world repeat. Gate 3 has not started.
+  now device-publishes both as present/class-validated in its first TheIsland
+  capture. Same-world generation stability and lifecycle transition evidence
+  remain pending. Gate 3 has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

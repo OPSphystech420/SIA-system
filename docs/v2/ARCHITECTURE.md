@@ -250,6 +250,12 @@ redacted present/none/not-applicable states. This adds no heap read, class
 resolution, offset, pointer lifetime or capability; the typed capture boundary
 is unchanged.
 
+Device result `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004` validates the
+positive publication path: both optional views were present and displayed only
+their validated base-class status. It remains a first world-generation sample,
+so the architecture still rejects cross-capture handles until same-world and
+transition behavior are device-demonstrated.
+
 ## 4. Dependency graph
 
 ```mermaid
