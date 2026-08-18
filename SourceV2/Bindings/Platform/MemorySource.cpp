@@ -2,7 +2,6 @@
 
 #include <limits>
 #include <mach/mach.h>
-#include <mach/mach_vm.h>
 
 namespace serverhost::v2::bindings::platform {
 
@@ -17,12 +16,12 @@ ContractResult<void> ProcessMemorySource::Copy(
             ContractErrorCategory::OutOfRange, "process-memory address plus size overflows");
     }
 
-    mach_vm_address_t regionAddress = static_cast<mach_vm_address_t>(address);
-    mach_vm_size_t regionSize = 0;
+    vm_address_t regionAddress = static_cast<vm_address_t>(address);
+    vm_size_t regionSize = 0;
     vm_region_basic_info_data_64_t info{};
     mach_msg_type_number_t count = VM_REGION_BASIC_INFO_COUNT_64;
     mach_port_t objectName = MACH_PORT_NULL;
-    const kern_return_t regionResult = mach_vm_region(
+    const kern_return_t regionResult = vm_region_64(
         mach_task_self(), &regionAddress, &regionSize, VM_REGION_BASIC_INFO_64,
         reinterpret_cast<vm_region_info_t>(&info), &count, &objectName);
     if (objectName != MACH_PORT_NULL)
@@ -42,11 +41,11 @@ ContractResult<void> ProcessMemorySource::Copy(
             "requested bytes are not contained in one readable VM region");
     }
 
-    mach_vm_size_t copied = 0;
-    const kern_return_t readResult = mach_vm_read_overwrite(
-        mach_task_self(), static_cast<mach_vm_address_t>(address),
-        static_cast<mach_vm_size_t>(destination.size()),
-        reinterpret_cast<mach_vm_address_t>(destination.data()), &copied);
+    vm_size_t copied = 0;
+    const kern_return_t readResult = vm_read_overwrite(
+        mach_task_self(), static_cast<vm_address_t>(address),
+        static_cast<vm_size_t>(destination.size()),
+        reinterpret_cast<vm_address_t>(destination.data()), &copied);
     if (readResult != KERN_SUCCESS || copied != destination.size()) {
         return ContractResult<void>::Failure(
             ContractErrorCategory::OutOfRange, "bounded process-memory copy failed");
