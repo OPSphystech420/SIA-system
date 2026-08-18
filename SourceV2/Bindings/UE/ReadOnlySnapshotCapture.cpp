@@ -106,16 +106,38 @@ ContractResult<ObjectHeader> ParseObjectHeader(const OwnedMemoryCopy& copy) {
 ContractResult<void> ValidateObjectHeader(
     const ObjectHeader& header, const profiles::ReadOnlyContractProfile& profile,
     const CaptureLimits& limits) {
-    if (header.numElements < 0 || header.maxElements < header.numElements
-        || header.numElements > limits.maximumObjects
-        || header.maxElements > limits.maximumObjectCapacity
-        || header.numChunks < 0 || header.maxChunks < 0
-        || header.numChunks > limits.maximumObjectChunks
-        || header.maxChunks > limits.maximumObjectChunks
+    const auto describe = [&](std::string_view reason) {
+        return std::string(reason)
+            + " num=" + std::to_string(header.numElements)
+            + " max=" + std::to_string(header.maxElements)
+            + " num_chunks=" + std::to_string(header.numChunks)
+            + " max_chunks=" + std::to_string(header.maxChunks);
+    };
+    if (profile.objectChunkItems == 0 || header.numElements < 0
+        || header.maxElements < header.numElements || header.numChunks < 0
         || header.maxChunks < header.numChunks || header.objectsWord == 0) {
         return ContractResult<void>::Failure(
             ContractErrorCategory::MalformedLayout,
-            "invalid TUObjectArray num/max/chunk relationship");
+            describe("invalid TUObjectArray num/max/chunk relationship"));
+    }
+    if (header.numElements > limits.maximumObjects) {
+        return ContractResult<void>::Failure(
+            ContractErrorCategory::LimitExceeded,
+            describe("TUObjectArray live object count exceeds capture limit"));
+    }
+    if (header.maxElements > limits.maximumObjectCapacity) {
+        return ContractResult<void>::Failure(
+            ContractErrorCategory::LimitExceeded,
+            describe("TUObjectArray reserved element capacity exceeds configured limit"));
+    }
+    // Only NumChunks determines how much of the chunk-pointer table can be
+    // copied. MaxChunks is reserved capacity and may legitimately be much
+    // larger; validate it semantically against the int32 index domain instead
+    // of applying the operational copy limit to it.
+    if (header.numChunks > limits.maximumObjectChunks) {
+        return ContractResult<void>::Failure(
+            ContractErrorCategory::LimitExceeded,
+            describe("TUObjectArray allocated chunk count exceeds capture limit"));
     }
     const std::int64_t required = header.numElements == 0 ? 0
         : (static_cast<std::int64_t>(header.numElements)
@@ -123,7 +145,19 @@ ContractResult<void> ValidateObjectHeader(
     if (required > header.numChunks || header.numChunks > header.maxChunks) {
         return ContractResult<void>::Failure(
             ContractErrorCategory::MalformedLayout,
-            "TUObjectArray lacks required chunks");
+            describe("TUObjectArray lacks required allocated chunks"));
+    }
+    const std::int64_t capacityChunks = header.maxElements == 0 ? 0
+        : (static_cast<std::int64_t>(header.maxElements)
+            + profile.objectChunkItems - 1) / profile.objectChunkItems;
+    const std::int64_t maximumRepresentableChunks =
+        (static_cast<std::int64_t>(std::numeric_limits<std::int32_t>::max())
+            + profile.objectChunkItems - 1) / profile.objectChunkItems;
+    if (capacityChunks > header.maxChunks
+        || header.maxChunks > maximumRepresentableChunks) {
+        return ContractResult<void>::Failure(
+            ContractErrorCategory::MalformedLayout,
+            describe("TUObjectArray reserved capacity lacks a valid chunk envelope"));
     }
     return ContractResult<void>::Success();
 }
@@ -264,7 +298,9 @@ ContractResult<ReadOnlyContractSnapshot> ReadOnlySnapshotCapture::Capture(
     DiscoveryGeneration generation, const CaptureLimits& limits,
     const std::atomic_bool* cancellation) const {
     if (generation.value == 0 || limits.maximumRetries == 0
-        || limits.maximumNameBlocks == 0 || limits.maximumObjects <= 0) {
+        || limits.maximumNameBlocks == 0 || limits.maximumObjects <= 0
+        || limits.maximumObjectCapacity <= 0 || limits.maximumObjectChunks <= 0
+        || profile.objectChunkItems == 0 || profile.objectItemBytes == 0) {
         return ContractResult<ReadOnlyContractSnapshot>::Failure(
             ContractErrorCategory::InvalidArgument, "invalid Gate 2B capture configuration");
     }

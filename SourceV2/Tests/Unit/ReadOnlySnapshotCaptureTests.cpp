@@ -519,8 +519,56 @@ void RunReadOnlySnapshotCaptureTests(TestContext& context) {
 
     Fixture badObjectHeader = MakeFixture();
     badObjectHeader.memory->Write(kImageBase + kObjectRva + 0x10, std::int32_t{100});
-    V2_EXPECT(context, !capture.Capture(
-        badObjectHeader.reader, badObjectHeader.profile, {7}, {}));
+    const auto badObjectHeaderResult = capture.Capture(
+        badObjectHeader.reader, badObjectHeader.profile, {7}, {});
+    V2_EXPECT(context, !badObjectHeaderResult);
+    V2_EXPECT(context, badObjectHeaderResult.Error().context.find("num=")
+        != std::string::npos);
+    V2_EXPECT(context, badObjectHeaderResult.Error().context.find("num_chunks=")
+        != std::string::npos);
+    V2_EXPECT(context, badObjectHeaderResult.Error().context.find("0x")
+        == std::string::npos);
+
+    Fixture reservedCapacity = MakeFixture();
+    reservedCapacity.memory->Write(
+        kImageBase + kObjectRva + 0x10, std::int32_t{0x2000000});
+    reservedCapacity.memory->Write(
+        kImageBase + kObjectRva + 0x18, std::int32_t{0x200});
+    const auto reservedCapacityResult = capture.Capture(
+        reservedCapacity.reader, reservedCapacity.profile, {71}, {});
+    V2_EXPECT(context, reservedCapacityResult);
+    V2_EXPECT(context, reservedCapacityResult.Value().report.objectMax == 0x2000000);
+    V2_EXPECT(context, reservedCapacityResult.Value().report.objectMaxChunks == 0x200);
+
+    Fixture insufficientCapacityChunks = MakeFixture();
+    insufficientCapacityChunks.memory->Write(
+        kImageBase + kObjectRva + 0x10, std::int32_t{0x20000});
+    const auto insufficientCapacityResult = capture.Capture(
+        insufficientCapacityChunks.reader, insufficientCapacityChunks.profile, {72}, {});
+    V2_EXPECT(context, !insufficientCapacityResult);
+    V2_EXPECT(context, insufficientCapacityResult.Error().context.find("chunk envelope")
+        != std::string::npos);
+
+    Fixture configuredCapacityLimit = MakeFixture();
+    CaptureLimits configuredCapacityLimits;
+    configuredCapacityLimits.maximumObjectCapacity = 0x8000;
+    const auto configuredCapacityResult = capture.Capture(
+        configuredCapacityLimit.reader, configuredCapacityLimit.profile, {73},
+        configuredCapacityLimits);
+    V2_EXPECT(context, !configuredCapacityResult
+        && configuredCapacityResult.Error().category == ContractErrorCategory::LimitExceeded);
+
+    Fixture allocatedChunkLimit = MakeFixture();
+    allocatedChunkLimit.memory->Write(
+        kImageBase + kObjectRva + 0x10, std::int32_t{0x810000});
+    allocatedChunkLimit.memory->Write(
+        kImageBase + kObjectRva + 0x18, std::int32_t{129});
+    allocatedChunkLimit.memory->Write(
+        kImageBase + kObjectRva + 0x1C, std::int32_t{129});
+    const auto allocatedChunkResult = capture.Capture(
+        allocatedChunkLimit.reader, allocatedChunkLimit.profile, {74}, {});
+    V2_EXPECT(context, !allocatedChunkResult
+        && allocatedChunkResult.Error().category == ContractErrorCategory::LimitExceeded);
 
     Fixture nullChunk = MakeFixture();
     nullChunk.memory->Write(kChunkTableAddress, std::uint64_t{0});

@@ -34,6 +34,9 @@ an active blocker.
 | V2-EV-024 | Gate 2B captures internally consistent owned FName/object/reflection snapshots. | statically validated; device pending | Synthetic mutation/retry, cursor/chunk/entry, flags/serial/index, stale generation, outer/super cycle, malformed relationship, cancellation/time/byte/object limits and known-name/object tests pass. No live target result is inferred. |
 | V2-EV-025 | Gate 2B execution is explicit and preserves zero active capabilities. | source/iOS compile validated; device pending | One serial worker runs only after Contracts action. Pre-capture scans=0; post-request scans=1; hooks/engine calls/mutation=0. UI receives only a bounded immutable report and cannot include Bindings/raw address types. |
 | V2-EV-026 | One clean, source-tagged Gate 2B raw Sideloadly input and matching dSYM/manifest exist. | compiled/statically inspected; device pending | `V2-G2B-BUILD-007`: dylib SHA `e7f6c3c…afb79`, UUID `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`, archival package SHA `bff134a…7232`; 270 assertions and boundary/package/injection audits pass. |
+| V2-EV-027 | Gate 2B `.1` completes a live owned name/object/reflection snapshot. | contradicted | `V2-G2B-CAPTURE-ABORT-001`: three generations aborted on the same TUObjectArray relationship validator before a completed report. Exact identity/UI lifecycle and zero capabilities passed. |
+| V2-EV-028 | Reserved TUObjectArray capacity must fit the same limit as allocated chunks/current objects. | contradicted by audit | `.1` conflated capacity with work. Exact lookup uses live Num/table fields; the correction keeps operational limits on Num/copied bytes and applies semantic overflow-safe relationships to Max fields. Device recheck pending. |
+| V2-EV-029 | The Gate 2B capacity-policy correction preserves bounded work and address-free failures. | statically validated; device pending | 280 normal + 280 UBSan-only assertions, boundary audit and iOS arm64 compile pass. Tests cover large valid reserve capacity, insufficient reserve envelope, configured capacity limit, allocated-chunk limit and counter-only rejection text. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -67,6 +70,12 @@ injected Server-Host dylib, the same save and character death reproduced the
 same process exit; EOS login did not alter it. The exact underlying stock-game
 cause is outside this workflow.
 
+`V2-G2B-CAPTURE-ABORT-001` is the immutable `.1` Gate 2B device result. Exact
+profile identity and panel lifecycle passed, but three explicit generations
+aborted on the same TUObjectArray relationship validator. The capture remained
+fail-closed with scans=1 and zero hooks/engine calls/mutation; no owned live
+name/object/reflection snapshot is claimed.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -85,10 +94,11 @@ Detailed reviews:
 - [Gate 2A identity](evidence/GATE2A_EXACT_IMAGE_IDENTITY.md)
 - [Gate 2A device identity/death exit](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md)
 - [Gate 2B read-only contracts](evidence/GATE2B_READ_ONLY_CONTRACTS.md)
+- [Gate 2B device capture abort](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md)
 
 ## Evidence required next
 
-Gate 2B exact resolver cards, provenance/snapshot host tests, boundary audit,
-iOS compile and immutable artifact `V2-G2B-BUILD-007` are complete. Execute that
-one raw artifact and return the bounded Contracts report. Gate 2C evidence is
-not requested.
+Gate 2B exact resolver cards remain valid, but `.1` device capture contradicted
+the completed-snapshot claim. Finish and execute the single `.2` capacity-policy
+correction, then return its bounded Contracts report. Gate 2C evidence is not
+requested.

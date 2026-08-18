@@ -12,6 +12,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <optional>
 #include <string>
 #include <vector>
@@ -25,7 +26,10 @@ struct DiscoveryGeneration final {
 struct CaptureLimits final {
     std::size_t maximumCopiedBytes{96U * 1024U * 1024U};
     std::int32_t maximumObjects{350000};
-    std::int32_t maximumObjectCapacity{4000000};
+    // MaxElements is reserved index capacity, not the number copied. Keep its
+    // default at the representable ABI ceiling; maximumObjects and
+    // maximumObjectChunks bound the live work performed by a capture.
+    std::int32_t maximumObjectCapacity{std::numeric_limits<std::int32_t>::max()};
     std::int32_t maximumObjectChunks{128};
     std::uint32_t maximumNameBlocks{512};
     std::uint32_t maximumRetries{3};

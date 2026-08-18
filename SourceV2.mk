@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.1
-V2_PACKAGE_VERSION := 0.3.0~gate2b.20260818.1
+V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.2
+V2_PACKAGE_VERSION := 0.3.1~gate2b.20260818.2
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)

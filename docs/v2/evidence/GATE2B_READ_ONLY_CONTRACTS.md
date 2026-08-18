@@ -286,3 +286,16 @@ by this receipt.
 Gate 2B PASS requires exact profile roots, successful known-name/core-object
 validators, generation change, bounded address-free diagnostics and unchanged
 zero capabilities. Gate 2C does not begin in this workflow.
+
+## Device execution `.1` — immutable abort
+
+`V2-G2B-CAPTURE-ABORT-001` executed the exact clean `.1` artifact. Identity and
+panel lifecycle passed, but generations 1, 2 and 3 all aborted on the generic
+TUObjectArray relationship validator. No live name/object/reflection PASS is
+claimed. The fail-closed counters remained scans=1 and zero hooks/calls/mutation.
+
+Post-device audit retained the resolver card but corrected validator policy:
+the `.1` 4,000,000 element capacity ceiling and `MaxChunks <= 128` requirement
+were not ABI facts. Only live Num fields bound copying; Max fields now receive
+overflow-safe capacity-envelope validation. Detailed intake:
+[Gate 2B device capture abort 001](GATE2B_DEVICE_CAPTURE_ABORT_001.md).

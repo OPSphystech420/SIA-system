@@ -476,3 +476,23 @@ rather than the immutable historical SHA `19d75c2e…784209`. The unchanged Gate
 2A raw injection dylib and manifest still match their receipts. This archive
 integrity deviation is preserved explicitly; the new Gate 2B artifact was then
 built only after correcting control metadata and committing a clean source tag.
+
+## 2026-08-18 — Gate 2B `.1` capture aborted fail-closed
+
+The user executed the exact `.1` artifact. Image identity, Status, panel
+open/close/reopen, Metal stop on Close and Copy logs worked. Three explicit
+captures at generations 1–3 aborted deterministically with the same
+`invalid TUObjectArray num/max/chunk relationship`; scans became one while
+hooks, engine calls and mutation stayed zero. Result
+`V2-G2B-CAPTURE-ABORT-001` therefore contradicts a completed live Gate 2B
+snapshot but confirms fail-closed behavior.
+
+Exact IDA/FreshSDK recheck preserved the direct root and field offsets. Source
+audit found that the `.1` validator wrongly treated reserved `MaxElements` and
+`MaxChunks` as operational copy limits. The correction keeps bounded work on
+live Num fields/bytes/time, validates reserve capacity through typed semantic
+relationships and emits safe integer counters on any future rejection. Gate 2C
+and hosting remain unstarted.
+
+The correction passed 280 normal and 280 UBSan-only host assertions, the strict
+boundary audit and an iOS arm64 compile before clean artifact packaging.

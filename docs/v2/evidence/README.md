@@ -39,6 +39,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2B read-only contracts](GATE2B_READ_ONLY_CONTRACTS.md) — exact IDA
   FNamePool/GUObjectArray/UObject resolver cards, FreshSDK ASLR normalization,
   provenance/owned-snapshot design, static verification and device protocol.
+- [Gate 2B device capture abort 001](GATE2B_DEVICE_CAPTURE_ABORT_001.md) —
+  exact `.1` device receipt, deterministic fail-closed TUObjectArray rejection
+  and reserved-capacity versus live-work validator correction.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

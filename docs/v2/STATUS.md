@@ -9,7 +9,8 @@ active workflow: Gate 2B — read-only FNamePool, GUObjectArray and reflection s
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
-Gate 2B: implemented; static/iOS compile verified; device capture pending
+Gate 2B .1: exact identity/UI device verified; contract capture aborted fail-closed
+Gate 2B .2: object-capacity validator correction under verification
 Gate 2C: not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
@@ -19,9 +20,10 @@ Legacy: archived evidence only; not built, linked, or modified
 The user explicitly authorized progression from Gate 1.5 to Gate 2. Gate 2 is
 split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
 investigation is closed as an external reproduced baseline limitation. Gate 2B
-read-only name/object/reflection capture is implemented and awaits the named
-device protocol. Gate 2C Engine, World and NetDriver relationship discovery has
-not started.
+read-only name/object/reflection capture reached the exact target but the `.1`
+artifact rejected its live TUObjectArray capacity header. The fail-closed
+correction remains inside Gate 2B. Gate 2C Engine, World and NetDriver
+relationship discovery has not started.
 
 ## Immutable Gate 1.5 result
 
@@ -235,12 +237,35 @@ Host/static validation covers normalization, wrong profile/RVA, derived scope,
 VM failure, mutation/retry, name and object bounds, flags/serial/index, stale
 generation, malformed/unknown/cyclic relationships, cancellation and limits,
 plus diagnostics redaction/immutability. Normal and UBSan-only suites each pass
-270 assertions; the combined ASan/UBSan binary compiled but stalled before its
+270 assertions for `.1`; the combined ASan/UBSan binary compiled but stalled before its
 first marker and is not claimed as passing. The boundary audit and iOS arm64
 compile pass. No live name/object capture is claimed until the device protocol
 succeeds.
 
 Detailed evidence: [Gate 2B read-only contracts](evidence/GATE2B_READ_ONLY_CONTRACTS.md).
+
+## Gate 2B device capture abort
+
+Result ID: `V2-G2B-CAPTURE-ABORT-001`.
+
+The exact `.1` image/profile receipt, panel open/close/reopen, stopped Metal on
+Close and Copy logs were device-confirmed. Three explicit captures at
+generations 1, 2 and 3 deterministically aborted in 47/39/38 ms with
+`invalid TUObjectArray num/max/chunk relationship`. Every attempt retained
+`scans_started=1 hooks=0 engine_calls=0 mutation=0`; no name/object/reflection
+PASS is claimed.
+
+Audit found that `.1` incorrectly applied the allocated-chunk work limit to the
+reserved `MaxChunks` field and imposed an arbitrary 4,000,000 `MaxElements`
+capacity ceiling. Exact IDA and FreshSDK still support the root and field
+offsets. The replacement bounds live `NumElements`, allocated `NumChunks`, bytes
+and time, while checking reserved max fields through overflow-safe semantic
+relationships. Future aborts include the four integer counters but no address.
+The correction passes 280 normal and 280 UBSan-only assertions, the boundary
+audit and an iOS arm64 compile; clean artifact packaging is the remaining local
+step.
+
+Full intake: [Gate 2B device capture abort 001](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md).
 
 ## Gate 2B immutable build receipt
 
@@ -276,6 +301,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Inject the one manifested Gate 2B raw artifact and execute its bounded
-menu/local-world capture protocol. Do not start Gate 2C, hosting,
+Finish the single corrected Gate 2B `.2` artifact, then repeat one bounded menu
+capture before attempting the local-world captures. Do not start Gate 2C, hosting,
 Engine/World/NetDriver discovery, hooks, UE calls or mutation.
