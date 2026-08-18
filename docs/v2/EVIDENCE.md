@@ -13,7 +13,7 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed + statically validated | Latest receipt `V2-G2B-MULTIREGION-BUILD-009`: clean tagged source `852e260…e7947`, dylib/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`, manifest SHA `29eaa59…f89e`; exact artifact passed Gate 2B device execution. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed historically + latest build statically validated | Latest receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`: clean tagged source `4a53ab9…5764c`, dylib/dSYM UUID `E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F`, manifest SHA `832ace6…10e7`. Its corrected behavior is not device-proven; the earlier exact Gate 2B `.3` artifact remains device executed. |
 | V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.1` aborted fail-closed at Engine identity validation; corrected Gate 2C remains the active workflow. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
@@ -47,7 +47,7 @@ an active blocker.
 | V2-EV-037 | `DEC-V2-NO-HOOK-FIRST-HOST` makes hooks non-prerequisite for first IP Listen and forbids broad Dedicated forcing. | architecture decision, not runtime evidence | Engine/definitions will be revalidated before Host; current world will be dispatched directly after Gate 3; original GetNetMode is retained. Optional inert observation/narrow policy is conditional on a post-transport demonstrated replication gap. Existing hook/GetNetMode evidence is preserved. |
 | V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; `.1` device relationship claim contradicted | `V2-G2C-BUILD-010` compiled the exact roots/offsets and bounded capture, but `V2-G2C-ENGINE-VALIDATOR-ABORT-001` stopped before relationship bytes. The implementation claim remains static; no live relationship is inferred. |
 | V2-EV-039 | Gate 2C `.1` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | The fresh Gate 2B snapshot completed in 37 ms with 110,906 objects/two chunks and every prerequisite validator passed, then the relationship phase aborted on the combined ShooterEngine identity validator with zero relationship bytes and zero capabilities. See `evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md`. |
-| V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | contradicted; correction statically validated | UClass object-array index `0x359` was dump-instance data, not ABI. The correction resolves the direct class inside each fresh snapshot, requires exact `Class ShooterGame.ShooterEngine`, and separately proves GameEngine/Engine ancestry. A relocated-class fixture and wrong-package negative pass 387 normal/UBSan-only assertions. |
+| V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | contradicted; clean correction artifact ready | UClass object-array index `0x359` was dump-instance data, not ABI. `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` resolves the direct class inside each fresh snapshot, requires exact `Class ShooterGame.ShooterEngine`, and separately proves GameEngine/Engine ancestry. A relocated-class fixture and wrong-package negative pass 387 normal/UBSan-only assertions; live repeat is pending. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -132,6 +132,6 @@ Detailed reviews:
 ## Evidence required next
 
 Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
-`.1` is an immutable fail-closed device abort. Build and execute only the clean
-`.2` direct-UClass correction under the isolated Gate 2C protocol. Gate 3,
-hosting, travel and hooks remain closed.
+`.1` is an immutable fail-closed device abort. Execute only the clean `.2`
+direct-UClass correction from `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` under the
+isolated Gate 2C protocol. Gate 3, hosting, travel and hooks remain closed.

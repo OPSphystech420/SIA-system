@@ -95,7 +95,11 @@ moves the exact ShooterEngine UClass to a different object-array index and must
 still pass; a wrong package/full name must fail. Normal and UBSan-only suites
 each pass 387 assertions, and the boundary audit passes.
 
-The replacement is `gate2c-live-relationships-20260818.2`. It changes only the
+The replacement is `gate2c-live-relationships-20260818.2`, recorded as
+`V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`: source
+`4a53ab940e8085c2e13c00489b4ab6ab9e95764c`, raw dylib SHA-256
+`ee6f6d9014fa98171a105fa009750e4d078a099a8ecf4a969dce98c704b60cae`,
+Mach-O/dSYM UUID `E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F`. It changes only the
 Gate 2C read-only Engine validator/diagnostics and its tests/receipts. Gate 3,
 hosting, calls, hooks and mutation remain closed. The `.1` result above stays
 immutable regardless of a later replacement result.

@@ -2,7 +2,7 @@
 
 Status: exact-binary/sdk/source cards and implementation complete; `.1` device
 execution aborted fail-closed at an invalid fixed UClass dump-index validator;
-corrected `.2` source is statically verified and awaits its clean artifact.
+corrected clean `.2` artifact is ready for its isolated device repeat.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -237,6 +237,31 @@ separate runtime class, live full name, CDO and direct-class failures. The exact
 native roots and every relationship offset remain unchanged.
 
 Full immutable intake: [Gate 2C device Engine-validator abort 001](GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md).
+
+## Corrected `.2` artifact receipt
+
+Result ID: `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`
+
+```text
+build_id=gate2c-live-relationships-20260818.2
+source_revision=4a53ab940e8085c2e13c00489b4ab6ab9e95764c
+source_tag=v2-gate2c-live-relationships-20260818.2-source
+dylib_sha256=ee6f6d9014fa98171a105fa009750e4d078a099a8ecf4a969dce98c704b60cae
+dsym_uuid=E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F
+dsym_dwarf_sha256=2f7c171b866cd9ee1a36ee7c3798766cb67bb3d3ee8828b6305c9bf21e6db041
+manifest_sha256=832ace6c517a56f319847131e1297b46ede67100adad8bb38ba1febd59fe10e7
+archival_deb_sha256=7bc9607751fb630c38ee18aa56be3c187320765f1e95cfa92aee1ca51aaa61fe
+raw_dylib=packages/v2/injection/gate2c-live-relationships-20260818.2/ServerHostV2.dylib
+manifest=packages/v2/injection/gate2c-live-relationships-20260818.2/manifest.txt
+archival_deb=packages/v2/com.mhga.serverhost.v2_0.4.1~gate2c.20260818.2_iphoneos-arm.deb
+```
+
+The clean tagged source passed 387 normal and 387 UBSan-only assertions, the
+boundary audit, arm64 iOS compile, package/control/payload/build/source identity
+inspection and injection isolation. The package/raw dylib bytes match and the
+Mach-O/dSYM UUID is identical. Manifest v4 names the fresh-snapshot exact direct
+UClass contract and records zero hooks/engine calls/mutation. No package was
+installed or executed.
 
 ## Corrected `.2` device protocol
 

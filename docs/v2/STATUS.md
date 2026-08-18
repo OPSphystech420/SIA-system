@@ -5,7 +5,7 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2C .1 device abort recorded; corrected .2 packaging pending
+active workflow: Gate 2C .1 device abort recorded; corrected clean .2 ready
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -15,7 +15,7 @@ Gate 2B .2 TheIsland capture: fail-closed VM-region abort
 Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
-Gate 2C .2: dynamic exact direct-UClass correction passes 387 normal/UBSan assertions
+Gate 2C .2: clean raw artifact ready; 387 normal/UBSan assertions and audits pass
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -426,6 +426,28 @@ package negative bring the normal and UBSan-only suites to 387 assertions.
 
 Full report: [Gate 2C `.1` Engine-validator abort](evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md).
 
+## Gate 2C `.2` correction build receipt
+
+Result ID: `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`
+
+```text
+Build ID: gate2c-live-relationships-20260818.2
+Source revision: 4a53ab940e8085c2e13c00489b4ab6ab9e95764c
+Source tag: v2-gate2c-live-relationships-20260818.2-source
+Raw dylib SHA-256: ee6f6d9014fa98171a105fa009750e4d078a099a8ecf4a969dce98c704b60cae
+Mach-O / dSYM UUID: E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F
+dSYM DWARF SHA-256: 2f7c171b866cd9ee1a36ee7c3798766cb67bb3d3ee8828b6305c9bf21e6db041
+Manifest SHA-256: 832ace6c517a56f319847131e1297b46ede67100adad8bb38ba1febd59fe10e7
+Archive .deb SHA-256: 7bc9607751fb630c38ee18aa56be3c187320765f1e95cfa92aee1ca51aaa61fe
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2c-live-relationships-20260818.2/ServerHostV2.dylib`.
+The clean tagged source passed 387 normal and 387 UBSan-only assertions,
+boundary audit, arm64 compile, package/control/payload and injection-isolation
+audits. The raw dylib and dSYM UUIDs match. This receipt is build/static
+evidence only; corrected live relationships remain device-unverified.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -437,8 +459,7 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Build and then execute only corrected
-`gate2c-live-relationships-20260818.2` under the bounded
+Execute only corrected `gate2c-live-relationships-20260818.2` under the bounded
 menu/TheIsland/same-world/optional-return capture protocol in
 [`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
 Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

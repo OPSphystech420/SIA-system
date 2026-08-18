@@ -573,3 +573,16 @@ and preserves the independent GameEngine/Engine chain. A relocated-UClass
 positive and wrong-package negative pass 387 normal and UBSan-only assertions;
 the boundary audit retains zero hooks/calls/mutation. Gate 3 and hosting remain
 closed.
+
+## 2026-08-18 — Gate 2C Engine-validator replacement built
+
+`V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` was produced from clean revision
+`4a53ab940e8085c2e13c00489b4ab6ab9e95764c` and annotated source tag
+`v2-gate2c-live-relationships-20260818.2-source`. Raw dylib SHA-256 is
+`ee6f6d9014fa98171a105fa009750e4d078a099a8ecf4a969dce98c704b60cae`;
+Mach-O/dSYM UUID is `E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F`; manifest SHA is
+`832ace6c517a56f319847131e1297b46ede67100adad8bb38ba1febd59fe10e7`;
+the archival `.deb` SHA is
+`7bc9607751fb630c38ee18aa56be3c187320765f1e95cfa92aee1ca51aaa61fe`.
+All SourceV2-only tests, boundary, arm64, package and injection audits pass. The
+corrected live behavior awaits the bounded Gate 2C device repeat.

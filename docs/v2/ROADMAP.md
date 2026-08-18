@@ -25,7 +25,8 @@ was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
 as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C `.1`
 completed its fresh Gate 2B snapshot in TheIsland but aborted fail-closed at an
 over-specific Engine UClass index validator. The direct-class correction is
-statically verified and awaits its clean `.2` artifact/device repeat; this does
+packaged as clean `.2` receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` and
+awaits its device repeat; this does
 not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 
 | Gate | State | Strongest claim |
@@ -35,7 +36,7 @@ not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | `.1` device abort; `.2` correction static-pass | prerequisite snapshot device-proven for the attempt; fixed dump-index assumption removed; all live relationships/world transitions remain unverified |
+| 2C — Engine/world relationships/invalidation | `.1` device abort; clean `.2` ready | prerequisite snapshot device-proven for the attempt; fixed dump-index assumption removed; all live relationships/world transitions remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -274,7 +275,8 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 ## Gate 2C — Engine/world relationships and generation invalidation
 
 State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`;
-corrected `.2` source passes static verification and awaits clean packaging.
+corrected clean `.2` artifact `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` awaits
+device execution.
 
 Entry: Gate 2B read-only discovery passes.
 
