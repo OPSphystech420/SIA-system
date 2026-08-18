@@ -6,6 +6,8 @@ namespace serverhost::v2::diagnostics {
 namespace {
 
 constexpr std::size_t kStateFieldLimit = 160;
+constexpr std::size_t kSegmentFieldLimit = 384;
+constexpr std::size_t kIdentityReasonLimit = 256;
 constexpr std::size_t kDetailLimit = 512;
 
 std::string SafeStateField(std::string_view value) {
@@ -18,6 +20,13 @@ DiagnosticState SafeState(DiagnosticState state) {
     state.startupState = SafeStateField(state.startupState);
     state.profileState = SafeStateField(state.profileState);
     state.legacyGuardState = SafeStateField(state.legacyGuardState);
+    state.selectedImage = SafeStateField(state.selectedImage);
+    state.product = SafeStateField(state.product);
+    state.architecture = SafeStateField(state.architecture);
+    state.imageUuid = SafeStateField(state.imageUuid);
+    state.segmentSizes = RedactDiagnosticText(state.segmentSizes, kSegmentFieldLimit);
+    state.textFingerprint = SafeStateField(state.textFingerprint);
+    state.identityReason = RedactDiagnosticText(state.identityReason, kIdentityReasonLimit);
     state.detail = RedactDiagnosticText(state.detail, kDetailLimit);
     return state;
 }
@@ -43,7 +52,15 @@ std::shared_ptr<const DiagnosticSnapshot> DiagnosticSnapshotPublisher::Capture()
     snapshot->startupState = std::move(state.startupState);
     snapshot->profileState = std::move(state.profileState);
     snapshot->legacyGuardState = std::move(state.legacyGuardState);
+    snapshot->selectedImage = std::move(state.selectedImage);
+    snapshot->product = std::move(state.product);
+    snapshot->architecture = std::move(state.architecture);
+    snapshot->imageUuid = std::move(state.imageUuid);
+    snapshot->segmentSizes = std::move(state.segmentSizes);
+    snapshot->textFingerprint = std::move(state.textFingerprint);
+    snapshot->identityReason = std::move(state.identityReason);
     snapshot->detail = std::move(state.detail);
+    snapshot->scansStarted = 0;
     snapshot->hooks = 0;
     snapshot->engineCalls = 0;
     snapshot->mutation = 0;

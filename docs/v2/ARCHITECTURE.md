@@ -107,14 +107,12 @@ SourceV2/
     Validation/
       ContractValidator.hpp/.cpp startup and per-use binding validators
     Platform/
-      Interfaces/
-        Image.hpp              image identity/segment/query interface
-        Memory.hpp             checked read/protect/cache interface
-        GameThreadScheduler.hpp platform scheduling interface
-      IOS/
-        MachOImage.mm          Mach-O/ASLR/UUID implementation
-        MachMemory.mm          range/protection/cache implementation
-        IOSGameThread.mm       FIOSAsyncTask bridge
+      MachOImageView.hpp/.cpp        bounded Mach-O metadata parser
+      MemorySource.hpp/.cpp         injected/process bounded copy source
+      LoadedImageCatalog.hpp/.cpp   owned loaded-image catalog
+      ImageIdentityResolver.hpp/.cpp stable executable-text identity
+      ExactProfileSelector.hpp/.cpp unique exact-profile proof/receipt
+      CheckedMemoryReader.hpp/.cpp  single-segment typed read boundary
       Android/                 [future: only after exact LibUE path/profile]
   Hooks/
     HookTypes.hpp              target, callback, original and lifecycle types
@@ -189,6 +187,12 @@ adapter may depend on UIKit/MetalKit and local ImGui, but not UE, Bindings,
 Hooks, Runtime, Services or Legacy sources. Its closed `MTKView` is paused; its
 render delegate captures only an immutable diagnostic snapshot.
 
+Gate 2A adds only the `Bindings/Platform` image-identity and checked-read
+boundary plus an immutable diagnostics receipt. The runtime performs no
+FNamePool/GUObjectArray scan, UE discovery, hook, engine call or mutation. Raw
+Mach-O addresses and ASLR slide remain private to `Bindings/Platform` and never
+enter the UI snapshot.
+
 ## 4. Dependency graph
 
 ```mermaid
@@ -240,8 +244,7 @@ class/interface rules in Section 5 narrow these permissions further.
 | `Bindings/Native` | Narrow, typed current native calls. | Resolver, typed Model, ThreadToken; forbidden: UI, hook policy, workflow state. | Binding process lifetime, arguments scoped, game thread; raw call/vtable ABI permitted internally. | Splits monolith calls; Sishen wrapper style adapted. Exact card plus device postcondition. |
 | `Bindings/Script` | Validated ProcessEvent transport and approved typed wrappers. | UE Reflection, Generated params, Model, ThreadToken; forbidden: generic feature-facing calls. | Function/target handles generation-bound; params stack/owned; game thread; ProcessEvent raw ABI internal. | Adapts legacy validation/Sishen wrappers, rejects flag mutation. Live metadata and device gate. |
 | `Bindings/Validation` | Convert resolved declarations/live observations into available/unavailable contracts. | Profiles, UE, Model and Bindings/Platform reads; forbidden: retries/game mutation. | Bootstrap/game-thread revalidation; read-only ABI inspection. | Consolidates scattered checks. Static negative and device report gate. |
-| `Bindings/Platform/Interfaces` | Abstract loaded image, checked memory and game-thread scheduling. | Core only; forbidden: UE/game semantics. | Process-scoped interfaces; thread rules per method; declarations hide raw ABI. | Replaces general memory/scheduler globals. Fake tests first. |
-| `Bindings/Platform/IOS` | Mach-O/Mach and FIOSAsyncTask implementations. | Platform interfaces and Apple APIs; forbidden: services/UI. | Process owner; reads thread-safe, scheduler callback game thread; raw Mach/image ABI permitted by Bindings boundary. | Adapts CGuard/current scheduler, rejects coarse ranges. Exact image and device thread gates. |
+| `Bindings/Platform` | Own loaded-image discovery, bounded Mach-O parsing, exact identity/profile selection and the only checked read mechanism. | Core, profiles and Apple APIs; forbidden: UE/game semantics, services and UI. | Metadata/results are owned; reads are bounded operations; raw Mach/image ABI is private to this directory. | Adapts Sishen's organizational boundary only; rejects substring selection, cached global bases, coarse address checks, writes and calls. Exact-image and negative-profile gates. |
 | `Bindings/Platform/Android` `[future]` | Android image/memory/scheduler equivalents. | Same interface only; forbidden: importing iOS/Sishen ABI. | Defined when exact LibUE profile exists. | No implementation before user supplies exact database and iOS stabilizes. |
 | `Hooks` | Hook types, manager/leases, observer sink and backend-neutral lifecycle. | Core, Bindings/Platform, Diagnostics fixed sink; forbidden: services/UI/reflection in callback. | Explicit manager/lease lifetime; callback-safe; raw ABI only in backend. | Replaces global hook state; full HookSpec/inert soak required. |
 | `Hooks/IOS` | Candidate hardware-breakpoint/trampoline transports. | Hooks + Bindings/Platform/IOS; forbidden: gameplay policy. | Owns exception/debug/executable state and uninstall; arbitrary callback thread; raw ABI permitted. | Current/Sishen mechanisms are quarantined research. Relocation/chaining/thread/reentrancy/device proof. |
@@ -265,7 +268,7 @@ vtable dispatch, ProcessEvent, or executable-memory manipulation.
 | Unit / important class | Responsibility | Allowed / forbidden dependencies | Ownership and thread | Raw ABI | Legacy and reference disposition | Evidence required before implementation |
 |---|---|---|---|---|---|---|
 | `Core/ContractResult<T>` | Carry value or categorized contract failure without exceptions crossing callbacks. | Standard library/Core only; no UE, logging or UI. | Value-owned; any thread. | No. | Replace thrown `TArray::at` and boolean/error-string mixtures. Sishen has no comparable error boundary. | Static tests for propagation and no allocation on configured hot paths. |
-| `Core/BuildIdentity` | Store UUID, image slide/base, image size and optional text fingerprint. | Bindings/Platform interface only at construction; no profile selection policy. | Immutable process lifetime. | No. | Splits legacy global base/RVA state. | Mach-O identity captured from the loaded 1.10280 image and matched to the profile. |
+| `Core/BuildIdentity` | Store product/version, architecture, image role, UUID, stable segment sizes and executable-text fingerprint; never store runtime base/slide. | Bindings/Platform only at construction; no profile selection policy. | Immutable process lifetime. | No. | Splits legacy global base/RVA state without exporting addresses. | Mach-O identity captured from the loaded 1.10280 image and matched to the profile. |
 | `Core/ThreadToken` | Unforgeable proof that the caller is in the dispatcher’s game-thread drain. | Runtime may construct; services/bindings may consume. | Stack lifetime, game thread only. | No. | Replaces scattered `IsOnGameThread` assertions. | Fake scheduler tests and device thread-ID breadcrumb. |
 | `Core/ObjectIdentity` | `{objectIndex, serial, worldGeneration}` stable identity. | Core only. Feature code may store it; raw pointers forbidden. | Value-owned; any thread, resolve on game thread. | No. | Adapt legacy `FWeakObjectIdentity`; correct equality must include serial and generation. Dragon weak equality by index is rejected. | Object deletion/reuse fake tests and live GUObject serial validation. |
 | `UE/Primitives` | Fixed-width scalars, alignment helpers and only required enums. | Core only; forbidden: generated class headers. | Value types. | Layout definitions. | Curate FreshSDK values; do not copy Sishen ABI. | arm64 static assertions and current SDK/binary corroboration. |

@@ -15,7 +15,15 @@ struct DiagnosticState final {
     std::string startupState;
     std::string profileState;
     std::string legacyGuardState;
+    std::string selectedImage;
+    std::string product;
+    std::string architecture;
+    std::string imageUuid;
+    std::string segmentSizes;
+    std::string textFingerprint;
+    std::string identityReason;
     std::string detail;
+    std::uint32_t scansStarted{};
 };
 
 struct DiagnosticSnapshot final {
@@ -24,7 +32,15 @@ struct DiagnosticSnapshot final {
     std::string startupState;
     std::string profileState;
     std::string legacyGuardState;
+    std::string selectedImage;
+    std::string product;
+    std::string architecture;
+    std::string imageUuid;
+    std::string segmentSizes;
+    std::string textFingerprint;
+    std::string identityReason;
     std::string detail;
+    std::uint32_t scansStarted{};
     std::uint32_t hooks{};
     std::uint32_t engineCalls{};
     std::uint32_t mutation{};

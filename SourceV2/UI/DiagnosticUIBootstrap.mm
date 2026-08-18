@@ -384,7 +384,7 @@ void ApplyDiagnosticTheme() {
 - (void)drawStatusPage:(const serverhost::v2::ui::DiagnosticPresentationModel&)model
 {
     ImGui::TextColored(RGB(0x72FFFF), "Runtime capability receipt");
-    ImGui::TextDisabled("Fail-closed diagnostics; no engine access in Gate 1.5");
+    ImGui::TextDisabled("Gate 2A identity only; no scans or engine access");
     ImGui::Spacing();
 
     const ImGuiTableFlags flags = ImGuiTableFlags_RowBg
@@ -505,7 +505,7 @@ void ApplyDiagnosticTheme() {
     if (ImGui::Begin("##ServerHostV2Diagnostics", nullptr, windowFlags)) {
         ImGui::TextColored(RGB(0x72FFFF), "SERVER HOST V2");
         ImGui::SameLine();
-        ImGui::TextDisabled("Gate 1.5 diagnostics");
+        ImGui::TextDisabled("Gate 2A identity diagnostics");
         ImGui::Separator();
 
         constexpr float railWidth = 116.0f;

@@ -20,12 +20,13 @@ The near-term platform is iOS:
 - client: a physical iPhone running the compatible modified game;
 - build under study: ShooterGame 1.10280 / UE 4.26.2;
 - completed workflow: Roadmap Gate 1, the host-local static typed identity spine;
-- active intermediate workflow: Gate 1.5 diagnostic UI and raw Sideloadly
-  injection artifact, failed under investigation after `.1` installed an icon
-  but opened no visible panel; corrected `.2` is ready for the bounded device
-  protocol and is not device-verified;
-- next implementation workflow after a verified Gate 1.5 correction: Gate 2
-  read-only build/name/object/Engine discovery. Gate 2 has not started.
+- Gate 1.5 state: corrected `.2` has a bounded functional device PASS for icon,
+  Metal/ImGui, Status/Logs/Copy/Close/reopen; longer soak and independent
+  outside-window touch verification remain pending and are carried forward;
+- active workflow: Gate 2A exact ShooterGame image/profile identity and checked
+  mapped-memory boundary only;
+- Gate 2B name/object/reflection discovery and Gate 2C Engine/world
+  relationships/generation invalidation have not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 
@@ -119,7 +120,8 @@ so this path is a historical record rather than an available rollback.
 ## In scope now
 
 - iOS V2 typed core, binding/profile validation and host-local tests;
-- UE-free Gate 1.5 diagnostic UI, redacted logs and raw-injection handoff;
+- UE-free diagnostic UI, redacted identity receipt and raw-injection handoff;
+- Gate 2A exact Mach-O identity/profile and checked read-only platform boundary;
 - exact current iOS binary/FreshSDK analysis needed by the active gate;
 - later, one ordered iOS runtime/device workflow at a time;
 - preservation of legacy/control artifacts and living documentation.

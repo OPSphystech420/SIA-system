@@ -1,14 +1,16 @@
-# Server-Host V2 Gate 1.5 diagnostics
+# Server-Host V2 Gate 2A identity diagnostics
 
 This is the separate Server-Host V2 implementation. Gate 1 provides the
-portable typed foundation. Gate 1.5 adds a UE-free diagnostic surface for the
-actual manual test path: raw dylib injection with Sideloadly.
+portable typed foundation. Gate 1.5 added the UE-free Sideloadly diagnostic
+surface. Gate 2A adds only exact Mach-O image/profile identity and a checked
+mapped-memory boundary for future Gate 2B use.
 
 The iOS dylib contains a bounded structured/redacted logger, immutable
 diagnostic snapshots, a scene-safe UIKit floating button and a transparent
 Metal/ImGui panel with only `Status` and `Logs`. A missing/unsupported profile or
-Legacy guard refusal disables runtime capabilities but does not hide the
-diagnostic button. Hooks, engine calls and mutation remain exactly zero.
+Legacy guard or identity mismatch disables later discovery but does not hide
+the diagnostic button. Scans, hooks, engine calls and mutation remain exactly
+zero.
 
 The corrected Gate 1.5 presentation revalidates and reattaches its active
 window/root hierarchy on lifecycle and open requests, puts the overlay above
@@ -52,11 +54,14 @@ dylib refuses runtime capabilities when exact `ServerHost.dylib` is already
 loaded. No Legacy source, Menu/MenuLoad implementation or `HostingRuntime` is
 linked.
 
-`BoundaryAudit.sh` enforces raw/include layering, V2 UI isolation and explicit
-source lists. Host-local tests cover the Gate 1 foundation plus logger bounds,
-redaction, concurrent addition, immutable snapshots, refusal presentation and
-the bounded presentation state machine/first-frame fallback decisions. They are
-static evidence, not UIKit/Metal device verification.
+`BoundaryAudit.sh` enforces raw/include layering, V2 UI isolation, explicit
+source lists and the rule that raw address/ASLR/Mach-O operations stay in
+`Bindings/Platform`. Host-local tests use synthetic Mach-O/memory buffers for
+malformed/ambiguous/mismatch, segment/overflow/permission and exact-match cases;
+they never read arbitrary host-process addresses.
 
-Gate 2 remains a later workflow. Gate 1.5 contains no image reader, live UE
-discovery, hook, `ProcessEvent`, host/client behavior or gameplay mutation.
+The exact 1.10280 profile uses UUID plus stable segment identity and the full
+`__TEXT,__text` SHA-256. `CheckedMemoryReader` can be created only from a unique
+exact-match proof, but Gate 2A runtime intentionally does not create it or start
+any name/object scan. Gate 2B and 2C have not started. There is no hook,
+`ProcessEvent`, native engine call, host/client behavior or gameplay mutation.

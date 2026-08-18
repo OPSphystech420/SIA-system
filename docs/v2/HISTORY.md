@@ -331,3 +331,51 @@ with the exact failed stage if Metal/ImGui cannot present. The diagnostic panel
 must also use a compact Sishen/Dragon-inspired dark cyan/teal layout with a left
 navigation rail and only Status and Logs. This is a correction of the same
 diagnostic workflow, not a new feature gate.
+
+## 2026-08-18 — corrected Gate 1.5 became a bounded functional device PASS
+
+The user executed corrected build `gate1.5-diagnostic-ui-20260818.2`, source
+`8fb09e654466b07b534a3dd16b2618e789d84777`, raw input SHA-256
+`4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`.
+The supplied runtime receipt confirmed button action delivery, hierarchy-verified
+open, Metal drawable/render-pass acquisition, ImGui frame submission and first
+presentation, Close stopping Metal rendering, reopen and bounded log copy.
+
+This became immutable result `V2-G1.5-SIDELOAD-PASS-002`. It device-verifies the
+icon action, visible Metal/ImGui panel, Status, Logs, Copy logs, Close and reopen;
+UIKit fallback did not appear; `hooks`, `engine_calls` and `mutation` remained
+zero. The earlier `.1` opening failure remains immutable.
+
+The result is deliberately bounded. The user did not separately report the
+planned longer menu/map soak or an independent touch check outside the open
+window. No seven-minute or ten-minute PASS is inferred. Gate 1.5 moved to
+`functional-device-pass; extended-soak-pending`, the missing read-only checks
+moved into the next device protocol, and the user explicitly authorized Gate 2.
+
+## 2026-08-18 — Gate 2 split and Gate 2A exact identity boundary started
+
+Gate 2 was split before implementation:
+
+- Gate 2A: Mach-O image identity/profile and checked mapped-memory boundary;
+- Gate 2B: FNamePool, GUObjectArray and reflection discovery;
+- Gate 2C: Engine/GameViewport/World/NetDriver relationships and
+  world-generation invalidation.
+
+Only Gate 2A began. The exact offline ShooterGame and open `110280.i64` agreed
+on whole-file SHA-256 `d98d257…a178` and full `__TEXT,__text` SHA-256
+`8bfc1fd…bcf8`; UUID is `E52A980C-9C36-34C7-84B0-DD6E846328DC`. The selected
+fingerprint excludes load commands and code-signature/linkedit bytes so ASLR,
+dylib load-command insertion and ordinary re-signing do not enter the hash.
+
+SourceV2 added a single low-level `Bindings/Platform` boundary for copied dyld
+catalogs, bounded Mach-O parsing, unique exact profile selection and match-gated
+checked reads. The UI receives only an immutable redacted identity receipt.
+Gate 2A starts no scans and enables no hook, engine call or mutation. Sishen was
+used only as an organizational comparison; its substring image cache, numeric
+address heuristics, globals, offsets, signatures, calls, writes, hooks,
+anti-analysis and gameplay code were rejected.
+
+The production UI compatibility request was recorded as a separate future task:
+inspect the real ProjDragon ARKFont and self-contained DRGui/Sishen layout blocks
+only after ImGui/ownership/license review. The current Gate 1.5 panel remains the
+control and was not refactored in Gate 2A.

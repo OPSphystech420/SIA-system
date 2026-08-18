@@ -35,6 +35,13 @@ fail_if_match \
     --glob '!SourceV2/Tests/**'
 
 fail_if_match \
+    "raw address, ASLR, or Mach-O operations escaped Bindings/Platform" \
+    'uintptr_t|intptr_t|mach_header|mach_vm_|vm_read|LC_SEGMENT|LC_UUID|_dyld_get_image_header|_dyld_get_image_vmaddr_slide|headerAddress|mappedAddress|preferredAddress' \
+    SourceV2 \
+    --glob '!SourceV2/Bindings/Platform/**' \
+    --glob '!SourceV2/Tests/**'
+
+fail_if_match \
     "Core must not include a higher V2 layer" \
     '#include.*SourceV2/(UE|Bindings|Bootstrap|Runtime|Services|UI|Features|Hooks|Tests|Build)/' \
     SourceV2/Core
@@ -104,5 +111,6 @@ rg -Fq 'ImGui::Selectable("Status"' SourceV2/UI/DiagnosticUIBootstrap.mm
 rg -Fq 'ImGui::Selectable("Logs"' SourceV2/UI/DiagnosticUIBootstrap.mm
 
 echo "boundary audit: PASS (regex raw-access rules and include-layer dependencies)"
-echo "permitted low-level raw-access inventory:"
-rg -n 'reinterpret_cast|\.data\(\) *\+' SourceV2/UE SourceV2/Bindings 2>/dev/null || true
+echo "permitted low-level raw-access inventory (Bindings/Platform only):"
+rg -n 'reinterpret_cast|\.data\(\) *\+|uintptr_t|intptr_t|mach_header|mach_vm_|vm_read|_dyld_get_image_header|_dyld_get_image_vmaddr_slide' \
+    SourceV2/Bindings/Platform 2>/dev/null || true

@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.2
-V2_PACKAGE_VERSION := 0.1.3~gate1.5.20260818.2
+V2_BUILD_ID ?= gate2a-exact-identity-20260818.1
+V2_PACKAGE_VERSION := 0.2.0~gate2a.20260818.1
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
@@ -29,6 +29,12 @@ V2_PRODUCTION_SOURCES := \
     SourceV2/Diagnostics/DiagnosticSnapshot.cpp \
     SourceV2/UI/DiagnosticPresentationModel.cpp \
     SourceV2/UI/PresentationStateMachine.cpp \
+    SourceV2/Bindings/Platform/MachOImageView.cpp \
+    SourceV2/Bindings/Platform/MemorySource.cpp \
+    SourceV2/Bindings/Platform/LoadedImageCatalog.cpp \
+    SourceV2/Bindings/Platform/ImageIdentityResolver.cpp \
+    SourceV2/Bindings/Platform/ExactProfileSelector.cpp \
+    SourceV2/Bindings/Platform/CheckedMemoryReader.cpp \
     SourceV2/Bindings/Validation/ProfileValidator.cpp \
     SourceV2/Bootstrap/InertInitialization.cpp \
     SourceV2/Bootstrap/LegacyRuntimeGuard.cpp
@@ -43,6 +49,7 @@ V2_TEST_SOURCES := \
     SourceV2/Tests/Unit/ProfileInitializationTests.cpp \
     SourceV2/Tests/Unit/LegacyRuntimeGuardTests.cpp \
     SourceV2/Tests/Unit/DiagnosticsTests.cpp \
+    SourceV2/Tests/Unit/PlatformBoundaryTests.cpp \
     SourceV2/Tests/Unit/PresentationStateMachineTests.cpp
 
 V2_SOURCES := $(V2_PRODUCTION_SOURCES) $(V2_TEST_SOURCES)

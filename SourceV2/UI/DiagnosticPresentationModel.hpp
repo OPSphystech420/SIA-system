@@ -26,7 +26,7 @@ public:
     [[nodiscard]] std::string CopyableLogs() const;
 
 private:
-    const diagnostics::DiagnosticSnapshot& snapshot_;
+    diagnostics::LogSnapshot logs_;
     std::vector<DiagnosticStatusRow> statusRows_;
 };
 

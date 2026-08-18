@@ -26,8 +26,10 @@ rewrite a PASS or FAIL into a later conclusion.
 | PLAN-G1-STATIC-001 | 1 | Clean host build; foundation assertions; boundary audit | Deterministic PASS and fail-closed negative cases | executed historically and rechecked by the preparation workflow |
 | PLAN-G1-PACKAGE-001 | 1 | Build from a clean revision; inspect package/control/payload/arm64/signature/strings; emit immutable manifest | Package and dylib hashes recorded; no installation | executed by `V2-G1-PREP-003` |
 | PLAN-G1.5-SIDELOAD-001 | 1.5 | Inject only manifested raw V2 dylib into a clean app; inspect Status/Logs, close/pause behavior and menu/local-world soak | Icon/refusal visibility, exact zero capabilities, bounded logs, touch/render isolation and stability | executed; FAIL `V2-G1.5-SIDELOAD-FAIL-001` |
-| PLAN-G1.5-SIDELOAD-002 | 1.5 | Inject only corrected `.2`; tap once; observe button acknowledgement and styled panel or exact-stage UIKit fallback; if panel opens test Status/Logs, Copy, Close/reopen, then closed rendering and short stability | Visible styled panel, working input/navigation/copy, clean close/reopen, no closed render loop or regression; fallback is evidence but not PASS | ready for device test; not executed |
-| PLAN-G2-READ-001 | 2 | Read-only image identity, profile, name/object/reflection, Engine/World and generation report on Apple Silicon Mac | One exact profile, bounded valid relationships, invalidation, no behavior change | queued after Gate 1.5; no implementation or artifact |
+| PLAN-G1.5-SIDELOAD-002 | 1.5 | Inject corrected `.2`; verify acknowledged action, visible panel, Status/Logs, Copy, Close/reopen and zero capabilities | Functional panel path passes; missing longer soak/touch checks remain explicit | executed by `V2-G1.5-SIDELOAD-PASS-002`; functional-device-pass, extended-soak-pending |
+| PLAN-G2A-SIDELOAD-001 | 2A | Inject the single Gate 2A artifact; verify exact image/profile receipt, zero scans/capabilities, fail-close behavior and rolled-over read-only stability/touches | One exact profile, no address disclosure, no later discovery, panel lifecycle and ordinary menu/local-world stability | pending artifact/device execution |
+| PLAN-G2B-DISCOVERY-001 | 2B | Future FNamePool, GUObjectArray and reflection discovery only through the checked reader | Known names/objects/reflection validate read-only | not started; outside current task |
+| PLAN-G2C-RELATIONSHIPS-001 | 2C | Future Engine/GameViewport/World/NetDriver relationships and world-generation invalidation | Exact relationships and stale-generation refusal | not started; outside current task |
 
 ## Immutable V2 execution rows
 
@@ -40,6 +42,7 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G1.5-BUILD-004 | 2026-08-18 | Git baseline `a8defbc9f37ed17e54f30b88f715a5ea238ff667`, modified task tree; `gate1.5-diagnostic-ui-20260818.1`; host binary SHA-256 `d1ae694709c4c357b76c215b3f8d3448c851560a74e594632aad511be6ebbc02`; raw dylib SHA-256 `780dee2a824b9e37f39a60870e140596be21fa08edbfc6a95e96d063b3f6e48b`; Mach-O/dSYM UUID `A4313EC9-3901-3EFC-BC54-5A910DA4F514`; package SHA-256 `f5e0503e72e9d027e851884743d3279b8603d4f6732b1a605d5efa2744099348` | 96 host-local assertions; logger bounds/redaction/concurrency/snapshot/refusal tests; UI/include/render boundary audit; iOS arm64 UIKit/Metal/ImGui build; package and injectable Legacy/gameplay symbol audits; final package dylib copied byte-identically with matching dSYM; manifest SHA-256 `9dbd094744753448416a40a8d29c121c9337f05d6a887f5350d2ee84d6c9cbc2`; no installation/execution | PASS | compiled/statically validated and ready for `PLAN-G1.5-SIDELOAD-001`; runtime UI/stability unverified; Gate 2 not started | [Gate 1.5 review](evidence/GATE1_5_DIAGNOSTIC_UI_REVIEW.md) |
 | V2-G1.5-SIDELOAD-FAIL-001 | 2026-08-18 | `gate1.5-diagnostic-ui-20260818.1`; raw pre-injection dylib SHA-256 `780dee2a824b9e37f39a60870e140596be21fa08edbfc6a95e96d063b3f6e48b` | User manual execution of `PLAN-G1.5-SIDELOAD-001`; floating V2 icon appeared and was tapped. Device/OS, attempt count, logs and screenshot were not supplied. | FAIL: no visible menu opened | Bootstrap/icon installation observed; visible menu opening contradicted; Metal rendering, touch routing, logs and close/pause behavior unverified; Gate 1.5 failed-under-investigation | [Failure intake](evidence/GATE1_5_SIDELOAD_FAILURE_001.md) |
 | V2-G1.5-FIX-BUILD-005 | 2026-08-18 | clean revision `8fb09e654466b07b534a3dd16b2618e789d84777`, tag `v2-gate1.5-diagnostic-ui-20260818.2-source`; `gate1.5-diagnostic-ui-20260818.2`; host binary SHA-256 `418ec0df03be3175fea571a177ae0fb21f1c37a92432abf7457fc9f833b6326f`; raw dylib SHA-256 `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`; Mach-O/dSYM UUID `4D308F3A-41F6-392C-9C0C-D2384DAFB889`; package SHA-256 `646798a6c880767146d8c32b068a972e39deafb87ecd5c3e0aedabb9602423ee` | 143 host assertions; presentation transition/deadline/fallback/event tests; boundary audit; iOS arm64 UIKit/Metal/ImGui build; package and injection Legacy/gameplay symbol audits; byte-identical package/raw dylib and matching dSYM; immutable manifest SHA-256 `6aea8368b71e74363f9c5e3c4faf95d943c24d744d208dc8d7a9d319f770b9e7`; no installation/execution | PASS | compiled/statically validated and ready for `PLAN-G1.5-SIDELOAD-002`; UIKit/Metal pixels, input, copy, close/reopen and stability remain unverified; Gate 2 not started | [Investigation/correction report](evidence/GATE1_5_UI_FAILURE_INVESTIGATION.md) |
+| V2-G1.5-SIDELOAD-PASS-002 | 2026-08-18 | `gate1.5-diagnostic-ui-20260818.2`; source `8fb09e654466b07b534a3dd16b2618e789d84777`; raw input dylib SHA-256 `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32` | User manual Sideloadly execution. Runtime receipt confirmed button action, open request, verified hierarchy, first frame, Metal drawable/pass, ImGui submission/presentation, stopped Metal on Close, reopen and bounded log copy. | PASS: functional device path | Device-verified icon action, visible Metal/ImGui, Status, Logs, Copy logs, Close/reopen; no UIKit fallback; capabilities remained zero. Longer menu/map soak and independent outside-window touch check were not separately reported and are not claimed; user authorized Gate 2A. | [Gate 1.5 PASS 002](evidence/GATE1_5_SIDELOAD_PASS_002.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -166,4 +169,48 @@ FAIL is a missing icon, no accepted-action visual change, no visible panel, any
 UIKit fallback, wrong/extra controls, broken navigation/copy/close/reopen,
 nonzero capability, raw address/secret, touch capture outside allowed regions,
 continuing closed overlay rendering, crash/exit/hang or visible regression.
-Gate 2 remains unstarted on FAIL or incomplete evidence.
+
+Execution `V2-G1.5-SIDELOAD-PASS-002` satisfied the functional icon/panel/
+Status/Logs/Copy/Close/reopen portion and explicitly did not report the longer
+step 7 soak or independent outside-window touch check. Those checks were not
+inferred; the user authorized Gate 2A and they are carried below.
+
+## PLAN-G2A-SIDELOAD-001 exact protocol
+
+Use only the final raw artifact and manifest under:
+
+```text
+build ID: gate2a-exact-identity-20260818.1
+dylib: /Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate2a-exact-identity-20260818.1/ServerHostV2.dylib
+dSYM: /Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate2a-exact-identity-20260818.1/ServerHostV2.dylib.dSYM
+manifest: /Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate2a-exact-identity-20260818.1/manifest.txt
+```
+
+Procedure:
+
+1. Start from clean ShooterGame 1.10280 with no Legacy/other Server-Host dylib;
+   inject only the manifested raw Gate 2A dylib through Sideloadly.
+2. Open Status and capture the selected image/product `ShooterGame`, `arm64`,
+   UUID `E52A980C-9C36-34C7-84B0-DD6E846328DC`, the five segment sizes, a
+   shortened fingerprint beginning `8bfc1fd248a5`, and `exact-match` profile.
+3. Confirm Status and copied Logs contain no ASLR slide, pointer, RVA or absolute
+   address and show `scans_started=0`, `hooks=0`, `engine_calls=0`, `mutation=0`.
+4. Close and reopen once. While the panel is open, operate one ordinary game
+   control outside its window and confirm the game receives the touch; Close
+   must again stop Metal rendering.
+5. With the panel closed, remain at the normal menu for two minutes, then enter
+   an ordinary local world for five minutes. Do not invoke any V2 runtime
+   capability. Record crash, exit, hang, input/audio/visual or gameplay change.
+6. Wrong-profile negative: use the same single dylib against a known non-1.10280
+   ShooterGame build. It must report mismatch/refusal with no scan or capability;
+   do not substitute a second Gate 2A dylib variant.
+7. Return target and mismatch screenshots, copied bounded logs, exact app build/
+   device/OS details and any Console/crash artifact.
+
+PASS requires exact profile match on the named target; UUID/fingerprint/segments
+visible without addresses; `scans_started=0` and all capability counters zero;
+the wrong build fail-closes; panel open/close/reopen and outside-window touch
+pass-through work; and the two-minute menu plus five-minute local-world checks
+complete without crash or visible game regression.
+
+No Gate 2B name/object scan or Gate 2C relationship is part of this protocol.

@@ -85,7 +85,7 @@ dsym_sha=$(shasum -a 256 "$dsym_dwarf" | awk '{print $1}')
 
 manifest="$stage_dir/manifest.txt"
 {
-    echo 'format=serverhost-v2-injection-manifest-v2'
+    echo 'format=serverhost-v2-injection-manifest-v3'
     echo 'artifact_role=sideloadly-input-before-resigning'
     printf 'build_id=%s\n' "$build_id"
     printf 'git_revision=%s\n' "$source_revision"
@@ -100,6 +100,16 @@ manifest="$stage_dir/manifest.txt"
     printf 'dsym_path=%s/ServerHostV2.dylib.dSYM\n' "$injection_dir"
     printf 'dsym_uuid=%s\n' "$dsym_uuid"
     printf 'dsym_dwarf_sha256=%s\n' "$dsym_sha"
+    echo 'target_profile=ios-shootergame-1.10280-exact-e52a980c'
+    echo 'target_product=ShooterGame'
+    echo 'target_architecture=arm64'
+    echo 'target_lc_uuid=E52A980C-9C36-34C7-84B0-DD6E846328DC'
+    echo 'target_text_section=__TEXT,__text'
+    echo 'target_text_file_offset=0x4000'
+    echo 'target_text_size=0x448B030'
+    echo 'target_text_sha256=8bfc1fd248a5bf2fc589b85de0afccb57fe872789dff1b0e8c0d7b3db591bcf8'
+    echo 'target_stable_prefix_size=0x59DC000'
+    echo 'runtime_capabilities=scans_started=0,hooks=0,engine_calls=0,mutation=0'
     printf 'host_cppflags=%s\n' "$V2_HOST_CPPFLAGS"
     printf 'host_cxxflags=%s\n' "$V2_HOST_CXXFLAGS"
     printf 'host_ldflags=%s\n' "$V2_HOST_LDFLAGS"

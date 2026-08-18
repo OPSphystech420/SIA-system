@@ -1,6 +1,7 @@
 #include "SourceV2/Bindings/Profiles/IOS_1_10280.hpp"
-#include "SourceV2/Bindings/Validation/ProfileValidator.hpp"
-#include "SourceV2/Bootstrap/InertInitialization.hpp"
+#include "SourceV2/Bindings/Platform/ExactProfileSelector.hpp"
+#include "SourceV2/Bindings/Platform/LoadedImageCatalog.hpp"
+#include "SourceV2/Bindings/Platform/MemorySource.hpp"
 #include "SourceV2/Bootstrap/LegacyRuntimeGuard.hpp"
 #include "SourceV2/Diagnostics/DiagnosticSnapshot.hpp"
 #include "SourceV2/Diagnostics/Logger.hpp"
@@ -24,15 +25,6 @@ namespace {
 constexpr const char* kBuildId = SERVERHOST_V2_BUILD_ID;
 constexpr const char* kSourceRevision = SERVERHOST_V2_SOURCE_REVISION;
 
-const char* StateName(InertInitializationState state) noexcept {
-    switch (state) {
-        case InertInitializationState::ProfileValidated: return "profile-validated";
-        case InertInitializationState::MissingIdentityEvidence: return "missing-identity-evidence";
-        case InertInitializationState::UnsupportedBuild: return "unsupported-build";
-    }
-    return "unknown";
-}
-
 __attribute__((constructor)) void V2Entry() {
     diagnostics::Logger& logger = diagnostics::ProcessLogger();
     diagnostics::DiagnosticState diagnosticState{
@@ -41,7 +33,7 @@ __attribute__((constructor)) void V2Entry() {
         .startupState = "diagnostic-bootstrap",
         .profileState = "not-evaluated",
         .legacyGuardState = "not-evaluated",
-        .detail = "Gate 1.5 diagnostics starting; runtime capabilities remain inert",
+        .detail = "Gate 2A exact image identity starting; later discovery remains disabled",
     };
     logger.Add(
         diagnostics::LogSeverity::Info,
@@ -61,7 +53,7 @@ __attribute__((constructor)) void V2Entry() {
             diagnostics::LogSeverity::Error,
             diagnostics::LogCategory::LegacyGuard,
             std::string("runtime capabilities refused reason=") + reason
-                + " hooks=0 engine_calls=0 mutation=0");
+                + " scans_started=0 hooks=0 engine_calls=0 mutation=0");
         diagnostics::ProcessSnapshotPublisher().Publish(std::move(diagnosticState));
         ui::RequestDiagnosticUIBootstrap();
         return;
@@ -72,36 +64,61 @@ __attribute__((constructor)) void V2Entry() {
         diagnostics::LogCategory::LegacyGuard,
         "Legacy runtime guard clear");
 
-    const BuildIdentity identityCandidate{
-        .platform = Platform::IOS,
-        .product = "ShooterGame",
-        .version = "1.10280",
-        .imageUuid = std::nullopt,
-        .textFingerprint = std::nullopt,
-        .imageSize = 0,
-    };
     const std::array<bindings::BuildProfile, 1> profiles{
         bindings::profiles::kIOS_1_10280,
     };
-    const bindings::StrictRuntimeProfileValidator validator;
-    const InertInitializationReport report = InitializeInert(identityCandidate, profiles, validator);
+    const std::shared_ptr<const bindings::platform::IMemorySource> memory =
+        bindings::platform::MakeProcessMemorySource();
+    const auto catalog = bindings::platform::LoadedImageCatalog::CaptureRuntime(*memory);
+    bindings::platform::ExactProfileSelection selection;
+    if (catalog) {
+        const bindings::platform::ExactProfileSelector selector;
+        selection = selector.Select(catalog.Value(), profiles, *memory);
+    } else {
+        selection.state = bindings::platform::ProfileMatchState::InspectionFailed;
+        selection.receipt.profileMatchState =
+            bindings::platform::ProfileMatchStateName(selection.state);
+        selection.receipt.reason = catalog.Error().context;
+    }
 
-    diagnosticState.startupState = "runtime-inert-diagnostics-available";
-    diagnosticState.profileState = StateName(report.state);
-    if (!report.profileId.empty())
-        diagnosticState.profileState += std::string(":") + report.profileId;
-    diagnosticState.detail = report.detail;
+    const bindings::platform::IdentityReceipt& receipt = selection.receipt;
+    diagnosticState.startupState = selection.state
+            == bindings::platform::ProfileMatchState::ExactMatch
+        ? "gate2a-read-only-identity-available"
+        : "runtime-refused-diagnostics-available";
+    diagnosticState.profileState = receipt.profileMatchState;
+    if (!receipt.profileId.empty())
+        diagnosticState.profileState += std::string(":") + receipt.profileId;
+    diagnosticState.selectedImage = receipt.selectedImage;
+    diagnosticState.product = receipt.product;
+    diagnosticState.architecture = receipt.architecture;
+    diagnosticState.imageUuid = receipt.uuid;
+    diagnosticState.segmentSizes = receipt.segmentSizes;
+    diagnosticState.textFingerprint = receipt.shortenedTextFingerprint;
+    diagnosticState.identityReason = receipt.reason;
+    diagnosticState.detail = selection.state == bindings::platform::ProfileMatchState::ExactMatch
+        ? "Unique exact profile matched; name/object discovery was not started"
+        : "Identity mismatch or ambiguity refused all later discovery";
 
-    const diagnostics::LogSeverity severity =
-        report.state == InertInitializationState::ProfileValidated
+    const diagnostics::LogSeverity severity = selection.state
+            == bindings::platform::ProfileMatchState::ExactMatch
         ? diagnostics::LogSeverity::Info
-        : diagnostics::LogSeverity::Warning;
+        : diagnostics::LogSeverity::Error;
     logger.Add(
         severity,
         diagnostics::LogCategory::Profile,
-        std::string("state=") + StateName(report.state)
-            + " profile=" + (report.profileId.empty() ? "none" : report.profileId)
-            + " hooks=0 engine_calls=0 mutation=0 detail=" + report.detail);
+        std::string("identity_state=") + receipt.profileMatchState
+            + " scans_started=0 hooks=0 engine_calls=0 mutation=0"
+            + " image=" + (receipt.selectedImage.empty() ? "none" : receipt.selectedImage)
+            + " product=" + (receipt.product.empty() ? "none" : receipt.product)
+            + " architecture=" + (receipt.architecture.empty() ? "unknown" : receipt.architecture)
+            + " uuid=" + (receipt.uuid.empty() ? "missing" : receipt.uuid)
+            + " segments=" + (receipt.segmentSizes.empty() ? "missing" : receipt.segmentSizes)
+            + " text_fingerprint="
+            + (receipt.shortenedTextFingerprint.empty()
+                   ? "missing" : receipt.shortenedTextFingerprint)
+            + " profile=" + (receipt.profileId.empty() ? "none" : receipt.profileId)
+            + " reason=" + receipt.reason);
     diagnostics::ProcessSnapshotPublisher().Publish(std::move(diagnosticState));
     ui::RequestDiagnosticUIBootstrap();
 }

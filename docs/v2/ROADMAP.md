@@ -11,18 +11,20 @@ Current summary:
 Legacy failure workflows are preserved under `archive/legacy/` and are not an
 active interruption. Gate 1 foundation hardening is complete. The explicitly
 inserted Gate 1.5 diagnostic UI/raw-injection workflow is
-`failed-under-investigation`: exact build `.1` installed its icon but did not
-open a visible panel. Corrected build `.2` is statically validated and awaiting
-`PLAN-G1.5-SIDELOAD-002`; it has no device PASS. Gate 2 read-only discovery has
-not started. This does not authorize Gate 2 early, Gate 3 dispatch, Gate 4 hooks
-or any later behavior.
+`functional-device-pass; extended-soak-pending`: exact `.1` remains a preserved
+opening failure and corrected `.2` passed the bounded functional panel path.
+The user authorized Gate 2, which is split into 2A/2B/2C. Only Gate 2A exact
+identity/memory-boundary work is active. This does not authorize Gate 2B/2C,
+Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
-| 1.5 — diagnostic UI and Sideloadly artifact | failed-under-investigation; corrected `.2` ready for `PLAN-G1.5-SIDELOAD-002` | `.1` icon/bootstrap reached the device and opening was contradicted; `.2` has static/build evidence only |
-| 2 — read-only discovery | next implementation workflow after Gate 1.5 device intake; not begun | unverified/not started |
+| 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
+| 2A — exact image identity/memory boundary | active; source/static complete, artifact/device pending | exact offline+IDA profile and synthetic fail-closed boundary; no runtime match claim |
+| 2B — name/object/reflection discovery | not started | unverified/not started |
+| 2C — Engine/world relationships/invalidation | not started | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -135,13 +137,10 @@ User device test: none. This is deliberately a static gate.
 
 ## Gate 1.5 — diagnostic UI and raw Sideloadly handoff
 
-State: `failed-under-investigation` on 2026-08-18. Exact artifact
-`gate1.5-diagnostic-ui-20260818.1` installed its floating icon, but one reported
-tap/open attempt produced no visible panel under `PLAN-G1.5-SIDELOAD-001`.
-Hardware, OS, reproducibility, logs and screenshots were not supplied.
-Corrected artifact `gate1.5-diagnostic-ui-20260818.2` passed host/static/iOS and
-artifact inspections from clean revision
-`8fb09e654466b07b534a3dd16b2618e789d84777`; it remains awaiting device input.
+State: `functional-device-pass; extended-soak-pending` on 2026-08-18.
+Immutable `.1` opening failure remains preserved. Corrected artifact
+`gate1.5-diagnostic-ui-20260818.2` became device result
+`V2-G1.5-SIDELOAD-PASS-002`.
 
 Goal: make Gate 1 refusal reasons visible in the user's real raw-dylib test path
 without beginning Gate 2 or coupling UI rendering to runtime work.
@@ -175,49 +174,100 @@ Exit:
 - no crash or visible behavior regression during the exact device protocol;
 - user supplies screenshots and outcome for the exact artifact.
 
+Observed exit evidence: icon action, visible Metal/ImGui, Status, Logs, Copy
+logs, Close and reopen passed; UIKit fallback did not appear; capabilities
+remained zero. The user did not separately report the longer menu/map soak or
+independent outside-window touch pass-through, so those are not claimed and are
+carried into Gate 2A. The user explicitly authorized progression.
+
 Forbidden: loaded-image/name/object/Engine discovery, UE/Bindings/UI coupling,
 hooks, scheduler, resolver, engine calls, mutation, Host/Client/admin controls,
 Legacy source or `HostingRuntime`.
 
-## Gate 2 — read-only build, name, object and Engine discovery
+## Gate 2A — exact image identity and checked-memory boundary
 
-Goal: validate the typed core against the loaded 1.10280 game without hooks or
-gameplay mutation.
+State: active. Source/static implementation complete; clean artifact and device
+receipt pending.
+
+Goal: prove that the dylib selected exactly the profiled ShooterGame image and
+create the sole safe read-only mechanism available to Gate 2B.
 
 Entry:
 
-- Gate 1 tests and the Gate 1.5 diagnostic UI device gate pass;
-- iOS 1.10280 profile identity and read-only resolver cards are reviewed;
-- diagnostics artifact format and redaction are defined.
+- Gate 1 static contracts pass;
+- Gate 1.5 functional UI path is device-verified and user authorized Gate 2;
+- exact decrypted ShooterGame and `110280.i64` are available.
 
 Work:
 
-- **IDA:** finish ABI-001, ABI-005 through ABI-010 resolution/validation cards;
-- **Build:** add Mach-O image/memory, read-only resolver, FNamePool,
-  GUObjectArray, ReflectionRegistry and Engine/World/NetDriver typed views;
-- **Build:** produce a bounded ContractReport/Snapshot only; no writes/calls;
-- **Device:** observe launch, main menu, map load and return-to-menu if naturally
-  available.
+- **Static/IDA:** establish UUID, architecture, role, segment card, stable
+  pre-linkedit span and full `__TEXT,__text` fingerprint for exact 1.10280;
+- **Build:** add copied loaded-image catalog, bounded Mach-O view, identity
+  resolver, unique exact-profile selector and checked reader only under
+  `Bindings/Platform`;
+- **Diagnostics:** publish only immutable redacted identity receipt and exact
+  `scans_started=0`, `hooks=0`, `engine_calls=0`, `mutation=0`;
+- **Device:** verify exact match, wrong-profile fail-close, panel lifecycle and
+  the rolled-over two-minute menu/five-minute local-world/touch checks.
 
 Exit:
 
-- loaded UUID/fingerprint matches exactly one profile;
-- known FNames round-trip; Engine, GameViewport and World pass full-name/class
-  checks; arrays and object serials pass bounds/range validation;
-- a world change increments generation and makes old fake/live handles fail;
-- an unsupported profile performs no scans beyond identity and exposes no
-  callable binding;
-- 10-minute menu/map read-only run produces no crash, unbounded log or behavior
-  difference from the unmodified control.
+- exact product/main role, architecture, UUID, stable segments and fingerprint
+  match exactly one loaded image/profile pair;
+- malformed, mismatched or ambiguous images expose no match proof and start no
+  later discovery;
+- checked reads reject overflow, outside/cross-segment and wrong-permission
+  access and never return a borrowed pointer;
+- diagnostics contain no slide, pointer, RVA or absolute address;
+- target and wrong-profile device receipts plus rolled-over stability/touch
+  checks pass without crash or ordinary-game regression.
 
 Required user device test and artifacts:
 
-1. inject the exact Gate 2 raw V2 dylib through Sideloadly on the Apple Silicon
-   Mac iOS environment;
-2. capture dylib/build hash, loaded-image UUID, ContractReport and bounded log;
-3. enter/leave the same map once if the normal game permits it;
-4. capture before/after screenshots and generation/object summaries;
-5. report any crash with symbolicated log and breadcrumbs.
+Use `PLAN-G2A-SIDELOAD-001` exactly. No name/object scan, Engine relationship,
+hook, call or mutation is an exit requirement.
+
+Forbidden: FNamePool/GUObjectArray scanning, GEngine/GWorld discovery, hooks,
+ProcessEvent, native/UObject calls, scheduler, Host/Client/admin UI, NetMode
+policy, writes, Legacy linking or continuous rendering after Close.
+
+## Gate 2B — FNamePool, GUObjectArray and reflection discovery
+
+State: not started; explicitly outside the Gate 2A workflow.
+
+Entry: Gate 2A device protocol passes and its exact match proof/checked reader
+remain unchanged.
+
+Goal: discover and validate FNamePool, GUObjectArray and the minimum reflection
+metadata using only `CheckedMemoryReader` and immutable bounded snapshots.
+
+Work/exit: resolve ABI-005 through ABI-008 in `110280.i64`; validate bounded
+known-name round trips, object index/serial/class/full-name relationships and
+required function/property metadata; unsupported/stale inputs fail closed. No
+Engine/World relationship, call, hook or mutation is part of 2B.
+
+## Gate 2C — Engine/world relationships and generation invalidation
+
+State: not started; explicitly outside the Gate 2A workflow.
+
+Entry: Gate 2B read-only discovery passes.
+
+Goal: validate Engine, GameViewport, World and NetDriver relationships and prove
+world-generation invalidation without calls or writes.
+
+Work/exit: resolve ABI-009/010; check exact classes/full names/ownership across
+menu and local-world transitions; increment generation and reject stale handles
+on world change; publish only bounded immutable summaries. Hooks, calls and
+mutation remain forbidden.
+
+## Deferred production UI compatibility workflow
+
+The current Gate 1.5 panel remains the control. A separate selected workflow
+must port the real compatible ProjDragon `ARKFont` initialization and suitable
+self-contained `DRGui`/Sishen layout patterns after Dear ImGui API, font
+ownership and licensing/provenance review. Login/UDID/API/crypto/security,
+remote downloads, hide-record, gameplay features and old offsets are excluded.
+See `UI_DESIGN_DEBT.md`.
 
 ## Gate 3 — dispatcher and world lifecycle
 
@@ -226,7 +276,7 @@ network or behavior-changing hooks.
 
 Entry:
 
-- Gate 2 read-only contracts pass;
+- Gate 2C read-only contracts pass;
 - current FIOSAsyncTask resolution/callback ownership card is reviewed.
 
 Work:
@@ -505,14 +555,11 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Re-test **Gate 1.5 only** with corrected build `.2`, preserving failed build
-`.1` and its source/artifact identity. The icon must visibly acknowledge an
-accepted action and either show the styled panel or a UIKit failed-stage
-fallback; fallback is diagnostic evidence, not PASS. No implementation
-expansion is authorized while this exact UI failure remains unresolved.
+Finish and device-test **Gate 2A only** with one raw artifact. The exact target
+must match; a wrong build must fail close; the receipt must expose no addresses
+and retain zero scans/capabilities. Complete the rolled-over panel lifecycle,
+outside-window touch and short menu/local-world stability checks.
 
-After Gate 1.5 passes, the next implementation workflow is **Gate 2 only:
-read-only build, name, object and Engine discovery**. It must complete ABI-001
-and ABI-005 through ABI-010, add checked iOS image/memory readers and emit a
-bounded contract report. It still may not install hooks, invoke `ProcessEvent`
-or native calls, host, connect, save, administer or mutate Engine/game state.
+Do not start Gate 2B or 2C in the same workflow. Hooks, `ProcessEvent`, native
+calls, hosting, client travel, save, administration and mutation remain
+forbidden.

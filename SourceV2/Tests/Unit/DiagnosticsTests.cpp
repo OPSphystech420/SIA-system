@@ -85,15 +85,26 @@ void RunDiagnosticsTests(TestContext& context) {
         .startupState = "runtime-refused-diagnostics-available",
         .profileState = "not-evaluated",
         .legacyGuardState = "legacy-runtime-loaded",
+        .selectedImage = "ShooterGame pointer=0x1234567890",
+        .product = "ShooterGame",
+        .architecture = "arm64",
+        .imageUuid = "E52A980C-9C36-34C7-84B0-DD6E846328DC",
+        .segmentSizes = "__TEXT vm=81379328B pointer=0x22222222",
+        .textFingerprint = "8bfc1fd248a5...",
+        .identityReason = "token=identity-secret mismatch",
         .detail = "refusal pointer=0x11111111 token=private-token",
     });
     const std::shared_ptr<const diagnostics::DiagnosticSnapshot> snapshot = publisher.Capture();
     V2_EXPECT(context, snapshot->hooks == 0);
     V2_EXPECT(context, snapshot->engineCalls == 0);
     V2_EXPECT(context, snapshot->mutation == 0);
+    V2_EXPECT(context, snapshot->scansStarted == 0);
     V2_EXPECT(context, snapshot->logs.entries.size() == 1);
     V2_EXPECT(context, snapshot->detail.find("11111111") == std::string::npos);
     V2_EXPECT(context, snapshot->detail.find("private-token") == std::string::npos);
+    V2_EXPECT(context, snapshot->selectedImage.find("1234567890") == std::string::npos);
+    V2_EXPECT(context, snapshot->segmentSizes.find("22222222") == std::string::npos);
+    V2_EXPECT(context, snapshot->identityReason.find("identity-secret") == std::string::npos);
 
     const ui::DiagnosticPresentationModel refusedModel(*snapshot);
     const auto tabs = refusedModel.Tabs();
@@ -102,7 +113,21 @@ void RunDiagnosticsTests(TestContext& context) {
     V2_EXPECT(context, tabs[0] == "Status" && tabs[1] == "Logs");
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "runtime-refused"));
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "legacy-runtime-loaded"));
+    V2_EXPECT(context, ContainsStatusValue(refusedModel, "E52A980C-9C36"));
+    V2_EXPECT(context, ContainsStatusValue(refusedModel, "8bfc1fd248a5"));
     V2_EXPECT(context, refusedModel.CopyableLogs().find("do-not-copy") == std::string::npos);
+
+    snapshotLogger.Add(LogSeverity::Info, LogCategory::Profile, "later snapshot mutation");
+    publisher.Publish({
+        .buildId = "changed-build",
+        .sourceRevision = "changed-revision",
+        .startupState = "changed-state",
+        .profileState = "changed-profile",
+        .legacyGuardState = "changed-guard",
+        .detail = "changed-detail",
+    });
+    V2_EXPECT(context, snapshot->buildId == "gate1.5-test");
+    V2_EXPECT(context, snapshot->logs.entries.size() == 1);
 
     publisher.Publish({
         .buildId = "gate1.5-test",

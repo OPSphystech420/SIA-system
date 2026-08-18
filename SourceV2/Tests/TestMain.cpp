@@ -11,6 +11,7 @@ void RunReflectionTests(TestContext&);
 void RunProfileInitializationTests(TestContext&);
 void RunLegacyRuntimeGuardTests(TestContext&);
 void RunDiagnosticsTests(TestContext&);
+void RunPlatformBoundaryTests(TestContext&);
 void RunPresentationStateMachineTests(TestContext&);
 }  // namespace serverhost::v2::tests
 
@@ -32,6 +33,8 @@ int main() {
     serverhost::v2::tests::RunLegacyRuntimeGuardTests(context);
     std::cout << "[v2] diagnostics and refusal presentation\n" << std::flush;
     serverhost::v2::tests::RunDiagnosticsTests(context);
+    std::cout << "[v2] Gate 2A image identity and checked memory\n" << std::flush;
+    serverhost::v2::tests::RunPlatformBoundaryTests(context);
     std::cout << "[v2] presentation state machine\n" << std::flush;
     serverhost::v2::tests::RunPresentationStateMachineTests(context);
 

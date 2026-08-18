@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace serverhost::v2::bindings {
 
@@ -14,9 +15,14 @@ struct BuildProfile final {
     Platform platform{Platform::HostTest};
     std::string product;
     std::string version;
+    ImageArchitecture expectedArchitecture{ImageArchitecture::Unknown};
+    ImageRole expectedRole{ImageRole::Unknown};
     std::optional<std::array<std::uint8_t, 16>> expectedImageUuid;
     std::optional<std::string> expectedTextFingerprint;
-    std::size_t expectedImageSize{};
+    std::string expectedTextFingerprintRange;
+    std::uint64_t expectedTextFingerprintSize{};
+    std::vector<ImageSegmentIdentity> expectedSegments;
+    std::size_t expectedStableImagePrefixSize{};
     bool identityEvidenceComplete{};
 };
 

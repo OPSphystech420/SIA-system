@@ -16,9 +16,14 @@ void RunProfileInitializationTests(TestContext& context) {
         .platform = Platform::IOS,
         .product = "ShooterGame",
         .version = "1.10280",
+        .architecture = ImageArchitecture::Arm64,
+        .role = ImageRole::MainExecutable,
         .imageUuid = std::nullopt,
         .textFingerprint = std::nullopt,
-        .imageSize = 0,
+        .textFingerprintRange = "",
+        .textFingerprintSize = 0,
+        .segments = {},
+        .stableImagePrefixSize = 0,
     };
     const std::array<BuildProfile, 1> pendingProfiles{profiles::kIOS_1_10280};
     auto pending = bootstrap::InitializeInert(currentCandidate, pendingProfiles, validator);
@@ -32,18 +37,32 @@ void RunProfileInitializationTests(TestContext& context) {
         .platform = Platform::HostTest,
         .product = "SyntheticShooterGame",
         .version = "test-1",
+        .expectedArchitecture = ImageArchitecture::Arm64,
+        .expectedRole = ImageRole::MainExecutable,
         .expectedImageUuid = uuid,
         .expectedTextFingerprint = "abc123",
-        .expectedImageSize = 4096,
+        .expectedTextFingerprintRange = "__TEXT,__text",
+        .expectedTextFingerprintSize = 128,
+        .expectedSegments = {
+            {"__TEXT", 4096, 4096, ImagePermissionRead | ImagePermissionExecute},
+        },
+        .expectedStableImagePrefixSize = 4096,
         .identityEvidenceComplete = true,
     };
     BuildIdentity matching{
         .platform = Platform::HostTest,
         .product = "SyntheticShooterGame",
         .version = "test-1",
+        .architecture = ImageArchitecture::Arm64,
+        .role = ImageRole::MainExecutable,
         .imageUuid = uuid,
         .textFingerprint = "abc123",
-        .imageSize = 4096,
+        .textFingerprintRange = "__TEXT,__text",
+        .textFingerprintSize = 128,
+        .segments = {
+            {"__TEXT", 4096, 4096, ImagePermissionRead | ImagePermissionExecute},
+        },
+        .stableImagePrefixSize = 4096,
     };
     const std::array<BuildProfile, 1> supportedProfiles{synthetic};
     auto supported = bootstrap::InitializeInert(matching, supportedProfiles, validator);
@@ -51,7 +70,7 @@ void RunProfileInitializationTests(TestContext& context) {
     V2_EXPECT(context, supported.profileId == "host-test-complete");
     V2_EXPECT(context, !supported.hooksInstalled && !supported.engineCallsEnabled && !supported.mutationEnabled);
 
-    matching.imageSize = 4097;
+    matching.stableImagePrefixSize = 4097;
     auto rejected = bootstrap::InitializeInert(matching, supportedProfiles, validator);
     V2_EXPECT(context, rejected.state == bootstrap::InertInitializationState::UnsupportedBuild);
 }

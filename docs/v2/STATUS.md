@@ -5,137 +5,121 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: V2 Gate 1.5 diagnostic UI and Sideloadly injection artifact
-workflow state: failed-under-investigation
-next action: execute PLAN-G1.5-SIDELOAD-002 against the corrected immutable artifact
-Gate 2 state: not started
-device state: .1 opening failed; corrected .2 is ready for device test and is not device-verified
-Legacy state: archived evidence only; it cannot block V2 without an explicit Legacy investigation request
+active workflow: Gate 2A — exact image identity and checked-memory boundary
+Gate 1.5: functional-device-pass; extended-soak-pending
+Gate 2A: source implemented; clean artifact handoff pending
+Gate 2B: not started
+Gate 2C: not started
+capabilities: scans_started=0 hooks=0 engine_calls=0 mutation=0
+Legacy: archived evidence only; not built, linked, or modified
 ```
 
-## Failure intake `V2-G1.5-SIDELOAD-FAIL-001`
+The user explicitly authorized progression from Gate 1.5 to Gate 2. Gate 2 is
+now split into 2A/2B/2C, and only 2A is active. No FNamePool, GUObjectArray,
+reflection, Engine, World or NetDriver discovery exists in this workflow.
 
-Exact pre-injection identity:
+## Immutable Gate 1.5 result
+
+Result ID: `V2-G1.5-SIDELOAD-PASS-002`
 
 ```text
-protocol: PLAN-G1.5-SIDELOAD-001
-build ID: gate1.5-diagnostic-ui-20260818.1
-dylib SHA-256: 780dee2a824b9e37f39a60870e140596be21fa08edbfc6a95e96d063b3f6e48b
-observed: floating V2 icon appears; tapping it opens no visible menu
-expected: visible Status/Logs diagnostic panel
+Build ID: gate1.5-diagnostic-ui-20260818.2
+Source revision: 8fb09e654466b07b534a3dd16b2618e789d84777
+Input dylib SHA-256: 4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32
 ```
 
-Established facts are deliberately separate:
+The user device-verified the icon action, visible Metal/ImGui frame, Status,
+Logs, Copy logs, Close and reopen. Runtime logs confirmed button dispatch,
+hierarchy attachment, first-frame entry, drawable/render-pass acquisition,
+ImGui submission/presentation, stopped Metal rendering on Close, reopen and log
+copy. UIKit fallback did not appear. Capabilities remained `hooks=0`,
+`engine_calls=0`, `mutation=0`.
 
-- dylib startup/UI bootstrap is live enough to install the icon;
-- visible menu opening is contradicted;
-- Metal rendering, touch routing, Logs/Copy logs, Close and closed-view pause are
-  not validated by this result.
+This result does not claim the earlier seven-minute or ten-minute soak protocol.
+The user did not separately report a longer menu/map soak or an independent
+touch pass-through check outside the open panel. Those read-only checks are now
+part of the Gate 2A device protocol. The two supplied temporary screenshot paths
+had already disappeared when preservation was attempted.
 
-No device model, OS/runtime, reproducibility count, console log or screenshot
-was supplied. The failed dylib, manifest, dSYM and archive package remain
-preserved at the paths and hashes below. Its exact source state is commit
-`97a3cbd3a2c3a19f46a633db72d540837ea8d30c`, tagged
-`v2-gate1.5-sideload-fail-001`.
+The prior immutable `.1` result remains `V2-G1.5-SIDELOAD-FAIL-001`: its icon
+appeared, but no visible panel opened. The later `.2` PASS does not rewrite that
+failure.
 
-Gate 1.5 keeps every UE/runtime capability fail-closed while making the refusal
-visible. The scene-safe UIKit button is requested on the main thread from
-application/scene/window lifecycle events. Missing windows receive at most 20
-quarter-second retries per lifecycle opportunity. Missing identity,
-unsupported profile and Legacy guard refusal still present the icon.
+Full report: [Gate 1.5 PASS 002](evidence/GATE1_5_SIDELOAD_PASS_002.md).
 
-The open transparent Metal/ImGui panel renders only an immutable diagnostic
-snapshot and contains exactly `Status`, `Logs`, `Copy logs` and `Close`. The
-closed `MTKView` is paused with set-needs-display mode, so it has no continuous
-30 FPS draw loop. Touches outside the floating button and open ImGui window pass
-through. No UI file includes UE, Bindings, Hooks, Runtime, Legacy source or
-`HostingRuntime`.
+## Gate 2A exact offline target
 
-## Corrected static and artifact result
+```text
+ShooterGame path: /Users/grimreaper31/Desktop/Dev/MHGA/Extra_For_Host/com.studiowildcard.arkuse-1.10280-Decrypted/Payload/ShooterGame.app/ShooterGame
+IDA database: /Users/grimreaper31/Desktop/Dev/MHGA/Extra_For_Host/110280.i64
+product / executable: ShooterGame
+bundle: com.studiowildcard.arkuse
+version: 1.10280 (bundle build 1.10288)
+architecture / role: arm64 / MH_EXECUTE
+LC_UUID: E52A980C-9C36-34C7-84B0-DD6E846328DC
+whole-file SHA-256: d98d25778e893413ebd6c4da9156e1b74efe2b203bc488393795c3db6c83a178
+stable pre-__LINKEDIT prefix: 94224384 bytes
+__TEXT,__text: file offset 0x4000, size 0x448B030 / 71872560 bytes
+__TEXT,__text SHA-256: 8bfc1fd248a5bf2fc589b85de0afccb57fe872789dff1b0e8c0d7b3db591bcf8
+```
 
-- 143 host-local assertions passed, including logger bounds/redaction,
-  immutable snapshot/refusal presentation and the bounded presentation state
-  machine/timeout/fallback transitions.
-- `BoundaryAudit.sh` passed UI include/source isolation and render/runtime
-  exclusions.
-- iOS arm64 compiled with local ImGui core/Metal backend and declared Apple
-  frameworks UIKit, Foundation, QuartzCore, Metal and MetalKit.
-- Package and raw injection audits passed; the injection dylib contains no named
-  Legacy/gameplay strings or exported symbols.
-- Dylib and dSYM UUIDs match.
-- The corrected source revalidates/reattaches/reorders overlay then button,
-  separates taps from drags, explicitly drives the first frame, records bounded
-  frame stages, and shows a UIKit failed-stage fallback.
-- Strongest claim for `.2`: compiled/statically validated and ready for device
-  test. No UIKit/Metal/device success is claimed.
+IDA MCP was connected to the required database. Its stored input SHA-256 and
+its hash of the full `__text` bytes match the offline target. The fingerprint
+does not include load commands, `__LINKEDIT`, the code signature, ASLR values or
+mutable data, so ordinary dylib insertion/re-signing does not change its input.
 
-Build ID: `gate1.5-diagnostic-ui-20260818.2`
+Original segment card:
 
-Clean source revision: `8fb09e654466b07b534a3dd16b2618e789d84777`
+| Segment | VM size | File size | Initial permission |
+|---|---:|---:|---|
+| `__PAGEZERO` | `0x100000000` | `0` | none |
+| `__TEXT` | `0x4D9C000` | `0x4D9C000` | read/execute |
+| `__DATA_CONST` | `0xAA0000` | `0xAA0000` | read/write |
+| `__DATA` | `0x580000` | `0x1A0000` | read/write |
+| `__LINKEDIT` | `0x3DC000` | `0x3D8020` | read |
 
-Source tag: `v2-gate1.5-diagnostic-ui-20260818.2-source`
+The selector requires the exact segment set, permissions and all stable
+non-`__LINKEDIT` sizes. `__LINKEDIT` sizes and whole-file size are recorded but
+excluded from equality because re-signing can rewrite the signature payload.
 
-- Canonical injectable dylib:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/ServerHostV2.dylib`
-- Dylib SHA-256:
-  `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`
-- Mach-O/dSYM UUID:
-  `4D308F3A-41F6-392C-9C0C-D2384DAFB889`
-- Matching dSYM:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/ServerHostV2.dylib.dSYM`
-- Injection manifest:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/manifest.txt`
-- Manifest SHA-256:
-  `6aea8368b71e74363f9c5e3c4faf95d943c24d744d208dc8d7a9d319f770b9e7`
-- Archival `.deb`:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/com.mhga.serverhost.v2_0.1.3~gate1.5.20260818.2_iphoneos-arm.deb`
-- Package SHA-256:
-  `646798a6c880767146d8c32b068a972e39deafb87ecd5c3e0aedabb9602423ee`
+## Gate 2A implementation state
 
-The raw dylib is byte-identical to the inspected package payload. The manifest
-identifies the clean input bytes before any Sideloadly re-signing. Codex built
-and inspected the `.deb` but did not install it.
+All low-level operations are isolated to `SourceV2/Bindings/Platform`:
 
-## Preserved failed artifact `.1`
+- `LoadedImageCatalog`;
+- `MachOImageView` and `MappedSegment`;
+- `ImageIdentityResolver`;
+- `ExactProfileSelector`;
+- `CheckedMemoryReader` and its injected memory source.
 
-Strongest runtime claim for `.1`: bootstrap/icon installed; visible panel
-opening is **contradicted**. Its earlier compile/static claims remain valid.
+Selection requires exact basename/product, dyld main-executable status,
+`MH_EXECUTE`, architecture, UUID, stable segment card, stable pre-linkedit span,
+full `__text` fingerprint and exactly one matching image/profile pair. Mismatch,
+ambiguity and malformed input fail closed before later discovery.
 
-Build ID: `gate1.5-diagnostic-ui-20260818.1`
+`CheckedMemoryReader` is the only Gate 2B-facing read mechanism. It requires the
+selector's private unique-match proof, rejects `address + size` overflow,
+outside/cross-segment reads and wrong permission class, and returns owned typed
+results. Gate 2A runtime does not instantiate it and starts no scan.
 
-Git baseline revision: `a8defbc9f37ed17e54f30b88f715a5ea238ff667`
+Status/Logs receive only an immutable redacted receipt: selected image/product,
+architecture, UUID, decimal segment sizes, shortened fingerprint, match state,
+reason and exact zero counters. ASLR slide, pointers and absolute addresses are
+never published.
 
-Build source-tree state: `modified` (the task's uncommitted implementation;
-artifact bytes are fixed by SHA-256/UUID).
+Detailed evidence: [Gate 2A exact identity](evidence/GATE2A_EXACT_IMAGE_IDENTITY.md).
 
-- Canonical injectable dylib:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.1/ServerHostV2.dylib`
-- Dylib SHA-256:
-  `780dee2a824b9e37f39a60870e140596be21fa08edbfc6a95e96d063b3f6e48b`
-- Mach-O UUID:
-  `A4313EC9-3901-3EFC-BC54-5A910DA4F514`
-- Matching dSYM:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.1/ServerHostV2.dylib.dSYM`
-- Injection manifest:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.1/manifest.txt`
-- Manifest SHA-256:
-  `9dbd094744753448416a40a8d29c121c9337f05d6a887f5350d2ee84d6c9cbc2`
-- Archival `.deb`:
-  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/com.mhga.serverhost.v2_0.1.2~gate1.5.20260818.1_iphoneos-arm.deb`
-- Package SHA-256:
-  `f5e0503e72e9d027e851884743d3279b8603d4f6732b1a605d5efa2744099348`
+## Deferred production UI debt
 
-The failed raw dylib is byte-identical to the final dylib extracted from the `.deb`.
-Sideloadly may re-sign it; the manifest identifies the input before injection.
-Codex built and inspected the `.deb` but did not install it.
+The working Gate 1.5 panel remains the control. A separate future UI workflow
+must inspect and compatibly transfer the real ProjDragon `ARKFont`, appropriate
+self-contained `DRGui` blocks and useful Sishen style/layout patterns only after
+ImGui API, font ownership and license/provenance review. Login, UDID, API,
+crypto/security, remote downloads, hide-record, gameplay code and old offsets
+are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
-## Exact next action and exclusions
+## Exact next action
 
-Execute `PLAN-G1.5-SIDELOAD-002` with only corrected build `.2`. A visible UIKit
-fallback is useful failed-stage evidence but is not PASS. Gate 1.5 remains
-`failed-under-investigation` until the styled panel, touch/navigation/copy,
-close/reopen and closed-render behavior pass on the user's device.
-
-No loaded-image/FNamePool/GUObjectArray/Engine/World discovery, hook,
-`ProcessEvent`, native engine call, host/client flow, scheduler, resolver or
-mutation exists in this artifact. Gate 2 remains explicitly unstarted.
+Finish the clean Gate 2A source commit/tag, build one raw Sideloadly dylib with
+matching dSYM/manifest and archival `.deb`, then execute
+`PLAN-G2A-SIDELOAD-001`. Do not start Gate 2B in this task.

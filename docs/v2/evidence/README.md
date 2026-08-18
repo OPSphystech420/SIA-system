@@ -27,6 +27,12 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 1.5 UI failure investigation](GATE1_5_UI_FAILURE_INVESTIGATION.md) —
   exact V2/Legacy/Sishen/Dragon files, verified failed-code defects, competing
   hypotheses and adopted/adapted/rejected presentation patterns.
+- [Gate 1.5 Sideloadly functional PASS 002](GATE1_5_SIDELOAD_PASS_002.md) —
+  exact `.2` identity, device-verified presentation functions and explicit
+  extended-soak/touch unknowns carried into Gate 2A.
+- [Gate 2A exact image identity](GATE2A_EXACT_IMAGE_IDENTITY.md) — exact offline
+  ShooterGame/IDA identity, stable fingerprint range, Sishen dispositions and
+  checked-memory fail-closed contract.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 
