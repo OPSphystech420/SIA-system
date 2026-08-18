@@ -111,3 +111,8 @@ Replacement receipt: `V2-G2B-MULTIREGION-BUILD-009`, build
 `b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`,
 Mach-O/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`, manifest SHA-256
 `29eaa59a1fbe428213c8f75b1b0a6453ab062467ae929f364915857b45cff89e`.
+
+Subsequent immutable `V2-G2B-MULTIREGION-DEVICE-PASS-004` executed that exact
+`.3` replacement and completed both menu and two-chunk TheIsland snapshots.
+This resolves the active limitation without rewriting the `.2` abort recorded
+here. See [Gate 2B device PASS 004](GATE2B_DEVICE_PASS_004.md).

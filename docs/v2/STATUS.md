@@ -5,15 +5,16 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2B — read-only FNamePool, GUObjectArray and reflection snapshot
+active workflow: Gate 2B handoff complete; Gate 2C not started
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
 Gate 2B .1: exact identity/UI device verified; contract capture aborted fail-closed
 Gate 2B .2 menu capture: device verified
 Gate 2B .2 TheIsland capture: fail-closed VM-region abort
-Gate 2B .3: bounded multi-region correction built; device repeat pending
-Gate 2C: not started
+Gate 2B .3: device verified in main menu and TheIsland
+Gate 2B: complete for scoped read-only name/object/reflection snapshots
+Gate 2C: unblocked; not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -22,11 +23,10 @@ Legacy: archived evidence only; not built, linked, or modified
 The user explicitly authorized progression from Gate 1.5 to Gate 2. Gate 2 is
 split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
 investigation is closed as an external reproduced baseline limitation. Gate 2B
-read-only name/object/reflection capture now completes in the main menu. The
-same `.2` run aborted its generation-2 TheIsland capture because one logical
-owned copy crossed a Mach VM-region edge. A fail-closed multi-region copy
-correction remains inside Gate 2B. Gate 2C Engine, World and NetDriver
-relationship discovery has not started.
+read-only name/object/reflection capture now completes in both the main menu and
+TheIsland on `.3`, including generation replacement and changed object counts.
+Gate 2B is complete for its named scope. Gate 2C Engine, World and NetDriver
+relationship discovery is unblocked but has not started.
 
 ## Immutable Gate 1.5 result
 
@@ -334,7 +334,7 @@ readable VM regions while keeping each individual `vm_read_overwrite` inside
 one queried region. Gaps, unreadable ranges, overflow and unmap/copy failure
 still fail closed. Derived errors now add only a redacted expected-type label.
 Normal and UBSan-only suites pass 290 assertions; boundary audit passes. Device
-verification of this correction remains pending.
+verification of this correction subsequently passed on `.3` as recorded below.
 
 Full report: [Gate 2B menu PASS / world abort](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md).
 
@@ -359,6 +359,26 @@ The source tag resolves to the manifest revision. Normal and UBSan-only suites
 each pass 290 assertions; boundary, iOS package and injection audits pass. The
 `.deb` remains archival and is not a device-test input.
 
+## Gate 2B `.3` device PASS
+
+Result ID: `V2-G2B-MULTIREGION-DEVICE-PASS-004`
+
+Generation 1 completed in the main menu in 32 ms with 178 FName blocks/390,585
+entries and 61,177 object items in one live chunk. Generation 2 completed in
+TheIsland in 44 ms with 180 blocks/399,365 entries and 107,275 object items in
+two live chunks. It reported `Previous invalidated=yes`; all ten FNames, all
+nine exact objects/functions, UObject `0x28` metadata and UFunction flags
+passed in both snapshots.
+
+The multi-region correction is therefore device verified. Both explicit
+captures retained `scans_started=1 hooks=0 engine_calls=0 mutation=0`; no retry,
+abort or crash was reported. The optional third capture after returning to menu
+was not reported and is not inferred. The class named `Engine.World` remains
+reflection metadata only—no live GWorld/UWorld, Engine, GameViewport or
+NetDriver instance discovery occurred.
+
+Full report: [Gate 2B device PASS 004](evidence/GATE2B_DEVICE_PASS_004.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -370,6 +390,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Inject only the manifested `.3` raw artifact, repeat the successful menu capture
-and then the TheIsland capture. Do not start Gate 2C, hosting,
-Engine/World/NetDriver discovery, hooks, UE calls or mutation.
+Close the Gate 2B workflow without another build. Gate 2C may be planned in a
+separate task, but do not infer authorization here to start Engine/World/
+NetDriver discovery, hooks, UE calls, hosting or mutation.

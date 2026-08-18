@@ -21,7 +21,8 @@ device execution reached the exact profile but deterministically aborted on an
 over-restrictive TUObjectArray capacity validator. The `.2` correction then
 completed the exact main-menu snapshot, but its TheIsland generation-2 capture
 failed closed at a VM-region boundary. A bounded multi-region `.3` correction
-is built as `V2-G2B-MULTIREGION-BUILD-009` and awaits device repeat. This does not authorize Gate 2C,
+was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
+as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. This does not by itself authorize Gate 2C,
 Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
@@ -30,8 +31,8 @@ Gate 3 dispatch, Gate 4 hooks or any later behavior.
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
-| 2B — name/object/reflection discovery | menu snapshot device-proven; `.3` TheIsland correction ready | `.2` generation 1 passed every name/object/reflection validator; generation 2 invalidated it but aborted before a replacement snapshot; single `.3` repeat pending |
-| 2C — Engine/world relationships/invalidation | not started | unverified/not started |
+| 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
+| 2C — Engine/world relationships/invalidation | unblocked; not started | unverified/not started; requires a separate workflow |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts

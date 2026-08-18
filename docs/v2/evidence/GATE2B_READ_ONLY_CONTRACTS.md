@@ -335,4 +335,19 @@ publication are unchanged. Detailed receipt:
 The single replacement handoff is `V2-G2B-MULTIREGION-BUILD-009`: build `.3`,
 source `852e260d353c9a67a18e5763f358f1242b6e7947`, raw dylib SHA
 `b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`
-and UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`. Device repeat is pending.
+and UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`. Its subsequent device result is
+recorded below.
+
+## Device execution `.3` — Gate 2B PASS
+
+`V2-G2B-MULTIREGION-DEVICE-PASS-004` completed generation 1 in the main menu
+and generation 2 in TheIsland. Generation 2 reported previous invalidation,
+expanded objects from 61,177/one chunk to 107,275/two chunks and repeated all
+name/object/reflection validators successfully. Both captures retained zero
+hooks, engine calls and mutation. The multi-region positive path is therefore
+device verified and Gate 2B is complete for its named scope.
+
+The optional third capture after returning to menu was not reported. No live
+GWorld/UWorld, Engine, GameViewport or NetDriver instance is inferred from the
+`Class Engine.World` reflection validator. Gate 2C remains not started. Full
+receipt: [Gate 2B device PASS 004](GATE2B_DEVICE_PASS_004.md).

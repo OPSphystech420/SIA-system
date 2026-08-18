@@ -539,3 +539,17 @@ Mach-O/dSYM UUID is `48EB7BC3-7222-3F27-8A09-4224B980EF8C`; manifest SHA is
 the archival `.deb` SHA is
 `e1147e8fee5f7fa64bf1fe90d4e109448da1949e202117287f3deee363b7c8f8`.
 All V2-only build and injection inspections passed; device repeat is pending.
+
+## 2026-08-18 — Gate 2B device-verified and closed
+
+`V2-G2B-MULTIREGION-DEVICE-PASS-004` executed the exact `.3` artifact. Menu
+generation 1 completed in 32 ms with 61,177 objects in one chunk. TheIsland
+generation 2 completed in 44 ms with 107,275 objects in two chunks, marked the
+previous generation invalidated and repeated every known-name, core-object and
+reflection validator successfully. The earlier `.2` VM-region abort remains
+immutable; `.3` device-verifies its bounded multi-region correction.
+
+Both captures retained zero hooks, engine calls and mutation. The optional
+return-menu third capture and longer soak were not reported. Gate 2B is complete
+for its scoped read-only snapshot contract; Gate 2C is unblocked but remains
+not started.

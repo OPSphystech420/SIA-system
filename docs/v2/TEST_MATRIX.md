@@ -57,6 +57,7 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G2B-WORLD-VM-REGION-ABORT-002 | 2026-08-18 | same `.2` process after entering TheIsland | Generation 2 marked previous invalidated, then aborted after 37 ms: `requested bytes are not contained in one readable VM region`. Bounded report copy succeeded; no crash in supplied log. | FAIL: TheIsland replacement snapshot contradicted | Partial zeros are discarded candidate state. No generation-2 object count or snapshot is claimed; scans=1 and zero capabilities retained. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
 | V2-G2B-MULTIREGION-STATIC-003 | 2026-08-18 | Gate 2B `.3` source before clean artifact receipt | 290 normal + 290 UBSan-only assertions; adjacent-readable composition, gap, unreadable, unmap/copy failure and redacted type-context tests; boundary audit | PASS | Each underlying copy remains within one queried readable region; composed owned result is returned only after full success. Exact TheIsland result remains device-unverified. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
 | V2-G2B-MULTIREGION-BUILD-009 | 2026-08-18 | clean revision `852e260d353c9a67a18e5763f358f1242b6e7947`, tag `v2-gate2b-readonly-contracts-20260818.3-source`; `gate2b-readonly-contracts-20260818.3`; raw dylib SHA-256 `b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`; Mach-O/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`; package SHA `e1147e8fee5f7fa64bf1fe90d4e109448da1949e202117287f3deee363b7c8f8` | 290 normal + 290 UBSan-only assertions; boundary audit; iOS arm64 build; package/control/payload/build/source ID and injection isolation audits; dSYM DWARF SHA `3832a56…8bedd`; manifest SHA `29eaa59…ff89e`; no installation/execution | PASS | Single replacement artifact ready for menu/TheIsland repeat; live multi-region behavior remains device-unverified | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
+| V2-G2B-MULTIREGION-DEVICE-PASS-004 | 2026-08-18 | exact `.3` artifact/source above | User Sideloadly execution: menu generation 1 completed in 32 ms with FNames `178/390585`, objects `61177/25231360`, chunks `1/385`, copied bytes `24675204`; TheIsland generation 2 completed in 44 ms with FNames `180/399365`, objects `107275/25231360`, chunks `2/385`, copied bytes `26049956`; previous invalidated=yes; all ten names, nine objects/functions and reflection validators passed twice. | PASS: Gate 2B device verified | Exact profile, owned snapshots, menu-to-world generation replacement and multi-region positive path passed with scans=1 and hooks/engine calls/mutation=0. Optional return-menu capture and longer soak not reported; Gate 2C not started. | [Gate 2B device PASS](evidence/GATE2B_DEVICE_PASS_004.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -292,6 +293,10 @@ Interpret exactly as follows:
   reproduction.
 
 ## PLAN-G2B-DISCOVERY-001 exact protocol
+
+Closed by `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Required menu and TheIsland
+captures completed. The optional return-menu capture was not reported and does
+not block this scoped PASS.
 
 Use only the single manifested raw artifact under
 `packages/v2/injection/gate2b-readonly-contracts-20260818.3/`. Do not inject

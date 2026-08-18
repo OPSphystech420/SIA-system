@@ -45,6 +45,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2B menu PASS and world VM-region abort 002](GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md)
   — exact `.2` main-menu owned-snapshot PASS, TheIsland generation-2
   fail-closed region-boundary abort and the bounded multi-region correction.
+- [Gate 2B device PASS 004](GATE2B_DEVICE_PASS_004.md) — exact `.3` completed
+  owned snapshots in both menu and TheIsland, generation invalidation/count
+  change, repeated validators and unchanged zero capabilities.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 
