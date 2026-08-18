@@ -586,3 +586,24 @@ the archival `.deb` SHA is
 `7bc9607751fb630c38ee18aa56be3c187320765f1e95cfa92aee1ca51aaa61fe`.
 All SourceV2-only tests, boundary, arm64, package and injection audits pass. The
 corrected live behavior awaits the bounded Gate 2C device repeat.
+
+## 2026-08-18 — Gate 2C `.2` isolated Engine full-name abort
+
+`V2-G2C-ENGINE-FULLNAME-ABORT-002` executed the exact `.2` artifact in a local
+TheIsland world. Its fresh Gate 2B generation completed in 46 ms with 107,279
+objects/two chunks and every required FName, object/function and reflection
+validator passing. The relationship phase accepted zero bytes and failed the
+split strict instance full-name predicate. Runtime class `ShooterEngine` was
+therefore reached, but `.2` ordering did not reach CDO, exact direct-UClass,
+ancestry or any Engine/World relationship field. World generation stayed zero;
+hooks, engine calls and mutation remained zero.
+
+Exact FreshSDK records `Package Transient` and
+`ShooterEngine Transient.ShooterEngine_2147482613`; closest UE source creates
+the transient package as `/Engine/Transient`. The `.3` correction canonicalizes
+only that exact owner alias, retains the numbered instance full-name and all
+class validators, moves full-name validation after direct-class/ancestry checks
+and adds bounded printable address-free observed-name diagnostics. A canonical-
+alias positive and unnumbered negative bring both normal and UBSan-only suites
+to 393 assertions; boundary audit passes. Clean artifact packaging remains
+next. Gate 3 and hosting remain closed.

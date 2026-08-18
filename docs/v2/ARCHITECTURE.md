@@ -226,6 +226,15 @@ identity/serial/generation and validated as exact
 anchors remain super-chain validators. No class pointer or index is retained
 between captures.
 
+Device result `V2-G2C-ENGINE-FULLNAME-ABORT-002` further separates the live
+instance-name boundary. The required identity remains
+`ShooterEngine Transient.ShooterEngine_<digits>`. Only the exact transient
+package-path spelling `/Engine/Transient` is canonicalized to `Transient`, as
+grounded by closest UE source and the exact FreshSDK `Package Transient` dump.
+Class/CDO/direct-UClass/ancestry checks precede the instance full-name check;
+failure exposes only bounded printable name shape and never an address. No
+root, offset, capability or lifetime rule changes.
+
 ## 4. Dependency graph
 
 ```mermaid

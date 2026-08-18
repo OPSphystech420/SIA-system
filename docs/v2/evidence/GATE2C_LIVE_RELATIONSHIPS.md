@@ -1,8 +1,9 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
-Status: exact-binary/sdk/source cards and implementation complete; `.1` device
-execution aborted fail-closed at an invalid fixed UClass dump-index validator;
-corrected clean `.2` artifact is ready for its isolated device repeat.
+Status: exact-binary/sdk/source cards and implementation complete; `.1` and
+`.2` are immutable fail-closed Engine-identity aborts; `.3` narrow transient-
+owner/full-name correction passes host-static validation and awaits a clean
+artifact receipt.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -169,9 +170,10 @@ generation validation and the immutable report says
 
 ## Static acceptance
 
-Normal and independent UBSan-only host runs for corrected `.2` each pass 387
+Normal and independent UBSan-only host runs for corrected `.3` each pass 393
 assertions. Tests cover unique/ambiguous Engine, CDO and wrong class/full name;
 relocated exact ShooterEngine direct UClass and wrong-package direct UClass;
+exact `/Engine/Transient` owner canonicalization and unnumbered Engine refusal;
 canonical empty and malformed arrays; valid/duplicate/invalid-name definitions;
 nullable/wrong Viewport; null/mismatched/absent/wrong World; optional and wrong-
 class relationships; stable, null-transition and replacement generations; stale
@@ -263,7 +265,35 @@ Mach-O/dSYM UUID is identical. Manifest v4 names the fresh-snapshot exact direct
 UClass contract and records zero hooks/engine calls/mutation. No package was
 installed or executed.
 
-## Corrected `.2` device protocol
+That execution has now occurred and is immutable result
+`V2-G2C-ENGINE-FULLNAME-ABORT-002`. In TheIsland, `.2` completed a fresh
+46 ms Gate 2B snapshot with 107,279 objects/two chunks and all prerequisite
+validators passing, then accepted zero relationship bytes and rejected the
+strict Engine instance full name. The preceding runtime-class predicate passed;
+the later CDO/direct-UClass/ancestry predicates and every relationship field
+were not reached by `.2` ordering. See
+[Gate 2C `.2` Engine full-name abort](GATE2C_DEVICE_ENGINE_FULLNAME_ABORT_002.md).
+
+## `.3` bounded full-name correction
+
+FreshSDK's exact dump records `Package Transient` and the numbered full name
+`ShooterEngine Transient.ShooterEngine_2147482613`; its generated
+`FName::ToString` selects the text after the last `/`. Closest UE source creates
+the same owner using package-path spelling `/Engine/Transient`. `.3`
+canonicalizes only that exact alias to `Transient`; it does not accept a broad
+package suffix or short-name match. The required published shape remains
+`ShooterEngine Transient.ShooterEngine_<digits>`.
+
+The check now follows non-CDO, exact direct
+`Class ShooterGame.ShooterEngine`, and GameEngine/Engine ancestry. If the
+instance full-name still differs, the failure includes at most 160 printable
+bytes each of observed full name/object name with controls, quotes and
+backslashes replaced by `?`; it includes no raw address, RVA, slide or pointer.
+The `/Engine/Transient` positive and unnumbered Engine negative pass both 393-
+assertion normal and UBSan-only suites plus the boundary audit. Clean `.3`
+packaging remains pending.
+
+## Corrected `.3` device protocol
 
 1. In the main menu, press Capture once.
 2. Verify Engine/Viewport identities, definitions and a permitted menu/loading
@@ -288,7 +318,7 @@ engine_calls=0
 mutation=0
 ```
 
-Use only build `gate2c-live-relationships-20260818.2`; `.1` cannot satisfy this
+Use only build `gate2c-live-relationships-20260818.3`; `.1` and `.2` cannot satisfy this
 protocol. PASS requires no raw address output, no relationship abort/mismatch, bounded
 duration, correct same-world generation stability and all applicable identity/
 class/FName checks. Gate 3 and hosting remain closed after this artifact.
@@ -300,4 +330,4 @@ class/FName checks. Gate 3 and hosting remain closed after this artifact.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
 - Gate 2C live values are not device-proven until the protocol above is
-  returned for the exact corrected `.2` artifact.
+  returned for the exact corrected `.3` artifact.

@@ -54,6 +54,10 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2C device Engine-validator abort 001](GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md)
   — exact `.1` TheIsland prerequisite snapshot PASS, fail-closed relationship
   abort, invalid fixed UClass dump-index assumption and bounded `.2` correction.
+- [Gate 2C `.2` Engine full-name abort 002](GATE2C_DEVICE_ENGINE_FULLNAME_ABORT_002.md)
+  — exact `.2` TheIsland prerequisite snapshot PASS, isolated instance
+  full-name failure, retained zero capabilities and narrow `.3` canonicalization/
+  bounded diagnostic correction.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

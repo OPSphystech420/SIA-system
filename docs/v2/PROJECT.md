@@ -27,10 +27,13 @@ The near-term platform is iOS:
   `scans_started=0` and every capability counter at zero;
 - death/respawn exit reproduced without any injected dylib and is deferred as
   an external baseline limitation; B/C were waived by user decision;
-- active workflow: Gate 2B read-only FNamePool/GUObjectArray/reflection snapshot;
-  implementation and static/iOS compile checks are complete, device capture is
-  pending; Gate 2C Engine/world relationships/generation invalidation has not
-  started.
+- Gate 2B read-only FNamePool/GUObjectArray/reflection snapshots are complete
+  for the scoped main-menu/TheIsland protocol; optional return-menu capture and
+  longer soak were not reported;
+- active workflow: Gate 2C read-only Engine/world relationships. `.1` and `.2`
+  aborted fail-closed at distinct Engine identity predicates with zero
+  capabilities; `.3` narrow transient-owner/full-name correction is statically
+  validated and awaiting its clean artifact receipt. Gate 3 has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

@@ -1,11 +1,11 @@
 # Server-Host V2 status
 
-Last updated: 2026-08-18.
+Last updated: 2026-08-19.
 
 ## Current state
 
 ```text
-active workflow: Gate 2C .1 device abort recorded; corrected clean .2 ready
+active workflow: Gate 2C .1/.2 device aborts recorded; .3 source correction ready for clean build
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -15,7 +15,8 @@ Gate 2B .2 TheIsland capture: fail-closed VM-region abort
 Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
-Gate 2C .2: clean raw artifact ready; 387 normal/UBSan assertions and audits pass
+Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
+Gate 2C .3: exact transient-owner alias correction; 393 normal/UBSan assertions and boundary audit pass
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -29,9 +30,12 @@ TheIsland on `.3`, including generation replacement and changed object counts.
 Gate 2B is complete for its named scope. Gate 2C `.1` completed the fresh
 prerequisite snapshot in TheIsland but aborted before relationship bytes on its
 combined Engine identity validator. Source audit found a fixed FreshSDK UClass
-object index incorrectly treated as runtime ABI. Corrected `.2` resolves and
-validates exact `Class ShooterGame.ShooterEngine` inside every fresh snapshot;
-all live relationships and world-generation behavior remain unverified.
+object index incorrectly treated as runtime ABI. Corrected `.2` resolved the
+runtime class name but its device run isolated an earlier strict instance full-
+name failure. `.3` preserves the numbered full-name requirement, canonicalizes
+only the exact `/Engine/Transient` owner alias and adds bounded address-free
+observed-name diagnostics after class-chain validation. All live relationships
+and world-generation behavior remain unverified.
 
 ## Immutable Gate 1.5 result
 
@@ -446,7 +450,35 @@ Canonical Sideloadly input:
 The clean tagged source passed 387 normal and 387 UBSan-only assertions,
 boundary audit, arm64 compile, package/control/payload and injection-isolation
 audits. The raw dylib and dSYM UUIDs match. This receipt is build/static
-evidence only; corrected live relationships remain device-unverified.
+evidence only. Its exact device execution produced the immutable `.2` abort
+below; it is no longer the active handoff.
+
+## Gate 2C `.2` device abort and `.3` correction source
+
+Result ID: `V2-G2C-ENGINE-FULLNAME-ABORT-002`
+
+In a local TheIsland world, exact `.2` completed its fresh prerequisite capture
+in 46 ms with FNames `180/399365`, objects `107279/25231360`, chunks `2/385`,
+26,050,080 copied bytes and every required FName/object/function/reflection
+validator passing. It then accepted zero relationship bytes and aborted on:
+
+```text
+native Engine full name is not ShooterEngine Transient.ShooterEngine_<number>
+```
+
+The split ordering proves the native root resolved to runtime class
+`ShooterEngine`; it does not prove the later CDO, exact direct-UClass, ancestry
+or field reads. World generation remained zero and capabilities remained
+`hooks=0 engine_calls=0 mutation=0`.
+
+`.3` canonicalizes only exact transient owner `/Engine/Transient` to
+`Transient`, retains the strict numbered full-name, exact direct class, non-CDO
+and GameEngine/Engine ancestry, and emits a bounded printable observed name if
+the check still fails. A path-named transient positive and an unnumbered Engine
+negative are included. Normal and UBSan-only SourceV2 suites each pass 393
+assertions and the boundary audit passes; clean iOS packaging is pending.
+
+Full report: [Gate 2C `.2` Engine full-name abort](evidence/GATE2C_DEVICE_ENGINE_FULLNAME_ABORT_002.md).
 
 ## Deferred production UI debt
 
@@ -459,7 +491,8 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Execute only corrected `gate2c-live-relationships-20260818.2` under the bounded
+Build, inspect and execute only corrected
+`gate2c-live-relationships-20260818.3` under the bounded
 menu/TheIsland/same-world/optional-return capture protocol in
 [`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
 Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

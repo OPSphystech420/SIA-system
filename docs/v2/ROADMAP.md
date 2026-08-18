@@ -25,8 +25,11 @@ was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
 as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C `.1`
 completed its fresh Gate 2B snapshot in TheIsland but aborted fail-closed at an
 over-specific Engine UClass index validator. The direct-class correction is
-packaged as clean `.2` receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` and
-awaits its device repeat; this does
+packaged as clean `.2` receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`; its
+device repeat isolated a second fail-closed Engine instance full-name failure
+before relationship reads. A narrow `.3` source correction canonicalizes only
+the exact transient-package alias and adds bounded address-free name-shape
+failure evidence while preserving every strict class/name validator. This does
 not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 
 | Gate | State | Strongest claim |
@@ -36,7 +39,7 @@ not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | `.1` device abort; clean `.2` ready | prerequisite snapshot device-proven for the attempt; fixed dump-index assumption removed; all live relationships/world transitions remain unverified |
+| 2C — Engine/world relationships/invalidation | `.1` and `.2` device aborts; `.3` source correction statically validated | prerequisite snapshots device-proven for both attempts; fixed dump-index and isolated full-name assumptions corrected narrowly; all live relationships/world transitions remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -274,9 +277,9 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 
 ## Gate 2C — Engine/world relationships and generation invalidation
 
-State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`;
-corrected clean `.2` artifact `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011` awaits
-device execution.
+State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`; `.2`
+immutable device abort `V2-G2C-ENGINE-FULLNAME-ABORT-002`; `.3` correction
+source statically validated and awaiting a clean artifact receipt.
 
 Entry: Gate 2B read-only discovery passes.
 
@@ -289,7 +292,11 @@ GWorld/ViewportWorld reads, optional same-snapshot relationships, stability
 resampling and a separate world generation. `.1` incorrectly promoted the
 FreshSDK ShooterEngine UClass dump index to a runtime invariant. `.2` resolves
 that direct UClass in the same fresh snapshot and validates exact
-`Class ShooterGame.ShooterEngine` plus GameEngine/Engine ancestry. Every request
+`Class ShooterGame.ShooterEngine` plus GameEngine/Engine ancestry, but its live
+ordering failed first at the strict Engine instance full name. `.3`
+canonicalizes only exact owner `/Engine/Transient` to `Transient`, keeps the
+required numbered full-name shape, runs direct-class/ancestry checks first and
+returns bounded printable observed-name shape if it still fails. Every request
 still creates a fresh Gate 2B owned snapshot; no pointer, timer or cache crosses
 captures.
 

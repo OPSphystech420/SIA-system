@@ -35,10 +35,30 @@ bool SameBytes(const OwnedMemoryCopy& left, const OwnedMemoryCopy& right) {
 }
 
 std::string NormalizePackageName(std::string name) {
-    constexpr std::string_view prefix = "/Script/";
-    if (name.starts_with(prefix))
-        name.erase(0, prefix.size());
+    constexpr std::string_view scriptPrefix = "/Script/";
+    if (name.starts_with(scriptPrefix))
+        name.erase(0, scriptPrefix.size());
+    if (name == "/Engine/Transient")
+        name = "Transient";
     return name;
+}
+
+std::string BoundedDiagnosticValue(std::string_view value) {
+    constexpr std::size_t maximumBytes = 160;
+    std::string output;
+    output.reserve(std::min(value.size(), maximumBytes) + 3U);
+    const std::size_t count = std::min(value.size(), maximumBytes);
+    for (std::size_t index = 0; index < count; ++index) {
+        const unsigned char character = static_cast<unsigned char>(value[index]);
+        output.push_back(character >= 0x20U && character <= 0x7EU
+                && character != static_cast<unsigned char>('"')
+                && character != static_cast<unsigned char>('\\')
+            ? static_cast<char>(character)
+            : '?');
+    }
+    if (value.size() > maximumBytes)
+        output += "...";
+    return output;
 }
 
 bool IsStrictShooterEngineFullName(std::string_view fullName) {
@@ -479,11 +499,6 @@ ContractResult<WorldRelationshipCaptureResult> WorldRelationshipCapture::Capture
             ContractErrorCategory::TypeMismatch,
             "native Engine runtime class name is not ShooterEngine");
     }
-    if (!IsStrictShooterEngineFullName(engineDescription.Value().fullName)) {
-        return ContractResult<WorldRelationshipCaptureResult>::Failure(
-            ContractErrorCategory::TypeMismatch,
-            "native Engine full name is not ShooterEngine Transient.ShooterEngine_<number>");
-    }
     if (serverhost::v2::ue::HasAllFlags(
             engineDescription.Value().flags,
             serverhost::v2::ue::EObjectFlags::ClassDefaultObject)) {
@@ -503,6 +518,15 @@ ContractResult<WorldRelationshipCaptureResult> WorldRelationshipCapture::Capture
     if (!isGameEngine || !isEngine)
         return FailFrom<WorldRelationshipCaptureResult>(
             !isGameEngine ? isGameEngine.Error() : isEngine.Error());
+    if (!IsStrictShooterEngineFullName(engineDescription.Value().fullName)) {
+        return ContractResult<WorldRelationshipCaptureResult>::Failure(
+            ContractErrorCategory::TypeMismatch,
+            "native Engine full name is not ShooterEngine Transient.ShooterEngine_<number> "
+            "after exact direct class and GameEngine/Engine ancestry; observed_full_name=\""
+                + BoundedDiagnosticValue(engineDescription.Value().fullName)
+                + "\" observed_object_name=\""
+                + BoundedDiagnosticValue(engineDescription.Value().objectName) + "\"");
+    }
     output.snapshot.engine = {
         engineDescription.Value().identity,
         engineDescription.Value().fullName,

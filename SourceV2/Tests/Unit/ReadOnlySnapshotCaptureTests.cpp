@@ -293,7 +293,8 @@ bindings::BuildProfile IdentityProfile(const ResolvedImageIdentity& resolved) {
     };
 }
 
-Fixture MakeFixture() {
+Fixture MakeFixture(
+    bool usePathNamedTransient = false, bool useUnnumberedEngine = false) {
     auto memory = std::make_shared<SparseMemorySource>();
     std::vector<std::byte> image(0x27000);
     const auto prefix = BuildMachOPrefix();
@@ -341,6 +342,7 @@ Fixture MakeFixture() {
     addName("ShooterEngine");
     addName("ShooterGame");
     addName("Transient");
+    addName("/Engine/Transient");
     addName("TheIsland");
     addName("GameModeBase");
     addName("GameStateBase");
@@ -391,7 +393,9 @@ Fixture MakeFixture() {
     writeObject(0x2, "CoreUObject", 0x37F, std::nullopt);
     writeObject(0x3, "Engine", 0x37F, std::nullopt);
     writeObject(0x4, "KismetStringLibrary", 0x37F, 0x3);
-    writeObject(0x5, "Transient", 0x37F, std::nullopt);
+    writeObject(
+        0x5, usePathNamedTransient ? "/Engine/Transient" : "Transient",
+        0x37F, std::nullopt);
     writeObject(0x6, "None", 0x37F, std::nullopt);
     writeObject(0x7, "ShooterGame", 0x37F, std::nullopt);
     writeObject(0x37F, "Class", 0x37F, 0x2);
@@ -457,7 +461,9 @@ Fixture MakeFixture() {
     };
     auto liveEngine = makeLiveObject(
         0xC08, kLiveEngineIndex,
-        serverhost::v2::ue::FName{names.at("ShooterEngine").comparisonIndex, 2},
+        serverhost::v2::ue::FName{
+            names.at("ShooterEngine").comparisonIndex,
+            useUnnumberedEngine ? 0U : 2U},
         0x359);
     Store(liveEngine, 0x780, static_cast<std::uint64_t>(kLiveViewportAddress));
     TArrayHeaderLayout definitionHeader{
@@ -879,6 +885,31 @@ void RunReadOnlySnapshotCaptureTests(TestContext& context) {
         liveResult.Value().snapshot.netDriverDefinitions.definitions[0]
                 .driverClassNameFallback
             == "/Script/OnlineSubsystemUtils.IpNetDriver");
+
+    Fixture pathNamedTransient = MakeFixture(true);
+    model::engine::WorldGenerationTracker pathNamedTransientTracker;
+    auto pathNamedTransientResult = CaptureRelationships(
+        pathNamedTransient, pathNamedTransientTracker, 1000);
+    V2_EXPECT(context, pathNamedTransientResult);
+    V2_EXPECT(context,
+        pathNamedTransientResult.Value().snapshot.engine.fullName
+            == "ShooterEngine Transient.ShooterEngine_1");
+
+    Fixture unnumberedEngine = MakeFixture(false, true);
+    model::engine::WorldGenerationTracker unnumberedEngineTracker;
+    auto unnumberedEngineResult = CaptureRelationships(
+        unnumberedEngine, unnumberedEngineTracker, 1002);
+    V2_EXPECT(context, !unnumberedEngineResult);
+    V2_EXPECT(context,
+        unnumberedEngineResult.Error().context.find(
+            "after exact direct class and GameEngine/Engine ancestry")
+            != std::string::npos);
+    V2_EXPECT(context,
+        unnumberedEngineResult.Error().context.find(
+            "observed_full_name=\"ShooterEngine Transient.ShooterEngine\"")
+            != std::string::npos);
+    V2_EXPECT(context,
+        unnumberedEngineResult.Error().context.find("0x") == std::string::npos);
 
     Fixture relocatedEngineClass = MakeFixture();
     constexpr std::int32_t relocatedShooterEngineClassIndex = 0x45;
