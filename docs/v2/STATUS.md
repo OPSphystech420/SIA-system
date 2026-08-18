@@ -12,7 +12,7 @@ Gate 2A death exit: external baseline reproduced; deferred
 Gate 2B .1: exact identity/UI device verified; contract capture aborted fail-closed
 Gate 2B .2 menu capture: device verified
 Gate 2B .2 TheIsland capture: fail-closed VM-region abort
-Gate 2B .3: bounded multi-region owned-copy correction under verification
+Gate 2B .3: bounded multi-region correction built; device repeat pending
 Gate 2C: not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
@@ -338,6 +338,27 @@ verification of this correction remains pending.
 
 Full report: [Gate 2B menu PASS / world abort](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md).
 
+## Gate 2B multi-region correction build receipt
+
+Result ID: `V2-G2B-MULTIREGION-BUILD-009`
+
+```text
+Build ID: gate2b-readonly-contracts-20260818.3
+Source revision: 852e260d353c9a67a18e5763f358f1242b6e7947
+Source tag: v2-gate2b-readonly-contracts-20260818.3-source
+Raw dylib SHA-256: b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829
+Mach-O / dSYM UUID: 48EB7BC3-7222-3F27-8A09-4224B980EF8C
+dSYM DWARF SHA-256: 3832a561277f1bb5812af7662a2e07383fe75a2015f8400acaf214a4a9a8bedd
+Manifest SHA-256: 29eaa59a1fbe428213c8f75b1b0a6453ab062467ae929f364915857b45cff89e
+Archive .deb SHA-256: e1147e8fee5f7fa64bf1fe90d4e109448da1949e202117287f3deee363b7c8f8
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2b-readonly-contracts-20260818.3/ServerHostV2.dylib`.
+The source tag resolves to the manifest revision. Normal and UBSan-only suites
+each pass 290 assertions; boundary, iOS package and injection audits pass. The
+`.deb` remains archival and is not a device-test input.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -349,6 +370,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Finish one clean `.3` raw artifact, then repeat the successful menu capture and
-the TheIsland capture. Do not start Gate 2C, hosting, Engine/World/NetDriver
-discovery, hooks, UE calls or mutation.
+Inject only the manifested `.3` raw artifact, repeat the successful menu capture
+and then the TheIsland capture. Do not start Gate 2C, hosting,
+Engine/World/NetDriver discovery, hooks, UE calls or mutation.

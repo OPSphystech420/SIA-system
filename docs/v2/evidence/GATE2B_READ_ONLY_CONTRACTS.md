@@ -331,3 +331,8 @@ No world snapshot or changed object count is inferred. The `.3` correction
 splits only the low physical copies; provenance, logical token scope and owned
 publication are unchanged. Detailed receipt:
 [Gate 2B menu PASS / world abort](GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md).
+
+The single replacement handoff is `V2-G2B-MULTIREGION-BUILD-009`: build `.3`,
+source `852e260d353c9a67a18e5763f358f1242b6e7947`, raw dylib SHA
+`b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`
+and UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`. Device repeat is pending.

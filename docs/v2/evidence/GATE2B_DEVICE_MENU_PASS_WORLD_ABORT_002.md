@@ -104,3 +104,10 @@ assertions and the raw-address boundary audit passes. This remains a static
 correction until a single replacement artifact completes the same TheIsland
 capture. Gate 2C, Engine/World discovery, hooks, UE calls and mutation remain
 unstarted.
+
+Replacement receipt: `V2-G2B-MULTIREGION-BUILD-009`, build
+`gate2b-readonly-contracts-20260818.3`, source
+`852e260d353c9a67a18e5763f358f1242b6e7947`, raw dylib SHA-256
+`b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`,
+Mach-O/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`, manifest SHA-256
+`29eaa59a1fbe428213c8f75b1b0a6453ab062467ae929f364915857b45cff89e`.

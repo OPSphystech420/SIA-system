@@ -527,3 +527,15 @@ readable regions while keeping every `vm_read_overwrite` inside its queried
 region. Gaps, permissions and unmap/copy failures remain fail-closed; derived
 errors add only a redacted type label. Normal and UBSan-only suites each pass
 290 assertions and the boundary audit passes. Gate 2C remains unstarted.
+
+## 2026-08-18 — Gate 2B multi-region replacement built
+
+`V2-G2B-MULTIREGION-BUILD-009` was produced from clean revision
+`852e260d353c9a67a18e5763f358f1242b6e7947` and source tag
+`v2-gate2b-readonly-contracts-20260818.3-source`. Raw dylib SHA-256 is
+`b5e5f0edf47ebb5b71c0c08d947bd6d186538ea2a9f9bc9722c4076ee0e07829`;
+Mach-O/dSYM UUID is `48EB7BC3-7222-3F27-8A09-4224B980EF8C`; manifest SHA is
+`29eaa59a1fbe428213c8f75b1b0a6453ab062467ae929f364915857b45cff89e`;
+the archival `.deb` SHA is
+`e1147e8fee5f7fa64bf1fe90d4e109448da1949e202117287f3deee363b7c8f8`.
+All V2-only build and injection inspections passed; device repeat is pending.
