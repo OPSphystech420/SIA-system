@@ -22,9 +22,11 @@ over-restrictive TUObjectArray capacity validator. The `.2` correction then
 completed the exact main-menu snapshot, but its TheIsland generation-2 capture
 failed closed at a VM-region boundary. A bounded multi-region `.3` correction
 was built as `V2-G2B-MULTIREGION-BUILD-009` and passed menu/TheIsland execution
-as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C is now
-packaged as `V2-G2C-BUILD-010` and awaits its dedicated device protocol; this does not
-authorize Gate 3 dispatch, hosting, travel, hooks or any later behavior.
+as `V2-G2B-MULTIREGION-DEVICE-PASS-004`. Gate 2B is complete. Gate 2C `.1`
+completed its fresh Gate 2B snapshot in TheIsland but aborted fail-closed at an
+over-specific Engine UClass index validator. The direct-class correction is
+statically verified and awaits its clean `.2` artifact/device repeat; this does
+not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
@@ -33,7 +35,7 @@ authorize Gate 3 dispatch, hosting, travel, hooks or any later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | clean artifact ready; device pending | fresh Gate 2B-owned capture, strict Engine/Viewport/World/optional relationship validation, independent world generation and zero capabilities; live values remain unverified |
+| 2C — Engine/world relationships/invalidation | `.1` device abort; `.2` correction static-pass | prerequisite snapshot device-proven for the attempt; fixed dump-index assumption removed; all live relationships/world transitions remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -271,7 +273,8 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 
 ## Gate 2C — Engine/world relationships and generation invalidation
 
-State: clean artifact `V2-G2C-BUILD-010` ready; exact device capture pending.
+State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`;
+corrected `.2` source passes static verification and awaits clean packaging.
 
 Entry: Gate 2B read-only discovery passes.
 
@@ -281,8 +284,12 @@ world-generation invalidation without calls or writes.
 Work: ABI-009/010 cards are implemented through exact native roots, strict
 class/full-name/non-CDO validation, canonical definitions decoding, independent
 GWorld/ViewportWorld reads, optional same-snapshot relationships, stability
-resampling and a separate world generation. Every request first creates a fresh
-Gate 2B owned snapshot. No pointer, timer or cache crosses captures.
+resampling and a separate world generation. `.1` incorrectly promoted the
+FreshSDK ShooterEngine UClass dump index to a runtime invariant. `.2` resolves
+that direct UClass in the same fresh snapshot and validates exact
+`Class ShooterGame.ShooterEngine` plus GameEngine/Engine ancestry. Every request
+still creates a fresh Gate 2B owned snapshot; no pointer, timer or cache crosses
+captures.
 
 Exit: build one clean raw artifact; execute menu, TheIsland, repeated same-world
 capture and optional natural return-menu capture; confirm relationship state,

@@ -5,7 +5,7 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2C clean artifact ready; device capture pending
+active workflow: Gate 2C .1 device abort recorded; corrected .2 packaging pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -14,7 +14,8 @@ Gate 2B .2 menu capture: device verified
 Gate 2B .2 TheIsland capture: fail-closed VM-region abort
 Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
-Gate 2C: exact cards/read-only capture statically verified and packaged; device pending
+Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
+Gate 2C .2: dynamic exact direct-UClass correction passes 387 normal/UBSan assertions
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -25,10 +26,12 @@ split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
 investigation is closed as an external reproduced baseline limitation. Gate 2B
 read-only name/object/reflection capture now completes in both the main menu and
 TheIsland on `.3`, including generation replacement and changed object counts.
-Gate 2B is complete for its named scope. Gate 2C now has exact-binary cards,
-typed fresh-snapshot relationship capture, independent world generation and
-host-static coverage. Its live values remain unverified until the named clean
-artifact is executed under the Gate 2C device protocol.
+Gate 2B is complete for its named scope. Gate 2C `.1` completed the fresh
+prerequisite snapshot in TheIsland but aborted before relationship bytes on its
+combined Engine identity validator. Source audit found a fixed FreshSDK UClass
+object index incorrectly treated as runtime ABI. Corrected `.2` resolves and
+validates exact `Class ShooterGame.ShooterEngine` inside every fresh snapshot;
+all live relationships and world-generation behavior remain unverified.
 
 ## Immutable Gate 1.5 result
 
@@ -381,7 +384,7 @@ NetDriver instance discovery occurred.
 
 Full report: [Gate 2B device PASS 004](evidence/GATE2B_DEVICE_PASS_004.md).
 
-## Gate 2C clean build receipt
+## Historical Gate 2C `.1` build receipt
 
 Result ID: `V2-G2C-BUILD-010`
 
@@ -399,9 +402,29 @@ Archive .deb SHA-256: 65984a8265a0e15dd73f80dfd34613d1360f41cc8fe17fc3959b0dc303
 Canonical Sideloadly input:
 `packages/v2/injection/gate2c-live-relationships-20260818.1/ServerHostV2.dylib`.
 Normal and UBSan-only runs each pass 383 assertions; boundary, arm64 iOS,
-package, injection-isolation and dSYM audits pass. The artifact has not been
-installed or executed, so live Engine/Viewport/World/NetDriver values and world
-transitions remain device-unverified.
+package, injection-isolation and dSYM audits pass. It was subsequently executed
+and produced the immutable abort below; the build receipt itself remains valid.
+
+## Gate 2C `.1` device abort and `.2` correction
+
+Result ID: `V2-G2C-ENGINE-VALIDATOR-ABORT-001`
+
+In a local TheIsland world, `.1` completed a 37 ms fresh Gate 2B snapshot with
+180/399494 FName blocks/entries, 110906 objects in two chunks and every required
+name/object/reflection validator passing. It then reported zero relationship
+bytes and aborted on `native Engine identity failed exact ShooterEngine
+class/full-name validators`. World generation stayed zero. Hooks, engine calls
+and mutation stayed zero.
+
+The combined error cannot identify its failing predicate, but code audit found
+that `.1` required FreshSDK dump index `0x359` for the direct ShooterEngine
+UClass. `.2` removes that non-ABI profile field, resolves the UClass from the
+same generation-bound snapshot, requires exact
+`Class ShooterGame.ShooterEngine`, separately checks the live class/full name
+and retains GameEngine/Engine ancestry. A moved-UClass positive and wrong-
+package negative bring the normal and UBSan-only suites to 387 assertions.
+
+Full report: [Gate 2C `.1` Engine-validator abort](evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md).
 
 ## Deferred production UI debt
 
@@ -414,7 +437,8 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Execute only the clean Gate 2C V2 raw artifact under the bounded
+Build and then execute only corrected
+`gate2c-live-relationships-20260818.2` under the bounded
 menu/TheIsland/same-world/optional-return capture protocol in
 [`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
 Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

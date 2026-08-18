@@ -14,7 +14,7 @@ an active blocker.
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
 | V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed + statically validated | Latest receipt `V2-G2B-MULTIREGION-BUILD-009`: clean tagged source `852e260…e7947`, dylib/dSYM UUID `48EB7BC3-7222-3F27-8A09-4224B980EF8C`, manifest SHA `29eaa59…f89e`; exact artifact passed Gate 2B device execution. |
-| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C is host/static implemented and awaits its own device report. |
+| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.1` aborted fail-closed at Engine identity validation; corrected Gate 2C remains the active workflow. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
 | V2-EV-010 | Gate 1.5 device-tested artifact is exact `.2` input SHA `421211…58c32`, source `8fb09e6…477`. | device verified for bounded functions | Manifest/dSYM plus user runtime receipt. Sideloadly re-signs after input identity. |
@@ -45,7 +45,9 @@ an active blocker.
 | V2-EV-035 | Gate 2B completes generation-bound read-only contracts across menu-to-world transition. | device verified | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: generation `1→2`, previous invalidated, objects `61177→107275`, chunks `1→2`, all validators repeated, zero capabilities. Optional return-menu capture was not reported. |
 | V2-EV-036 | Gate 2B is closed by the user-confirmed `.3` multi-region correction. | device verified / gate closed | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: menu generation 1 `61177/1/32ms`, TheIsland generation 2 `107275/2/44ms`, previous invalidated and every required validator passed with zero capabilities. The immutable `.2` world-region abort remains unchanged. No return-menu capture or longer soak is inferred; `Class Engine.World` is not a live UWorld; parameter ABI/native dispatch remain absent. Docs baseline commit is `7d5e4555ed9f89f5eeeed89ac7c95c7f4072d37c`. |
 | V2-EV-037 | `DEC-V2-NO-HOOK-FIRST-HOST` makes hooks non-prerequisite for first IP Listen and forbids broad Dedicated forcing. | architecture decision, not runtime evidence | Engine/definitions will be revalidated before Host; current world will be dispatched directly after Gate 3; original GetNetMode is retained. Optional inert observation/narrow policy is conditional on a post-transport demonstrated replication gap. Existing hook/GetNetMode evidence is preserved. |
-| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; clean artifact ready; device pending | `V2-G2C-BUILD-010`: exact `GEngine`/`GWorld` roots, `0x780/0xBF8/0x18/0x70/0x1D8/0x2B8/0x2C0`, fresh-snapshot identity/class/full-name checks, canonical empty TArray, mismatch failure, optional relations and separate world generation pass 383 normal/UBSan assertions and packaging audits. Live values and lifecycle transitions require the named device report. See `evidence/GATE2C_LIVE_RELATIONSHIPS.md`. |
+| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; `.1` device relationship claim contradicted | `V2-G2C-BUILD-010` compiled the exact roots/offsets and bounded capture, but `V2-G2C-ENGINE-VALIDATOR-ABORT-001` stopped before relationship bytes. The implementation claim remains static; no live relationship is inferred. |
+| V2-EV-039 | Gate 2C `.1` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | The fresh Gate 2B snapshot completed in 37 ms with 110,906 objects/two chunks and every prerequisite validator passed, then the relationship phase aborted on the combined ShooterEngine identity validator with zero relationship bytes and zero capabilities. See `evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md`. |
+| V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | contradicted; correction statically validated | UClass object-array index `0x359` was dump-instance data, not ABI. The correction resolves the direct class inside each fresh snapshot, requires exact `Class ShooterGame.ShooterEngine`, and separately proves GameEngine/Engine ancestry. A relocated-class fixture and wrong-package negative pass 387 normal/UBSan-only assertions. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -97,6 +99,13 @@ generation 1 with generation 2, observed changed object/chunk counts, repeated
 all validators and retained zero active capabilities. It resolves the `.2`
 world limitation without rewriting that immutable abort.
 
+`V2-G2C-ENGINE-VALIDATOR-ABORT-001` is the immutable `.1` Gate 2C result.
+The fresh prerequisite snapshot completed in TheIsland, but no relationship
+snapshot was accepted because the combined Engine identity validator rejected
+the native root. Source audit found a fixed FreshSDK UClass object index in that
+validator; the replacement removes it without changing roots, offsets or
+capabilities. The `.1` failure is not rewritten by the correction.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -118,9 +127,11 @@ Detailed reviews:
 - [Gate 2B device capture abort](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md)
 - [Gate 2B device PASS](evidence/GATE2B_DEVICE_PASS_004.md)
 - [Gate 2C live relationship cards and device protocol](evidence/GATE2C_LIVE_RELATIONSHIPS.md)
+- [Gate 2C `.1` Engine-validator abort](evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md)
 
 ## Evidence required next
 
-Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C is
-implemented and ready for its isolated device protocol after the clean artifact
-receipt is recorded. Gate 3, hosting, travel and hooks remain closed.
+Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
+`.1` is an immutable fail-closed device abort. Build and execute only the clean
+`.2` direct-UClass correction under the isolated Gate 2C protocol. Gate 3,
+hosting, travel and hooks remain closed.

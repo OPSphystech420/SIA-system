@@ -218,6 +218,14 @@ receives only names, class-validation results, lifecycle state and discovery/
 world generations. No pointer survives capture, and no timer, per-frame poll,
 hook, native call or mutation is introduced.
 
+Device result `V2-G2C-ENGINE-VALIDATOR-ABORT-001` also fixes the class-anchor
+boundary: game-specific UClass object-array indices from SDK dumps are never
+profile ABI. The live Engine's direct class is resolved by its fresh snapshot
+identity/serial/generation and validated as exact
+`Class ShooterGame.ShooterEngine`; separately proven core GameEngine/Engine
+anchors remain super-chain validators. No class pointer or index is retained
+between captures.
+
 ## 4. Dependency graph
 
 ```mermaid

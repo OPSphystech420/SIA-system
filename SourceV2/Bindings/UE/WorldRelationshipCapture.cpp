@@ -349,6 +349,45 @@ public:
                 + std::string(expectedClassName) + " class chain");
     }
 
+    ContractResult<void> RequireExactDirectClass(
+        const DescribedObject& object, std::string_view expectedObjectName,
+        std::string_view expectedFullName) {
+        if (object.directClassIndex < 0
+            || static_cast<std::size_t>(object.directClassIndex)
+                >= snapshot_.objects.items_.size()) {
+            return ContractResult<void>::Failure(
+                ContractErrorCategory::OutOfRange,
+                "native Engine direct class index is outside the fresh object snapshot");
+        }
+        const auto& item = snapshot_.objects.items_[
+            static_cast<std::size_t>(object.directClassIndex)];
+        const ObjectIdentity identity{
+            object.directClassIndex, item.serialNumber, snapshot_.generation.value};
+        const auto directClass = Describe(identity);
+        if (!directClass) {
+            return ContractResult<void>::Failure(
+                directClass.Error().category,
+                "native Engine direct class could not be described: "
+                    + directClass.Error().context);
+        }
+        if (directClass.Value().className != "Class") {
+            return ContractResult<void>::Failure(
+                ContractErrorCategory::TypeMismatch,
+                "native Engine direct class object is not a UClass identity");
+        }
+        if (directClass.Value().objectName != expectedObjectName) {
+            return ContractResult<void>::Failure(
+                ContractErrorCategory::TypeMismatch,
+                "native Engine direct class name is not ShooterEngine");
+        }
+        if (directClass.Value().fullName != expectedFullName) {
+            return ContractResult<void>::Failure(
+                ContractErrorCategory::TypeMismatch,
+                "native Engine direct class full name is not Class ShooterGame.ShooterEngine");
+        }
+        return ContractResult<void>::Success();
+    }
+
     void SetMaximumChainDepth(std::uint32_t value) { maximumChainDepth_ = value; }
 
 private:
@@ -435,12 +474,15 @@ ContractResult<WorldRelationshipCaptureResult> WorldRelationshipCapture::Capture
     const auto engineDescription = relationships.Describe(*engineIdentity.Value());
     if (!engineDescription)
         return FailFrom<WorldRelationshipCaptureResult>(engineDescription.Error());
-    if (engineDescription.Value().directClassIndex != profile.shooterEngineClassIndex
-        || engineDescription.Value().className != "ShooterEngine"
-        || !IsStrictShooterEngineFullName(engineDescription.Value().fullName)) {
+    if (engineDescription.Value().className != "ShooterEngine") {
         return ContractResult<WorldRelationshipCaptureResult>::Failure(
             ContractErrorCategory::TypeMismatch,
-            "native Engine identity failed exact ShooterEngine class/full-name validators");
+            "native Engine runtime class name is not ShooterEngine");
+    }
+    if (!IsStrictShooterEngineFullName(engineDescription.Value().fullName)) {
+        return ContractResult<WorldRelationshipCaptureResult>::Failure(
+            ContractErrorCategory::TypeMismatch,
+            "native Engine full name is not ShooterEngine Transient.ShooterEngine_<number>");
     }
     if (serverhost::v2::ue::HasAllFlags(
             engineDescription.Value().flags,
@@ -449,6 +491,11 @@ ContractResult<WorldRelationshipCaptureResult> WorldRelationshipCapture::Capture
             ContractErrorCategory::TypeMismatch,
             "native Engine identity is a class default object");
     }
+    const auto exactDirectClass = relationships.RequireExactDirectClass(
+        engineDescription.Value(), "ShooterEngine",
+        "Class ShooterGame.ShooterEngine");
+    if (!exactDirectClass)
+        return FailFrom<WorldRelationshipCaptureResult>(exactDirectClass.Error());
     const auto isGameEngine = relationships.RequireIsA(
         engineDescription.Value(), profile.gameEngineClassIndex, "GameEngine");
     const auto isEngine = relationships.RequireIsA(
@@ -463,7 +510,8 @@ ContractResult<WorldRelationshipCaptureResult> WorldRelationshipCapture::Capture
     output.engineChecks.push_back(Pass(
         "native ownership", "GEngine root resolved to one fresh live object identity"));
     output.engineChecks.push_back(Pass(
-        "identity/full name/class", "unique non-CDO ShooterEngine with GameEngine/Engine chain"));
+        "identity/full name/class",
+        "unique non-CDO ShooterEngine with exact direct UClass and GameEngine/Engine chain"));
 
     const auto engineCopy = relationships.ReadExtent(
         engineDescription.Value().identity, kEngineExtent, "UEngine relationship fields");

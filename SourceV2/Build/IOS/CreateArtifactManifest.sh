@@ -122,6 +122,7 @@ manifest="$stage_dir/manifest.txt"
     echo 'gate2c_world_authoritygamemode_offset=0x2B8'
     echo 'gate2c_world_gamestate_offset=0x2C0'
     echo 'gate2c_capture=fresh-gate2b-owned-snapshot,explicit,bounded,read-only'
+    echo 'gate2c_engine_class_resolution=fresh-snapshot-exact-Class-ShooterGame.ShooterEngine'
     echo 'gate2c_world_generation=separate-from-discovery-generation'
     echo 'architecture_decision=DEC-V2-NO-HOOK-FIRST-HOST'
     echo 'runtime_capabilities_before_capture=scans_started=0,hooks=0,engine_calls=0,mutation=0'

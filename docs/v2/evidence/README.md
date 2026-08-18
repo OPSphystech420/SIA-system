@@ -51,6 +51,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2C live relationships](GATE2C_LIVE_RELATIONSHIPS.md) — exact GEngine,
   GWorld, Engine/Viewport/World/NetDriver/definition cards, typed bounded
   capture, independent world generation, static acceptance and device protocol.
+- [Gate 2C device Engine-validator abort 001](GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md)
+  — exact `.1` TheIsland prerequisite snapshot PASS, fail-closed relationship
+  abort, invalid fixed UClass dump-index assumption and bounded `.2` correction.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

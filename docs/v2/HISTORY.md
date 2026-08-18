@@ -553,3 +553,23 @@ Both captures retained zero hooks, engine calls and mutation. The optional
 return-menu third capture and longer soak were not reported. Gate 2B is complete
 for its scoped read-only snapshot contract; Gate 2C is unblocked but remains
 not started.
+
+## 2026-08-18 — Gate 2C `.1` Engine validator aborted fail-closed
+
+`V2-G2C-ENGINE-VALIDATOR-ABORT-001` executed the exact `.1` artifact during a
+local TheIsland world. Its fresh Gate 2B generation completed in 37 ms with
+110,906 objects/two chunks and every required FName, object/function and
+reflection validator passing. The relationship phase then aborted before its
+first accepted byte on the combined exact ShooterEngine identity validator.
+Hooks, engine calls and mutation remained zero; no live relationship or world-
+generation value is claimed.
+
+Source audit found that `.1` compared the live direct UClass object-array index
+with FreshSDK dump index `0x359`. The dump proves the class full name but not a
+stable process-independent index. Corrected `.2` dynamically resolves the
+direct UClass in the same fresh snapshot, requires exact
+`Class ShooterGame.ShooterEngine`, separately checks live class/full-name/CDO,
+and preserves the independent GameEngine/Engine chain. A relocated-UClass
+positive and wrong-package negative pass 387 normal and UBSan-only assertions;
+the boundary audit retains zero hooks/calls/mutation. Gate 3 and hosting remain
+closed.

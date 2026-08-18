@@ -17,10 +17,8 @@ struct LiveRelationshipProfile final {
     std::size_t worldNetDriverOffset;
     std::size_t worldAuthorityGameModeOffset;
     std::size_t worldGameStateOffset;
-    std::int32_t objectClassIndex;
     std::int32_t engineClassIndex;
     std::int32_t gameEngineClassIndex;
-    std::int32_t shooterEngineClassIndex;
     std::int32_t gameViewportClientClassIndex;
     std::int32_t worldClassIndex;
     std::int32_t netDriverClassIndex;
@@ -39,10 +37,8 @@ inline constexpr LiveRelationshipProfile kLiveRelationshipsIOS_1_10280{
     .worldNetDriverOffset = 0x1D8,
     .worldAuthorityGameModeOffset = 0x2B8,
     .worldGameStateOffset = 0x2C0,
-    .objectClassIndex = 0x1,
     .engineClassIndex = 0x1A8,
     .gameEngineClassIndex = 0x358,
-    .shooterEngineClassIndex = 0x359,
     .gameViewportClientClassIndex = 0x266,
     .worldClassIndex = 0x712,
     .netDriverClassIndex = 0x44,

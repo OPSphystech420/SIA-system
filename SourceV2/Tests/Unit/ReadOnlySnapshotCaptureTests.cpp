@@ -339,6 +339,7 @@ Fixture MakeFixture() {
     addName("KismetStringLibrary");
     addName("Conv_StringToName");
     addName("ShooterEngine");
+    addName("ShooterGame");
     addName("Transient");
     addName("TheIsland");
     addName("GameModeBase");
@@ -359,8 +360,8 @@ Fixture MakeFixture() {
         return static_cast<std::uint64_t>(
             kMetadataAddress + static_cast<std::size_t>(index) * kMetadataStride);
     };
-    const std::array<std::int32_t, 24> populated{
-        0x1, 0x2, 0x3, 0x4, 0x5, 0x44, 0x13D, 0x1A8, 0x1E2, 0x266,
+    const std::array<std::int32_t, 25> populated{
+        0x1, 0x2, 0x3, 0x4, 0x5, 0x7, 0x44, 0x13D, 0x1A8, 0x1E2, 0x266,
         0x358, 0x359, 0x37F, 0x380, 0x712, kLiveEngineIndex,
         kLiveViewportIndex, kLiveWorldIndex, kLiveNetDriverIndex,
         kLiveGameModeIndex, kLiveGameStateIndex, kReplacementWorldIndex,
@@ -392,6 +393,7 @@ Fixture MakeFixture() {
     writeObject(0x4, "KismetStringLibrary", 0x37F, 0x3);
     writeObject(0x5, "Transient", 0x37F, std::nullopt);
     writeObject(0x6, "None", 0x37F, std::nullopt);
+    writeObject(0x7, "ShooterGame", 0x37F, std::nullopt);
     writeObject(0x37F, "Class", 0x37F, 0x2);
     writeObject(0x380, "Function", 0x37F, 0x2);
     writeObject(0x1, "Object", 0x37F, 0x2);
@@ -399,7 +401,7 @@ Fixture MakeFixture() {
     writeObject(0x1A8, "Engine", 0x37F, 0x3);
     writeObject(0x266, "GameViewportClient", 0x37F, 0x3);
     writeObject(0x358, "GameEngine", 0x37F, 0x3);
-    writeObject(0x359, "ShooterEngine", 0x37F, 0x3);
+    writeObject(0x359, "ShooterEngine", 0x37F, 0x7);
     writeObject(0x13D, "GameModeBase", 0x37F, 0x3);
     writeObject(0x1E2, "GameStateBase", 0x37F, 0x3);
     writeObject(0x712, "World", 0x37F, 0x3);
@@ -877,6 +879,52 @@ void RunReadOnlySnapshotCaptureTests(TestContext& context) {
         liveResult.Value().snapshot.netDriverDefinitions.definitions[0]
                 .driverClassNameFallback
             == "/Script/OnlineSubsystemUtils.IpNetDriver");
+
+    Fixture relocatedEngineClass = MakeFixture();
+    constexpr std::int32_t relocatedShooterEngineClassIndex = 0x45;
+    UObjectLayout relocatedClass{};
+    std::span<std::byte> relocatedClassBytes(
+        reinterpret_cast<std::byte*>(&relocatedClass), sizeof(relocatedClass));
+    const auto copiedRelocatedClass = relocatedEngineClass.memory->Copy(
+        MetadataObjectAddress(0x359), relocatedClassBytes);
+    V2_EXPECT(context, copiedRelocatedClass);
+    relocatedClass.index = relocatedShooterEngineClassIndex;
+    relocatedEngineClass.memory->Write(
+        MetadataObjectAddress(relocatedShooterEngineClassIndex), relocatedClass);
+    relocatedEngineClass.memory->Write(
+        MetadataObjectAddress(relocatedShooterEngineClassIndex) + 0x40,
+        MetadataObjectAddress(0x358));
+    relocatedEngineClass.memory->Write(
+        kItemChunkAddress
+            + static_cast<std::size_t>(relocatedShooterEngineClassIndex)
+                * sizeof(FUObjectItemLayout),
+        FUObjectItemLayout{
+            .objectWord = MetadataObjectAddress(relocatedShooterEngineClassIndex),
+            .flags = 0,
+            .clusterIndex = 0,
+            .serialNumber = relocatedShooterEngineClassIndex + 100,
+            .pad_0014 = 0,
+        });
+    relocatedEngineClass.memory->Write(
+        kLiveEngineAddress + 0x10,
+        MetadataObjectAddress(relocatedShooterEngineClassIndex));
+    model::engine::WorldGenerationTracker relocatedEngineClassTracker;
+    auto relocatedEngineClassResult = CaptureRelationships(
+        relocatedEngineClass, relocatedEngineClassTracker, 1000);
+    V2_EXPECT(context, relocatedEngineClassResult);
+    V2_EXPECT(context,
+        relocatedEngineClassResult.Value().snapshot.engine.className
+            == "ShooterEngine");
+
+    Fixture wrongDirectClassPackage = MakeFixture();
+    wrongDirectClassPackage.memory->Write(
+        MetadataObjectAddress(0x359) + 0x20, MetadataObjectAddress(0x3));
+    model::engine::WorldGenerationTracker wrongDirectClassPackageTracker;
+    auto wrongDirectClassPackageResult = CaptureRelationships(
+        wrongDirectClassPackage, wrongDirectClassPackageTracker, 1001);
+    V2_EXPECT(context, !wrongDirectClassPackageResult
+        && wrongDirectClassPackageResult.Error().context
+            == "native Engine direct class full name is not Class ShooterGame.ShooterEngine");
 
     Fixture ambiguousEngine = MakeFixture();
     const FUObjectItemLayout duplicateEngineItem{

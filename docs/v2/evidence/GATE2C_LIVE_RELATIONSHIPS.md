@@ -1,7 +1,8 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
-Status: exact-binary/sdk/source cards, host-static implementation and clean iOS
-artifact complete; device execution pending.
+Status: exact-binary/sdk/source cards and implementation complete; `.1` device
+execution aborted fail-closed at an invalid fixed UClass dump-index validator;
+corrected `.2` source is statically verified and awaits its clean artifact.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -45,8 +46,9 @@ object array, and re-read for stability. No raw value is formatted or published.
   2C capture in the running game requires a non-null live Engine and fails
   closed otherwise.
 - Identity/class/full name: exactly one fresh, non-pending, non-unreachable,
-  non-CDO identity; direct class `ShooterEngine`; super chain includes
-  `GameEngine` and `Engine`; full name matches
+  non-CDO identity; the direct class is dynamically resolved in that snapshot
+  and must be exact `Class ShooterGame.ShooterEngine`; its super chain includes
+  `GameEngine` and `Engine`; the live object full name matches
   `ShooterEngine Transient.ShooterEngine_<digits>`.
 - Failure/revalidation: null, ambiguous, stale, unmapped, wrong class/name/CDO
   or unstable root aborts Gate 2C. Revalidate on every explicit capture and
@@ -167,8 +169,9 @@ generation validation and the immutable report says
 
 ## Static acceptance
 
-Normal and independent UBSan-only host runs each pass 383 assertions. Tests
-cover unique/ambiguous Engine, CDO and wrong class/full name;
+Normal and independent UBSan-only host runs for corrected `.2` each pass 387
+assertions. Tests cover unique/ambiguous Engine, CDO and wrong class/full name;
+relocated exact ShooterEngine direct UClass and wrong-package direct UClass;
 canonical empty and malformed arrays; valid/duplicate/invalid-name definitions;
 nullable/wrong Viewport; null/mismatched/absent/wrong World; optional and wrong-
 class relationships; stable, null-transition and replacement generations; stale
@@ -177,7 +180,7 @@ redaction/report bounds and exact zero capabilities. Boundary audit rejects
 Gate 2C Listen, travel, driver lifecycle calls, ProcessEvent, GetNetMode calls,
 hooks and mutation paths.
 
-## Artifact receipt
+## Historical `.1` artifact receipt
 
 Result ID: `V2-G2C-BUILD-010`
 
@@ -195,7 +198,7 @@ manifest=packages/v2/injection/gate2c-live-relationships-20260818.1/manifest.txt
 archival_deb=packages/v2/com.mhga.serverhost.v2_0.4.0~gate2c.20260818.1_iphoneos-arm.deb
 ```
 
-The clean tagged build reran 383 host assertions and the boundary audit, then
+The clean tagged `.1` build reran 383 host assertions and the boundary audit, then
 compiled/linked arm64 UIKit/Metal/ImGui, inspected package metadata/payload,
 verified Legacy/gameplay-symbol isolation, copied the package dylib
 byte-identically, and matched the Mach-O/dSYM UUID. The v4 manifest records all
@@ -211,7 +214,31 @@ restored from that exact raw dylib and original metadata and passes V2 package
 inspection; its current container SHA is `e3054a9e…891fe`, not the immutable
 historical `.deb` SHA `e1147e8f…c8f8`. The historical receipt is not rewritten.
 
-## Device protocol
+## Immutable `.1` device result and correction
+
+Result ID: `V2-G2C-ENGINE-VALIDATOR-ABORT-001`
+
+The exact `.1` artifact ran in a local TheIsland world. Its fresh Gate 2B
+snapshot completed in 37 ms with 180 FName blocks/399,494 entries, 110,906
+objects in two chunks and every required name/object/reflection validator
+passing. Gate 2C then aborted before accepting a relationship byte with:
+
+```text
+native Engine identity failed exact ShooterEngine class/full-name validators
+```
+
+The combined `.1` message does not identify its failing predicate. Source audit
+found that `.1` required the direct ShooterEngine UClass object-array index to
+equal FreshSDK dump index `0x359`. That index is snapshot identity, not ABI.
+Corrected `.2` removes it from the profile, resolves the direct class within the
+fresh owned snapshot, requires exact `Class ShooterGame.ShooterEngine`, and
+keeps the independent `GameEngine`/`Engine` chain checks. Diagnostics now
+separate runtime class, live full name, CDO and direct-class failures. The exact
+native roots and every relationship offset remain unchanged.
+
+Full immutable intake: [Gate 2C device Engine-validator abort 001](GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md).
+
+## Corrected `.2` device protocol
 
 1. In the main menu, press Capture once.
 2. Verify Engine/Viewport identities, definitions and a permitted menu/loading
@@ -236,7 +263,8 @@ engine_calls=0
 mutation=0
 ```
 
-PASS requires no raw address output, no relationship abort/mismatch, bounded
+Use only build `gate2c-live-relationships-20260818.2`; `.1` cannot satisfy this
+protocol. PASS requires no raw address output, no relationship abort/mismatch, bounded
 duration, correct same-world generation stability and all applicable identity/
 class/FName checks. Gate 3 and hosting remain closed after this artifact.
 
@@ -247,4 +275,4 @@ class/FName checks. Gate 3 and hosting remain closed after this artifact.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
 - Gate 2C live values are not device-proven until the protocol above is
-  returned for the exact artifact.
+  returned for the exact corrected `.2` artifact.
