@@ -22,11 +22,14 @@ The near-term platform is iOS:
 - completed workflow: Roadmap Gate 1, the host-local static typed identity spine;
 - Gate 1.5 state: corrected `.2` has a bounded functional device PASS for icon,
   Metal/ImGui, Status/Logs/Copy/Close/reopen; longer soak and independent
-  outside-window touch verification remain pending and are carried forward;
-- active workflow: Gate 2A exact ShooterGame image/profile identity and checked
-  mapped-memory boundary only;
-- Gate 2B name/object/reflection discovery and Gate 2C Engine/world
-  relationships/generation invalidation have not started.
+  outside-window touch verification were not separately reported;
+- Gate 2A exact ShooterGame image/profile identity is device-verified, with
+  `scans_started=0` and every capability counter at zero;
+- active workflow: classify the death/respawn signal exit using the existing
+  no-injection / closed-panel / open-panel A/B/C protocol, with no new build;
+- Gate 2B name/object/reflection discovery is blocked pending that causal
+  classification; Gate 2C Engine/world relationships/generation invalidation
+  has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

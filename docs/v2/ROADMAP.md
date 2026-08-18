@@ -13,17 +13,19 @@ active interruption. Gate 1 foundation hardening is complete. The explicitly
 inserted Gate 1.5 diagnostic UI/raw-injection workflow is
 `functional-device-pass; extended-soak-pending`: exact `.1` remains a preserved
 opening failure and corrected `.2` passed the bounded functional panel path.
-The user authorized Gate 2, which is split into 2A/2B/2C. Only Gate 2A exact
-identity/memory-boundary work is active. This does not authorize Gate 2B/2C,
-Gate 3 dispatch, Gate 4 hooks or any later behavior.
+The user authorized Gate 2, which is split into 2A/2B/2C. Gate 2A positive
+exact identity is device-verified, but its extended stability is contradicted
+by a death-triggered signal exit. Only the no-build A/B/C causal classification
+is active. This does not authorize Gate 2B/2C, Gate 3 dispatch, Gate 4 hooks or
+any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
-| 2A — exact image identity/memory boundary | active; statically validated, single artifact ready; device pending | exact offline+IDA profile and synthetic fail-closed boundary; no runtime match claim |
-| 2B — name/object/reflection discovery | not started | unverified/not started |
+| 2A — exact image identity/memory boundary | positive identity device-verified; extended stability contradicted; causal classification active | exact UUID/fingerprint/segments matched with zero scans/capabilities; death/respawn signal-exit cause unknown |
+| 2B — name/object/reflection discovery | blocked pending Gate 2A A/B/C classification | unverified/not started |
 | 2C — Engine/world relationships/invalidation | not started | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
@@ -177,8 +179,9 @@ Exit:
 Observed exit evidence: icon action, visible Metal/ImGui, Status, Logs, Copy
 logs, Close and reopen passed; UIKit fallback did not appear; capabilities
 remained zero. The user did not separately report the longer menu/map soak or
-independent outside-window touch pass-through, so those are not claimed and are
-carried into Gate 2A. The user explicitly authorized progression.
+independent outside-window touch pass-through for that artifact, so those are
+not retroactively claimed. A later Gate 2A death/respawn signal exit is recorded
+as a separate artifact result. The user explicitly authorized progression.
 
 Forbidden: loaded-image/name/object/Engine discovery, UE/Bindings/UI coupling,
 hooks, scheduler, resolver, engine calls, mutation, Host/Client/admin controls,
@@ -186,8 +189,8 @@ Legacy source or `HostingRuntime`.
 
 ## Gate 2A — exact image identity and checked-memory boundary
 
-State: active. Source/static implementation and clean artifact are complete;
-device receipt pending.
+State: positive exact identity device-verified; extended stability contradicted
+by `V2-G2A-DEATH-SIGNAL-EXIT-001`; causal classification active.
 
 Goal: prove that the dylib selected exactly the profiled ShooterGame image and
 create the sole safe read-only mechanism available to Gate 2B.
@@ -207,8 +210,9 @@ Work:
   `Bindings/Platform`;
 - **Diagnostics:** publish only immutable redacted identity receipt and exact
   `scans_started=0`, `hooks=0`, `engine_calls=0`, `mutation=0`;
-- **Device:** verify exact match, wrong-profile fail-close, panel lifecycle and
-  the rolled-over two-minute menu/five-minute local-world/touch checks.
+- **Device:** the positive exact match and panel lifecycle are verified. The
+  wrong-profile negative remains a non-inferred static/profile follow-up. The
+  active device work is only the no-build death/respawn causal control.
 
 Exit:
 
@@ -219,13 +223,21 @@ Exit:
 - checked reads reject overflow, outside/cross-segment and wrong-permission
   access and never return a borrowed pointer;
 - diagnostics contain no slide, pointer, RVA or absolute address;
-- target and wrong-profile device receipts plus rolled-over stability/touch
-  checks pass without crash or ordinary-game regression.
+- the positive target receipt is device-proven; unsupported profiles retain
+  their statically validated fail-closed contract without an invented device
+  PASS;
+- the death/respawn stability contradiction is causally classified before any
+  2B live discovery. A reproduced baseline game limitation may be recorded as
+  external rather than falsely attributed to V2.
 
 Required user device test and artifacts:
 
-Use `PLAN-G2A-SIDELOAD-001` exactly. No name/object scan, Engine relationship,
-hook, call or mutation is an exit requirement.
+`V2-G2A-IDENTITY-PASS-001` completed the positive exact-target identity part of
+`PLAN-G2A-SIDELOAD-001`. Run only `PLAN-G2A-DEATH-CAUSAL-001` now: one same-save
+death without injection, one with exact Gate 2A and the panel closed for at
+least 30 seconds, and one after a full restart with the panel open. No new
+artifact, name/object scan, Engine relationship, hook, call or mutation is part
+of this control.
 
 Forbidden: FNamePool/GUObjectArray scanning, GEngine/GWorld discovery, hooks,
 ProcessEvent, native/UObject calls, scheduler, Host/Client/admin UI, NetMode
@@ -233,10 +245,10 @@ policy, writes, Legacy linking or continuous rendering after Close.
 
 ## Gate 2B — FNamePool, GUObjectArray and reflection discovery
 
-State: not started; explicitly outside the Gate 2A workflow.
+State: blocked pending `PLAN-G2A-DEATH-CAUSAL-001`; not started.
 
-Entry: Gate 2A device protocol passes and its exact match proof/checked reader
-remain unchanged.
+Entry: Gate 2A causal classification permits progression and its exact match
+proof/checked reader remain unchanged.
 
 Goal: discover and validate FNamePool, GUObjectArray and the minimum reflection
 metadata using only `CheckedMemoryReader` and immutable bounded snapshots.
@@ -555,10 +567,10 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Device-test **Gate 2A only** with the one raw artifact. The exact target
-must match; a wrong build must fail close; the receipt must expose no addresses
-and retain zero scans/capabilities. Complete the rolled-over panel lifecycle,
-outside-window touch and short menu/local-world stability checks.
+Run `PLAN-G2A-DEATH-CAUSAL-001` only: A without injected dylib, B with exact Gate
+2A closed for 30+ seconds, and C after restart with the same panel open. Use the
+same save/map/character, no EOS and no other mods. Apply the fixed result matrix
+before any code change.
 
 Do not start Gate 2B or 2C in the same workflow. Hooks, `ProcessEvent`, native
 calls, hosting, client travel, save, administration and mutation remain

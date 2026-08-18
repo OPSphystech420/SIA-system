@@ -397,3 +397,29 @@ passed iOS arm64 compilation, package inspection and injection Legacy/gameplay
 isolation. An independent UBSan-only run also passed 191 assertions. The
 artifact is ready for `PLAN-G2A-SIDELOAD-001`; no device/runtime exact-match
 claim exists yet, and Gate 2B remains unstarted.
+
+## 2026-08-18 — Gate 2A identity passed; death stability failed
+
+The user executed exact build `gate2a-exact-identity-20260818.1`, source
+`17e4e09ce8029bb89b22560da771ddc170e2ad0d`, raw input SHA-256
+`65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72`.
+Runtime matched UUID `E52A980C-9C36-34C7-84B0-DD6E846328DC`, the profile segment
+card and fingerprint `8bfc1fd248a5...`; scans, hooks, engine calls and mutation
+remained zero. UI open/close/reopen, Copy logs and interaction also worked.
+This became positive identity sub-contract result
+`V2-G2A-IDENTITY-PASS-001`.
+
+In the same artifact workflow, ShooterGame exited during character death and
+the death/respawn transition in a local saved no-EOS world while the panel was
+open. Console capture SHA-256
+`0578303bea504af55cf6762d147debe6443e6f915bc9d3a56738608b360c7a8f`
+contains `GASignalHandler entered` at line 7579, followed by an HTTP 200 crash-
+event upload. The response is not treated as cause. No signal number, stack,
+faulting thread or new ShooterGame `.ips` was available. This became immutable
+failure `V2-G2A-DEATH-SIGNAL-EXIT-001` and contradicted extended stability only.
+
+Source audit found no Gate 2A Pawn/HUD/World/UObject acquisition and no
+production discovery-reader creation, so a V2 dangling UE pointer is
+incompatible with this path. Base death behavior, open-overlay interaction and
+another latent injection/startup/UI defect remain candidates. Gate 2B is blocked
+pending the single no-build `PLAN-G2A-DEATH-CAUSAL-001` A/B/C protocol.

@@ -27,8 +27,9 @@ rewrite a PASS or FAIL into a later conclusion.
 | PLAN-G1-PACKAGE-001 | 1 | Build from a clean revision; inspect package/control/payload/arm64/signature/strings; emit immutable manifest | Package and dylib hashes recorded; no installation | executed by `V2-G1-PREP-003` |
 | PLAN-G1.5-SIDELOAD-001 | 1.5 | Inject only manifested raw V2 dylib into a clean app; inspect Status/Logs, close/pause behavior and menu/local-world soak | Icon/refusal visibility, exact zero capabilities, bounded logs, touch/render isolation and stability | executed; FAIL `V2-G1.5-SIDELOAD-FAIL-001` |
 | PLAN-G1.5-SIDELOAD-002 | 1.5 | Inject corrected `.2`; verify acknowledged action, visible panel, Status/Logs, Copy, Close/reopen and zero capabilities | Functional panel path passes; missing longer soak/touch checks remain explicit | executed by `V2-G1.5-SIDELOAD-PASS-002`; functional-device-pass, extended-soak-pending |
-| PLAN-G2A-SIDELOAD-001 | 2A | Inject the single Gate 2A artifact; verify exact image/profile receipt, zero scans/capabilities, fail-close behavior and rolled-over read-only stability/touches | One exact profile, no address disclosure, no later discovery, panel lifecycle and ordinary menu/local-world stability | artifact ready; device execution pending |
-| PLAN-G2B-DISCOVERY-001 | 2B | Future FNamePool, GUObjectArray and reflection discovery only through the checked reader | Known names/objects/reflection validate read-only | not started; outside current task |
+| PLAN-G2A-SIDELOAD-001 | 2A | Inject the single Gate 2A artifact; verify exact image/profile receipt, zero scans/capabilities, fail-close behavior and rolled-over read-only stability/touches | One exact profile, no address disclosure, no later discovery, panel lifecycle and ordinary menu/local-world stability | partially executed: identity PASS; death-triggered stability FAIL; wrong-profile negative unexecuted |
+| PLAN-G2A-DEATH-CAUSAL-001 | 2A | One same-save death each for no dylib, exact Gate 2A with UI closed 30+ seconds and exact Gate 2A with UI open | Classify base game vs open overlay vs injection/bootstrap, or retain intermittent status | ready; no new build; blocks Gate 2B |
+| PLAN-G2B-DISCOVERY-001 | 2B | Future FNamePool, GUObjectArray and reflection discovery only through the checked reader | Known names/objects/reflection validate read-only | blocked pending `PLAN-G2A-DEATH-CAUSAL-001` |
 | PLAN-G2C-RELATIONSHIPS-001 | 2C | Future Engine/GameViewport/World/NetDriver relationships and world-generation invalidation | Exact relationships and stale-generation refusal | not started; outside current task |
 
 ## Immutable V2 execution rows
@@ -44,6 +45,8 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G1.5-FIX-BUILD-005 | 2026-08-18 | clean revision `8fb09e654466b07b534a3dd16b2618e789d84777`, tag `v2-gate1.5-diagnostic-ui-20260818.2-source`; `gate1.5-diagnostic-ui-20260818.2`; host binary SHA-256 `418ec0df03be3175fea571a177ae0fb21f1c37a92432abf7457fc9f833b6326f`; raw dylib SHA-256 `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`; Mach-O/dSYM UUID `4D308F3A-41F6-392C-9C0C-D2384DAFB889`; package SHA-256 `646798a6c880767146d8c32b068a972e39deafb87ecd5c3e0aedabb9602423ee` | 143 host assertions; presentation transition/deadline/fallback/event tests; boundary audit; iOS arm64 UIKit/Metal/ImGui build; package and injection Legacy/gameplay symbol audits; byte-identical package/raw dylib and matching dSYM; immutable manifest SHA-256 `6aea8368b71e74363f9c5e3c4faf95d943c24d744d208dc8d7a9d319f770b9e7`; no installation/execution | PASS | compiled/statically validated and ready for `PLAN-G1.5-SIDELOAD-002`; UIKit/Metal pixels, input, copy, close/reopen and stability remain unverified; Gate 2 not started | [Investigation/correction report](evidence/GATE1_5_UI_FAILURE_INVESTIGATION.md) |
 | V2-G1.5-SIDELOAD-PASS-002 | 2026-08-18 | `gate1.5-diagnostic-ui-20260818.2`; source `8fb09e654466b07b534a3dd16b2618e789d84777`; raw input dylib SHA-256 `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32` | User manual Sideloadly execution. Runtime receipt confirmed button action, open request, verified hierarchy, first frame, Metal drawable/pass, ImGui submission/presentation, stopped Metal on Close, reopen and bounded log copy. | PASS: functional device path | Device-verified icon action, visible Metal/ImGui, Status, Logs, Copy logs, Close/reopen; no UIKit fallback; capabilities remained zero. Longer menu/map soak and independent outside-window touch check were not separately reported and are not claimed; user authorized Gate 2A. | [Gate 1.5 PASS 002](evidence/GATE1_5_SIDELOAD_PASS_002.md) |
 | V2-G2A-BUILD-006 | 2026-08-18 | clean revision `17e4e09ce8029bb89b22560da771ddc170e2ad0d`, tag `v2-gate2a-exact-identity-20260818.1-source`; `gate2a-exact-identity-20260818.1`; host binary SHA-256 `89b6e8322857c64cd731fa17897212fd5748fe744bd8c4ccd81c8455d5b67abc`; raw dylib SHA-256 `65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72`; Mach-O/dSYM UUID `0704076C-EAB6-3F25-800D-C0F0B85431E8`; package SHA-256 `19d75c2e4ec8df0bc3e00d33e7337f3f7e981ddfc8308ebd8981007eb0784209` | 191 normal host assertions and 191 UBSan-only assertions; malformed/ambiguous identity and checked-read negative tests; raw boundary audit; iOS arm64 compile; package/control/payload/build-ID and injection Legacy/gameplay isolation audits; byte-identical package/raw dylib, matching dSYM; manifest SHA-256 `77329da6d35f49c332c63a39e733d6fc970eaf474f89600b7edd37909ad1c5ca`; no installation/execution | PASS | statically validated and ready for `PLAN-G2A-SIDELOAD-001`; exact runtime match, wrong-profile refusal and stability/touch behavior remain device-unverified; Gate 2B not started | [Gate 2A report](evidence/GATE2A_EXACT_IMAGE_IDENTITY.md) |
+| V2-G2A-IDENTITY-PASS-001 | 2026-08-18 | `gate2a-exact-identity-20260818.1`; source `17e4e09ce8029bb89b22560da771ddc170e2ad0d`; raw input dylib SHA-256 `65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72` | User manual Sideloadly execution on Apple Silicon Mac. Status/Logs showed exact-match UUID `E52A980C-9C36-34C7-84B0-DD6E846328DC`, expected segment card and fingerprint `8bfc1fd248a5...`; open/close/reopen, Copy logs and interaction worked. | PASS: positive exact-target identity sub-contract | Exact image identity is device verified; `scans_started=0`, hooks/engine calls/mutation zero. Wrong-profile negative and extended stability are not included in this PASS. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
+| V2-G2A-DEATH-SIGNAL-EXIT-001 | 2026-08-18 | same exact Gate 2A artifact; Console SHA-256 `0578303bea504af55cf6762d147debe6443e6f915bc9d3a56738608b360c7a8f` | Apple Silicon Mac; local saved world; no EOS; character death and death/respawn transition with panel open. Last V2 open `uptime_ms=120678`, no later close. Console line 7579: `GASignalHandler entered`; subsequent crash-event upload received HTTP 200; no signal number, stack, faulting thread or new 2026-08-18 ShooterGame `.ips`. | FAIL: extended stability contradicted | Root cause unclassified. HTTP 200 is upload success, not cause. Source audit excludes a V2 dangling Pawn/HUD/World/UObject pointer but not base death path, open overlay or another latent injection/startup/UI defect. Gate 2B blocked. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -215,3 +218,53 @@ pass-through work; and the two-minute menu plus five-minute local-world checks
 complete without crash or visible game regression.
 
 No Gate 2B name/object scan or Gate 2C relationship is part of this protocol.
+
+Execution produced `V2-G2A-IDENTITY-PASS-001` for the positive exact-target
+identity sub-contract and `V2-G2A-DEATH-SIGNAL-EXIT-001` for extended stability.
+It did not execute the wrong-profile negative. The signal exit is handled by
+the causal protocol below before any Gate 2B work.
+
+## PLAN-G2A-DEATH-CAUSAL-001 exact protocol
+
+Purpose: classify the death/respawn signal exit using the existing application
+and exact Gate 2A dylib only. Build no replacement, A/B or diagnostic package.
+Use the same ShooterGame 1.10280 save/map and character in all arms. Do not log
+into EOS and do not run hosting, client travel or any other mod.
+
+### A — baseline without injection
+
+1. Remove every injected ServerHost dylib and fully launch the application.
+2. Bring the same character to death.
+3. Record whether respawn UI appears, whether the process exits, wall-clock
+   time, approximate process uptime, Console tail and any new `.ips`.
+
+### B — exact Gate 2A with UI closed
+
+1. Inject only the existing raw artifact:
+   `packages/v2/injection/gate2a-exact-identity-20260818.1/ServerHostV2.dylib`.
+2. Open the panel once, verify build ID
+   `gate2a-exact-identity-20260818.1`, then close it.
+3. Wait at least 30 seconds with the panel closed.
+4. Bring the same character to death and capture the same evidence as A.
+
+### C — exact Gate 2A with UI open
+
+1. Fully restart the application with the same Gate 2A dylib injected.
+2. Leave the panel open and bring the same character to death.
+3. Capture the same evidence as A and B.
+
+Run each arm once. Do not change artifact, save, map, EOS state or other mods
+between arms. For each arm report respawn UI yes/no, exit yes/no, exact times,
+`GASignalHandler entered` yes/no, Console tail and `.ips` path if one appears.
+
+Interpret exactly as follows:
+
+- A exits at death: strong base-game/EOS/save-path evidence; repeat A once. If
+  reproduced, record an external baseline limitation and Gate 2B may continue.
+- A and B stable, C exits: open Metal/ImGui presentation path is implicated;
+  Gate 2B stays blocked until the UI is fixed.
+- A stable, B and C exit: V2 injection/bootstrap/identity delta is implicated;
+  define a Gate 1.5 `.2` versus Gate 2A control only after this result.
+- A and B exit: ambiguous; repeat baseline A before attribution.
+- All three stable: intermittent result; do not patch code without a second
+  reproduction.

@@ -33,6 +33,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2A exact image identity](GATE2A_EXACT_IMAGE_IDENTITY.md) — exact offline
   ShooterGame/IDA identity, stable fingerprint range, Sishen dispositions and
   checked-memory fail-closed contract.
+- [Gate 2A device identity and death exit](GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md)
+  — positive exact-target identity PASS, immutable death/respawn signal-exit
+  intake, source audit and the single no-build A/B/C causal protocol.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 
