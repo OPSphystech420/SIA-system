@@ -22,7 +22,7 @@ Gate 3 dispatch, Gate 4 hooks or any later behavior.
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
-| 2A — exact image identity/memory boundary | active; source/static complete, artifact/device pending | exact offline+IDA profile and synthetic fail-closed boundary; no runtime match claim |
+| 2A — exact image identity/memory boundary | active; statically validated, single artifact ready; device pending | exact offline+IDA profile and synthetic fail-closed boundary; no runtime match claim |
 | 2B — name/object/reflection discovery | not started | unverified/not started |
 | 2C — Engine/world relationships/invalidation | not started | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
@@ -186,8 +186,8 @@ Legacy source or `HostingRuntime`.
 
 ## Gate 2A — exact image identity and checked-memory boundary
 
-State: active. Source/static implementation complete; clean artifact and device
-receipt pending.
+State: active. Source/static implementation and clean artifact are complete;
+device receipt pending.
 
 Goal: prove that the dylib selected exactly the profiled ShooterGame image and
 create the sole safe read-only mechanism available to Gate 2B.
@@ -555,7 +555,7 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Finish and device-test **Gate 2A only** with one raw artifact. The exact target
+Device-test **Gate 2A only** with the one raw artifact. The exact target
 must match; a wrong build must fail close; the receipt must expose no addresses
 and retain zero scans/capabilities. Complete the rolled-over panel lifecycle,
 outside-window touch and short menu/local-world stability checks.

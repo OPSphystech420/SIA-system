@@ -7,7 +7,7 @@ Last updated: 2026-08-18.
 ```text
 active workflow: Gate 2A — exact image identity and checked-memory boundary
 Gate 1.5: functional-device-pass; extended-soak-pending
-Gate 2A: source implemented; clean artifact handoff pending
+Gate 2A: statically validated; single artifact ready for device test
 Gate 2B: not started
 Gate 2C: not started
 capabilities: scans_started=0 hooks=0 engine_calls=0 mutation=0
@@ -109,6 +109,25 @@ never published.
 
 Detailed evidence: [Gate 2A exact identity](evidence/GATE2A_EXACT_IMAGE_IDENTITY.md).
 
+## Gate 2A immutable build receipt
+
+Result ID: `V2-G2A-BUILD-006`
+
+```text
+Build ID: gate2a-exact-identity-20260818.1
+Source revision: 17e4e09ce8029bb89b22560da771ddc170e2ad0d
+Source tag: v2-gate2a-exact-identity-20260818.1-source
+Raw dylib SHA-256: 65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72
+Mach-O / dSYM UUID: 0704076C-EAB6-3F25-800D-C0F0B85431E8
+Manifest SHA-256: 77329da6d35f49c332c63a39e733d6fc970eaf474f89600b7edd37909ad1c5ca
+Archive .deb SHA-256: 19d75c2e4ec8df0bc3e00d33e7337f3f7e981ddfc8308ebd8981007eb0784209
+```
+
+The clean build passed 191 host assertions, the boundary audit, iOS arm64
+compile, package inspection and injection Legacy/gameplay isolation audit. An
+independent UBSan-only build also passed 191 assertions. This is ready-for-
+device-test evidence only; no runtime exact-match PASS is claimed.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -120,6 +139,5 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Finish the clean Gate 2A source commit/tag, build one raw Sideloadly dylib with
-matching dSYM/manifest and archival `.deb`, then execute
-`PLAN-G2A-SIDELOAD-001`. Do not start Gate 2B in this task.
+Execute `PLAN-G2A-SIDELOAD-001` with the one manifested raw dylib. Do not use
+the archival `.deb` for this device test and do not start Gate 2B in this task.

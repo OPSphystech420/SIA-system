@@ -379,3 +379,21 @@ The production UI compatibility request was recorded as a separate future task:
 inspect the real ProjDragon ARKFont and self-contained DRGui/Sishen layout blocks
 only after ImGui/ownership/license review. The current Gate 1.5 panel remains the
 control and was not refactored in Gate 2A.
+
+## 2026-08-18 — Gate 2A static build handoff completed
+
+`V2-G2A-BUILD-006` was built from clean source revision
+`17e4e09ce8029bb89b22560da771ddc170e2ad0d`, tagged
+`v2-gate2a-exact-identity-20260818.1-source`. The one raw Sideloadly input has
+SHA-256 `65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72`;
+its Mach-O UUID matches the dSYM at
+`0704076C-EAB6-3F25-800D-C0F0B85431E8`. The immutable manifest SHA-256 is
+`77329da6d35f49c332c63a39e733d6fc970eaf474f89600b7edd37909ad1c5ca`;
+the archival `.deb` SHA-256 is
+`19d75c2e4ec8df0bc3e00d33e7337f3f7e981ddfc8308ebd8981007eb0784209`.
+
+The final clean build reran 191 host assertions and the boundary audit, then
+passed iOS arm64 compilation, package inspection and injection Legacy/gameplay
+isolation. An independent UBSan-only run also passed 191 assertions. The
+artifact is ready for `PLAN-G2A-SIDELOAD-001`; no device/runtime exact-match
+claim exists yet, and Gate 2B remains unstarted.

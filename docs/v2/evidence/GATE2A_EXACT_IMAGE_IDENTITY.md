@@ -145,6 +145,31 @@ combined ASan/UBSan runtime initialized its libc interceptors but did not enter
 the test `main`; it was terminated without a sanitizer diagnostic, so no ASan
 PASS is claimed.
 
-The artifact receipt and clean source revision are appended by the build handoff
-commit. Gate 2B (FNamePool/GUObjectArray/reflection) and Gate 2C
+## Immutable artifact receipt
+
+```text
+Result ID: V2-G2A-BUILD-006
+Build ID: gate2a-exact-identity-20260818.1
+Source revision: 17e4e09ce8029bb89b22560da771ddc170e2ad0d
+Source tag: v2-gate2a-exact-identity-20260818.1-source
+Raw dylib SHA-256: 65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72
+Mach-O / dSYM UUID: 0704076C-EAB6-3F25-800D-C0F0B85431E8
+dSYM DWARF SHA-256: a5f14164e93815538c7fb7962ce36eaa94f669c066c6247fbb8f603d04a4c9b2
+Manifest SHA-256: 77329da6d35f49c332c63a39e733d6fc970eaf474f89600b7edd37909ad1c5ca
+Archive .deb SHA-256: 19d75c2e4ec8df0bc3e00d33e7337f3f7e981ddfc8308ebd8981007eb0784209
+```
+
+Artifact paths:
+
+- `packages/v2/injection/gate2a-exact-identity-20260818.1/ServerHostV2.dylib`
+- `packages/v2/injection/gate2a-exact-identity-20260818.1/ServerHostV2.dylib.dSYM`
+- `packages/v2/injection/gate2a-exact-identity-20260818.1/manifest.txt`
+- `packages/v2/com.mhga.serverhost.v2_0.2.0~gate2a.20260818.1_iphoneos-arm.deb`
+
+The read-only manifest is `serverhost-v2-injection-manifest-v3` and records the
+exact target UUID/fingerprint range plus zero runtime capabilities. Package and
+raw injection audits passed. This is a static/build receipt, not a Gate 2A
+device PASS.
+
+Gate 2B (FNamePool/GUObjectArray/reflection) and Gate 2C
 (Engine/GameViewport/World/NetDriver/generation) have not started.
