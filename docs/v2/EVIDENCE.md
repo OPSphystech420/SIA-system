@@ -9,12 +9,12 @@ active V2 blocker.
 
 | ID | Claim | State | Evidence and limit |
 |---|---|---|---|
-| V2-EV-001 | V2 has a separate explicit source list and package ID and does not link Legacy runtime sources. | source-confirmed | `SourceV2.mk`, `SourceV2/Build/IOS/Makefile`; boundary audit. No runtime claim. |
+| V2-EV-001 | V2 has a separate explicit source list and package ID and does not link Legacy runtime sources. | statically validated | `SourceV2.mk`, `SourceV2/Build/IOS/Makefile`; strengthened boundary audit passed in `V2-G1-PREP-003`. No runtime claim. |
 | V2-EV-002 | Gate 1 curated types/layouts, borrowed containers/strings, name decoding, object identity, reflection descriptors and strict profile validation have host-local coverage. | statically validated historical baseline | 56 assertions passed in `V2-G1-STATIC-001`; these synthetic host tests are not live validation. |
 | V2-EV-003 | The iOS 1.10280 profile intentionally lacks live image identity and fails closed. | source-confirmed | `Bindings/Profiles/IOS_1_10280.hpp`, `ProfileValidator.cpp`, inert initialization tests. Gate 2 must gather the identity. |
-| V2-EV-004 | Legacy/V2 co-installation is rejected at package resolution and V2 startup independently refuses an already-loaded exact `ServerHost.dylib`. | source-confirmed; host-local guard tested | Debian `Conflicts` plus `LegacyRuntimeGuard`; no device installation or startup execution. |
-| V2-EV-005 | Curated layout assertions belong to both host and iOS target source lists. | source-confirmed | `LayoutTests.cpp` is explicit in both build files; final arm64 compilation result is recorded in `TEST_MATRIX.md`. |
-| V2-EV-006 | V2 packaging is revision-bound and produces a read-only SHA-addressed artifact manifest. | source-confirmed | Clean-revision gate and manifest/content-inspection scripts; final hashes are appended only after execution. |
+| V2-EV-004 | Legacy/V2 co-installation is rejected at package resolution and V2 startup independently refuses an already-loaded exact `ServerHost.dylib`. | statically validated | Inspected Debian `Conflicts` plus five passing host-local `LegacyRuntimeGuard` assertions in `V2-G1-PREP-003`; no device installation or startup execution. |
+| V2-EV-005 | Curated layout assertions belong to both host and iOS target source lists. | compiled | `LayoutTests.cpp` compiled cleanly in both host C++20 and iOS arm64 targets in `V2-G1-PREP-003`. |
+| V2-EV-006 | V2 packaging is revision-bound and produces a read-only SHA-addressed artifact manifest. | statically validated | Clean revision `23da20fe1bbc472bf2476ec6d33a7cd658d7c0d3`; package/content inspection passed; manifest and artifact hashes are recorded in `TEST_MATRIX.md`. |
 | V2-EV-007 | Gate 2 implementation has not started. | source-confirmed | No `Bindings/Platform` reader, live resolver, hook, invoker, host/client service or mutation path exists. |
 
 ## Sishen pattern evidence

@@ -3,8 +3,8 @@
 The active project is Server-Host V2. The detailed workflow authority is
 [`docs/v2/STATUS.md`](docs/v2/STATUS.md).
 
-Gate 1 foundation hardening is the current infrastructure stage. Gate 2 is the
-next workflow and has not started. It is limited to read-only loaded-image,
+Gate 1 foundation hardening is complete and verified by the clean V2 workflow.
+Gate 2 is the next workflow and has not started. It is limited to read-only loaded-image,
 FNamePool, GUObjectArray, reflection, Engine and World discovery; hooks,
 `ProcessEvent`, hosting, client travel and gameplay mutation remain excluded.
 

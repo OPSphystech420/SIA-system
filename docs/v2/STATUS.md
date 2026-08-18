@@ -6,7 +6,7 @@ Last updated: 2026-08-18.
 
 ```text
 active workflow: V2 Gate 1 infrastructure hardening and Gate 2 preparation
-workflow state: implementation complete; final V2 build/static/package verification pending
+workflow state: complete; clean host/static/iOS package verification passed
 next workflow: Gate 2 read-only live contract discovery
 device state: unchanged; no package installed or executed
 Legacy state: archived evidence only; it cannot block V2 without an explicit Legacy investigation request
@@ -36,13 +36,26 @@ engine call, host/client flow or mutation is implemented.
   inspection, and emits a read-only SHA-addressed manifest containing build ID,
   revision, flags, package SHA-256 and dylib SHA-256.
 
-Final package path and hashes are recorded here only after the clean revision
-build completes.
+Verified build identity: `gate1-foundation-20260818.3`, source revision
+`23da20fe1bbc472bf2476ec6d33a7cd658d7c0d3`.
+
+- Package:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/com.mhga.serverhost.v2_0.1.1~gate1.20260818.3_iphoneos-arm.deb`
+- Package SHA-256:
+  `e9d8d187705370270b310a7ee7a05f37909aee12736e261de8b37a204049af29`
+- Packaged dylib SHA-256:
+  `9f06fffb905bbd8a8b97959f2fe32faa49d89528d6668502a0ebb24781b5834a`
+- Read-only manifest:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/com.mhga.serverhost.v2_0.1.1~gate1.20260818.3_iphoneos-arm.deb.e9d8d187705370270b310a7ee7a05f37909aee12736e261de8b37a204049af29.manifest`
+- Manifest SHA-256:
+  `91bafa567caf311a597e88f3dd1a24f9e0ef6857cd76a58550fa69c4f75eae78`
+
+The package was inspected but not installed or executed. These results are
+build/static evidence only, not live validation.
 
 ## Exact next Gate 2 workflow
 
-Gate 2 begins in a separate task and only after this infrastructure verification
-is complete:
+Gate 2 begins in a separate task:
 
 1. Add a read-only `Bindings/Platform` image/segment reader that captures the
    loaded ShooterGame Mach-O UUID, mapped image/segment sizes and a bounded text

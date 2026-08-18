@@ -9,14 +9,14 @@ artifacts are explicitly scoped investigation controls.
 Current summary:
 
 Legacy failure workflows are preserved under `archive/legacy/` and are not an
-active interruption. Gate 1 foundation hardening prepares the clean V2 build
+active interruption. Gate 1 foundation hardening produced a clean V2 build
 and package boundary; Gate 2 read-only discovery is the next workflow. This
 does not authorize Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
-| 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verification in progress | original 56 host-local assertions preserved; current guard assertions and boundary/package audits remain non-live validation |
+| 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 2 — read-only discovery | next ordered V2 workflow; explicitly not begun in the infrastructure task | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
@@ -82,8 +82,9 @@ Artifacts: updated `EVIDENCE.md`, `STATUS.md`, this roadmap and unchanged
 
 ## Gate 1 — static typed identity spine
 
-State: complete and statically validated on 2026-08-18. The immutable execution
-record is `V2-G1-STATIC-001` in `TEST_MATRIX.md`; no device/live claim was made.
+State: complete and statically validated on 2026-08-18. Immutable execution
+records are `V2-G1-STATIC-001` and `V2-G1-PREP-003` in `TEST_MATRIX.md`; no
+device/live claim was made.
 
 Goal: create the smallest portable V2 foundation that can describe current UE
 objects and contracts without raw feature access.
