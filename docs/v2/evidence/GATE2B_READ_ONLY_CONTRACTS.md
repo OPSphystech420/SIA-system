@@ -244,6 +244,30 @@ runtime stalled before the first test marker and was interrupted, so no combined
 sanitizer PASS is claimed. The boundary audit and iOS arm64 compile pass. Exact
 artifact receipts are recorded after the clean tagged build.
 
+## Immutable build receipt
+
+Result ID: `V2-G2B-BUILD-007`.
+
+```text
+build_id=gate2b-readonly-contracts-20260818.1
+source_revision=ff9637b34b308117208555482c5a8a872c8b94c9
+source_tag=v2-gate2b-readonly-contracts-20260818.1-source
+dylib_sha256=e7f6c3c932c2af759547d69b46359b2e1004c51dbd5f2f5a7c9fbd25729afb79
+macho_uuid=0D2DBE64-7258-34CC-B9F0-A3DFFB80516D
+dsym_uuid=0D2DBE64-7258-34CC-B9F0-A3DFFB80516D
+dsym_dwarf_sha256=0735a7aa34b7fa6205bd055f6171df111f31cf5820d1ecb12ef9ccb689342acd
+manifest_sha256=956d912aeb15aee671661ca96a5abee0eb0a166229d13bb2138b81b7bba88d78
+archive_deb_sha256=bff134a2ec73fac33b8cff6fa9cd3e7dc9f426efb2e6ce21241423a816cb7232
+```
+
+The canonical Sideloadly input is
+`packages/v2/injection/gate2b-readonly-contracts-20260818.1/ServerHostV2.dylib`.
+Its sibling dSYM UUID matches. The sibling immutable manifest records the exact
+target UUID/text fingerprint, both object-array roots, FNamePool RVA, clean
+source state and pre/post-capture capability states. The archival `.deb` passed
+content inspection but is not a device-test mechanism. No device claim is made
+by this receipt.
+
 ## Device protocol
 
 1. Inject only the Gate 2B raw `ServerHostV2.dylib` through Sideloadly.

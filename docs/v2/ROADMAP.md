@@ -16,8 +16,9 @@ opening failure and corrected `.2` passed the bounded functional panel path.
 The user authorized Gate 2, which is split into 2A/2B/2C. Gate 2A positive
 exact identity is device-verified. Its death-triggered exit reproduced without
 any injection and is now a deferred external baseline limitation; arms B/C were
-waived. Gate 2B read-only contracts are implemented and host/iOS-compile
-validated, with device verification pending. This does not authorize Gate 2C,
+waived. Gate 2B read-only contracts are implemented, host/iOS-compile validated
+and packaged as the single clean `V2-G2B-BUILD-007` handoff, with device
+verification pending. This does not authorize Gate 2C,
 Gate 3 dispatch, Gate 4 hooks or any later behavior.
 
 | Gate | State | Strongest claim |
@@ -26,7 +27,7 @@ Gate 3 dispatch, Gate 4 hooks or any later behavior.
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
-| 2B — name/object/reflection discovery | implemented; ready for device verification | exact-binary resolver cards plus synthetic owned-snapshot tests and iOS arm64 compile; no live capture claim yet |
+| 2B — name/object/reflection discovery | implemented; immutable artifact ready for device verification | exact-binary resolver cards, synthetic owned-snapshot tests, iOS arm64 compile and clean build receipt `V2-G2B-BUILD-007`; no live capture claim yet |
 | 2C — Engine/world relationships/invalidation | not started | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 

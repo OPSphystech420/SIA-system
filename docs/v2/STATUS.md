@@ -136,6 +136,16 @@ independent UBSan-only build also passed 191 assertions. This immutable build
 receipt made no runtime claim; the later device identity result is recorded
 separately below.
 
+Local archive-integrity notice: an initial Gate 2B packaging invocation used
+stale Gate 2A control metadata and unintentionally regenerated the ignored
+Gate 2A `.deb` path. Its original receipt SHA above remains the historical
+immutable value, but the current local archive container SHA is
+`46264cbf9471acb4eef9c28a35c25ac74972b91f50ae1dd8761bad514a4194db`.
+The package was restored to the original Gate 2A control and exact raw dylib
+payload and passes content inspection, but it is not byte-identical to the old
+archive. The canonical Gate 2A raw dylib and manifest remain unchanged at their
+recorded SHAs; do not use the current `.deb` as a byte copy of the old receipt.
+
 ## Gate 2A device results
 
 Identity result: `V2-G2A-IDENTITY-PASS-001`.
@@ -232,6 +242,29 @@ succeeds.
 
 Detailed evidence: [Gate 2B read-only contracts](evidence/GATE2B_READ_ONLY_CONTRACTS.md).
 
+## Gate 2B immutable build receipt
+
+Result ID: `V2-G2B-BUILD-007`
+
+```text
+Build ID: gate2b-readonly-contracts-20260818.1
+Source revision: ff9637b34b308117208555482c5a8a872c8b94c9
+Source tag: v2-gate2b-readonly-contracts-20260818.1-source
+Raw dylib SHA-256: e7f6c3c932c2af759547d69b46359b2e1004c51dbd5f2f5a7c9fbd25729afb79
+Mach-O / dSYM UUID: 0D2DBE64-7258-34CC-B9F0-A3DFFB80516D
+dSYM DWARF SHA-256: 0735a7aa34b7fa6205bd055f6171df111f31cf5820d1ecb12ef9ccb689342acd
+Manifest SHA-256: 956d912aeb15aee671661ca96a5abee0eb0a166229d13bb2138b81b7bba88d78
+Archive .deb SHA-256: bff134a2ec73fac33b8cff6fa9cd3e7dc9f426efb2e6ce21241423a816cb7232
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2b-readonly-contracts-20260818.1/ServerHostV2.dylib`.
+The sibling dSYM and manifest are the matching handoff; the `.deb` is archival
+only. The clean source tag resolves to the manifest revision. Package and raw
+dylib contents, embedded build/source identity, arm64 Mach-O, matching UUID,
+Legacy/gameplay isolation and the boundary audit passed. This is a build/static
+receipt only; live FName/object/reflection capture remains device-unverified.
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -243,6 +276,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Build/inject the one Gate 2B raw artifact and execute its bounded menu/local-world
-capture protocol. Do not start Gate 2C, hosting, Engine/World/NetDriver discovery,
-hooks, UE calls or mutation.
+Inject the one manifested Gate 2B raw artifact and execute its bounded
+menu/local-world capture protocol. Do not start Gate 2C, hosting,
+Engine/World/NetDriver discovery, hooks, UE calls or mutation.

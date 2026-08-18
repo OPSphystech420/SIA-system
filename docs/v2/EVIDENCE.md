@@ -13,7 +13,7 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | statically validated | `V2-G2A-BUILD-006`: clean source `17e4e09…ad0d`, dylib/dSYM UUID `0704076C-EAB6-3F25-800D-C0F0B85431E8`, manifest SHA `77329da…c5ca`. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | statically validated | Latest receipt `V2-G2B-BUILD-007`: clean tagged source `ff9637b…c9`, dylib/dSYM UUID `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`, manifest SHA `956d912…d78`. Earlier receipts remain immutable. |
 | V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity is device verified; its death symptom reproduced without injection. Gate 2B is active and Gate 2C remains unstarted. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
@@ -33,6 +33,14 @@ an active blocker.
 | V2-EV-023 | Derived heap access is profile/provenance bounded and produces owned bytes. | statically validated | Opaque reader-nonce tokens originate only from exact-profile RVA copies; depth/scope/overflow/VM permission/region/copy failures fail closed. Synthetic unmap, crossing, overflow, wrong-profile and token-scope tests pass. |
 | V2-EV-024 | Gate 2B captures internally consistent owned FName/object/reflection snapshots. | statically validated; device pending | Synthetic mutation/retry, cursor/chunk/entry, flags/serial/index, stale generation, outer/super cycle, malformed relationship, cancellation/time/byte/object limits and known-name/object tests pass. No live target result is inferred. |
 | V2-EV-025 | Gate 2B execution is explicit and preserves zero active capabilities. | source/iOS compile validated; device pending | One serial worker runs only after Contracts action. Pre-capture scans=0; post-request scans=1; hooks/engine calls/mutation=0. UI receives only a bounded immutable report and cannot include Bindings/raw address types. |
+| V2-EV-026 | One clean, source-tagged Gate 2B raw Sideloadly input and matching dSYM/manifest exist. | compiled/statically inspected; device pending | `V2-G2B-BUILD-007`: dylib SHA `e7f6c3c…afb79`, UUID `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`, archival package SHA `bff134a…7232`; 270 assertions and boundary/package/injection audits pass. |
+
+The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
+receipt, but that ignored local `.deb` container path was accidentally
+regenerated during the Gate 2B packaging workflow. Its restored payload embeds
+the unchanged Gate 2A dylib SHA `65bb097…9ef72` and passes inspection, while the
+current archive SHA is `46264cb…a4194db`; it is not a byte-preserved copy of the
+old archive. The canonical Gate 2A injection dylib and manifest were not altered.
 
 ## Immutable device results
 
@@ -80,6 +88,7 @@ Detailed reviews:
 
 ## Evidence required next
 
-Gate 2B exact resolver cards, provenance/snapshot host tests, boundary audit and
-iOS compile are complete. Produce/execute the one clean immutable artifact and
-return the bounded Contracts report. Gate 2C evidence is not requested.
+Gate 2B exact resolver cards, provenance/snapshot host tests, boundary audit,
+iOS compile and immutable artifact `V2-G2B-BUILD-007` are complete. Execute that
+one raw artifact and return the bounded Contracts report. Gate 2C evidence is
+not requested.

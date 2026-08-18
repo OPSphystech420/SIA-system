@@ -455,3 +455,24 @@ zero; after a request scans=1 while hooks, engine calls and mutation remain zero
 Synthetic host tests, the strict boundary audit and an iOS arm64 compile passed.
 No Gate 2C relationship, native call, hook, hosting control or death workaround
 was added. Device verification remains pending.
+
+## 2026-08-18 — Gate 2B immutable handoff built
+
+`V2-G2B-BUILD-007` was produced from clean revision
+`ff9637b34b308117208555482c5a8a872c8b94c9` and source tag
+`v2-gate2b-readonly-contracts-20260818.1-source`. The single raw Sideloadly
+dylib SHA-256 is `e7f6c3c932c2af759547d69b46359b2e1004c51dbd5f2f5a7c9fbd25729afb79`;
+its Mach-O and dSYM UUID is `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`.
+The manifest SHA-256 is `956d912aeb15aee671661ca96a5abee0eb0a166229d13bb2138b81b7bba88d78`
+and the archival package SHA-256 is
+`bff134a2ec73fac33b8cff6fa9cd3e7dc9f426efb2e6ce21241423a816cb7232`.
+Tests and static/package/injection audits pass; device capture remains pending.
+
+During the first package invocation, stale iOS control metadata caused the
+ignored historical Gate 2A `.deb` path to be regenerated. The path was restored
+to its original control and exact raw dylib payload and passes inspection, but
+the rebuilt container SHA is `46264cbf9471acb4eef9c28a35c25ac74972b91f50ae1dd8761bad514a4194db`
+rather than the immutable historical SHA `19d75c2e…784209`. The unchanged Gate
+2A raw injection dylib and manifest still match their receipts. This archive
+integrity deviation is preserved explicitly; the new Gate 2B artifact was then
+built only after correcting control metadata and committing a clean source tag.
