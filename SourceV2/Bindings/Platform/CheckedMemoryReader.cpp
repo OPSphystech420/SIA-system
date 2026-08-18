@@ -159,8 +159,14 @@ ContractResult<OwnedMemoryCopy> CheckedMemoryReader::Read(
         return ContractResult<OwnedMemoryCopy>::Failure(
             ContractErrorCategory::StaleIdentity, "derived token belongs to another reader");
     }
-    return CopyBounded(
+    auto copied = CopyBounded(
         token.address_, token.extent_, offset, size, token.provenanceDepth_);
+    if (!copied) {
+        return ContractResult<OwnedMemoryCopy>::Failure(
+            copied.Error().category,
+            token.expectedType_ + ": " + copied.Error().context);
+    }
+    return copied;
 }
 
 ContractResult<DerivedMemoryToken> CheckedMemoryReader::DerivePointer(

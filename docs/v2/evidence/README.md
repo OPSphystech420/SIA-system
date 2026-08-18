@@ -42,6 +42,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2B device capture abort 001](GATE2B_DEVICE_CAPTURE_ABORT_001.md) —
   exact `.1` device receipt, deterministic fail-closed TUObjectArray rejection
   and reserved-capacity versus live-work validator correction.
+- [Gate 2B menu PASS and world VM-region abort 002](GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md)
+  — exact `.2` main-menu owned-snapshot PASS, TheIsland generation-2
+  fail-closed region-boundary abort and the bounded multi-region correction.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

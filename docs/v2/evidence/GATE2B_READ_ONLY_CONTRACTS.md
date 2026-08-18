@@ -213,12 +213,14 @@ its permission class matches. A derived token can be created only by decoding a
 pointer field from an earlier `OwnedMemoryCopy`; it records reader nonce, scope,
 expected type and depth. Maximum depth is eight.
 
-Every copy checks offset/size overflow and token scope. Process memory then
-rechecks one readable VM region and calls `vm_read_overwrite`; unmap, permission
-change, partial copy or crossing a region returns an error. Borrowed pointers are
-never returned. The low capture implementation may temporarily compare copied
-pointer words to the copied object-item inventory, but raw values/tokens do not
-enter Diagnostics, UI or Features.
+Every copy checks offset/size overflow and token scope. Process memory walks the
+logical range through consecutive readable VM regions and calls
+`vm_read_overwrite` separately for the part inside each queried region. A gap,
+unreadable region, unmap, permission change or partial copy rejects the complete
+owned result. Borrowed pointers are never returned. The low capture
+implementation may temporarily compare copied pointer words to the copied
+object-item inventory, but raw values/tokens do not enter Diagnostics, UI or
+Features.
 
 The capture runs only after the explicit Contracts action on one serial worker
 queue. It supports cancellation and time/byte/object/name/depth/retry limits. A
@@ -243,6 +245,11 @@ also passed 270 assertions. The combined ASan/UBSan binary compiled but its loca
 runtime stalled before the first test marker and was interrupted, so no combined
 sanitizer PASS is claimed. The boundary audit and iOS arm64 compile pass. Exact
 artifact receipts are recorded after the clean tagged build.
+
+After the `.2` TheIsland region-edge intake, adjacent-readable composition plus
+gap, unreadable, unmap/copy and redacted type-context coverage raised the normal
+and UBSan-only suites to 290 assertions each. This later count does not rewrite
+the historical `.1` receipt.
 
 ## Immutable build receipt
 
@@ -271,7 +278,7 @@ by this receipt.
 ## Device protocol
 
 1. Inject only
-   `packages/v2/injection/gate2b-readonly-contracts-20260818.2/ServerHostV2.dylib`
+   `packages/v2/injection/gate2b-readonly-contracts-20260818.3/ServerHostV2.dylib`
    through Sideloadly.
 2. In main menu verify the exact identity card and `scans_started=0`.
 3. Open Contracts and press **Capture read-only contracts** once.
@@ -307,4 +314,20 @@ overflow-safe capacity-envelope validation. Detailed intake:
 The correction is packaged as `V2-G2B-CAPACITY-FIX-BUILD-008`: build `.2`,
 source `739f274c5b01c29703bbc9b34b40ad6a167c24af`, dylib SHA
 `56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c`
-and UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`. Device repeat is pending.
+and UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`.
+
+## Device execution `.2` — menu PASS / world abort
+
+`V2-G2B-MENU-CAPTURE-PASS-003` completed the exact generation-1 main-menu
+snapshot: 178 FName blocks/390585 entries, 61171 live object items, all ten
+known names, nine exact objects/functions and required reflection checks passed
+in 49 ms. This is a scoped device PASS for ABI-005/006/007 and device-validates
+the reserved-capacity correction.
+
+`V2-G2B-WORLD-VM-REGION-ABORT-002` records the same process's TheIsland
+generation 2. It invalidated the previous generation but aborted in 37 ms on
+the one-readable-region policy, retained zero capabilities and did not crash.
+No world snapshot or changed object count is inferred. The `.3` correction
+splits only the low physical copies; provenance, logical token scope and owned
+publication are unchanged. Detailed receipt:
+[Gate 2B menu PASS / world abort](GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md).

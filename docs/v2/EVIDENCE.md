@@ -29,15 +29,18 @@ an active blocker.
 | V2-EV-019 | Server-Host injection is necessary for the observed death exit. | contradicted | Arm A reproduced the identical death exit with no injected dylib; EOS login did not change it. This does not prove the exact base-game cause or that V2 can never influence the path. |
 | V2-EV-020 | The causal control can proceed to B/C after the baseline reproduction. | closed by user decision | Arms B/C are no longer required. `PLAN-G2A-DEATH-CAUSAL-001` closed after A classified the symptom as external baseline reproduced. |
 | V2-EV-021 | FreshSDK's two absolute address sets are ASLR variants of one ABI. | exact-binary/static validated | Subtracting regular base `0x100A9C000` or full base `0x1044D8000` yields the same FNamePool `0x5BB5180`, TUObjectArray `0x5D434E8`, GWorld `0x5DBA4F0` and ProcessEvent `0x250147C` RVAs. Production stores only RVAs; the last two are not consumed in Gate 2B. |
-| V2-EV-022 | ABI-005/006/007 resolver cards are exact-build grounded. | exact-binary + static implementation; device pending | IDA proves inline FNamePool `C8/CC/D0`, enclosing/direct object roots `0x5D434D8/+0x10`, item/chunk/flags/serial layout, UObject `0x28` and FunctionFlags `0xB0`. See Gate 2B report for representative functions/data flow. |
-| V2-EV-023 | Derived heap access is profile/provenance bounded and produces owned bytes. | statically validated | Opaque reader-nonce tokens originate only from exact-profile RVA copies; depth/scope/overflow/VM permission/region/copy failures fail closed. Synthetic unmap, crossing, overflow, wrong-profile and token-scope tests pass. |
-| V2-EV-024 | Gate 2B captures internally consistent owned FName/object/reflection snapshots. | statically validated; device pending | Synthetic mutation/retry, cursor/chunk/entry, flags/serial/index, stale generation, outer/super cycle, malformed relationship, cancellation/time/byte/object limits and known-name/object tests pass. No live target result is inferred. |
-| V2-EV-025 | Gate 2B execution is explicit and preserves zero active capabilities. | source/iOS compile validated; device pending | One serial worker runs only after Contracts action. Pre-capture scans=0; post-request scans=1; hooks/engine calls/mutation=0. UI receives only a bounded immutable report and cannot include Bindings/raw address types. |
+| V2-EV-022 | ABI-005/006/007 resolver cards are exact-build grounded. | exact-binary + menu device verified | `V2-G2B-MENU-CAPTURE-PASS-003` validated 178 FName blocks/390585 entries, 61171 object items, all ten names, all nine objects/functions, UObject `0x28` and FunctionFlags `0xB0`. TheIsland repeat remains open. |
+| V2-EV-023 | Derived heap access is profile/provenance bounded and produces owned bytes. | menu device verified; multi-region correction static | Menu copied 24,675,046 owned bytes. TheIsland exposed the one-region restriction. `.3` retains token/overflow checks and composes adjacent readable regions with one checked `vm_read_overwrite` per region; gap/unreadable/unmap tests fail closed. |
+| V2-EV-024 | Gate 2B captures internally consistent owned FName/object/reflection snapshots. | menu device verified; world capture contradicted | Generation 1 completed every validator. Generation 2 invalidated the prior snapshot but aborted at a VM-region edge before producing a replacement; no world snapshot or changed object count is claimed. |
+| V2-EV-025 | Gate 2B execution is explicit and preserves zero active capabilities. | device verified for `.2` run | Pre-capture scans=0; explicit menu/world requests set scans=1; hooks/engine calls/mutation stayed zero. UI received only bounded reports and no address appeared. |
 | V2-EV-026 | One clean, source-tagged Gate 2B raw Sideloadly input and matching dSYM/manifest exist. | compiled/statically inspected; device pending | `V2-G2B-BUILD-007`: dylib SHA `e7f6c3c…afb79`, UUID `0D2DBE64-7258-34CC-B9F0-A3DFFB80516D`, archival package SHA `bff134a…7232`; 270 assertions and boundary/package/injection audits pass. |
 | V2-EV-027 | Gate 2B `.1` completes a live owned name/object/reflection snapshot. | contradicted | `V2-G2B-CAPTURE-ABORT-001`: three generations aborted on the same TUObjectArray relationship validator before a completed report. Exact identity/UI lifecycle and zero capabilities passed. |
-| V2-EV-028 | Reserved TUObjectArray capacity must fit the same limit as allocated chunks/current objects. | contradicted by audit | `.1` conflated capacity with work. Exact lookup uses live Num/table fields; the correction keeps operational limits on Num/copied bytes and applies semantic overflow-safe relationships to Max fields. Device recheck pending. |
-| V2-EV-029 | The Gate 2B capacity-policy correction preserves bounded work and address-free failures. | statically validated; device pending | 280 normal + 280 UBSan-only assertions, boundary audit and iOS arm64 compile pass. Tests cover large valid reserve capacity, insufficient reserve envelope, configured capacity limit, allocated-chunk limit and counter-only rejection text. |
-| V2-EV-030 | One clean replacement `.2` Gate 2B raw input corresponds to the capacity-policy correction. | compiled/statically inspected; device pending | `V2-G2B-CAPACITY-FIX-BUILD-008`: dylib SHA `56e9ebb…03a6c`, UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`, manifest SHA `88c29c9…a17cc`, archival package SHA `ceffbde…bad83`; package/injection audits pass. |
+| V2-EV-028 | Reserved TUObjectArray capacity must fit the same limit as allocated chunks/current objects. | contradicted; correction device verified in menu | `.2` accepted live `61171/1` with reserve `25231360/385`, proving the Max fields are capacity rather than work. Operational limits remained on copied live ranges. |
+| V2-EV-029 | The Gate 2B capacity-policy correction preserves bounded work and address-free failures. | menu device verified | Menu capture completed in 49 ms and 24,675,046 bytes with no address output and zero capabilities. The subsequent world abort is a separate VM-region composition limitation. |
+| V2-EV-030 | One clean replacement `.2` Gate 2B raw input corresponds to the capacity-policy correction. | device executed | `V2-G2B-CAPACITY-FIX-BUILD-008`: dylib SHA `56e9ebb…03a6c`, UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`; exact menu capture passed and world capture aborted fail-closed. |
+| V2-EV-031 | Exact Gate 2B menu FName/object/reflection owned snapshot completes. | device verified | `V2-G2B-MENU-CAPTURE-PASS-003`: all required names, core object/function and bounded reflection validators passed at generation 1. Scope is main menu only. |
+| V2-EV-032 | The same `.2` artifact completes a replacement snapshot in TheIsland. | contradicted | `V2-G2B-WORLD-VM-REGION-ABORT-002`: generation 2 invalidated generation 1 but aborted in 37 ms on the one-readable-region restriction. No crash; zero capabilities retained. |
+| V2-EV-033 | A token-bounded logical owned copy can safely span adjacent readable VM regions. | statically validated; device pending | 290 normal + 290 UBSan-only assertions and boundary audit pass. Each underlying copy is region-contained; gaps, unreadable regions and unmap/copy failures reject the whole result. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -77,6 +80,12 @@ aborted on the same TUObjectArray relationship validator. The capture remained
 fail-closed with scans=1 and zero hooks/engine calls/mutation; no owned live
 name/object/reflection snapshot is claimed.
 
+`V2-G2B-MENU-CAPTURE-PASS-003` is the immutable `.2` main-menu PASS. The exact
+owned FName/object/reflection snapshot completed with every required validator
+and zero active capabilities. `V2-G2B-WORLD-VM-REGION-ABORT-002` is the same
+run's separate generation-2 TheIsland abort; it produced no replacement
+snapshot and does not rewrite the menu PASS.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -99,7 +108,6 @@ Detailed reviews:
 
 ## Evidence required next
 
-Gate 2B exact resolver cards remain valid, but `.1` device capture contradicted
-the completed-snapshot claim. Execute only the single manifested `.2`
-capacity-policy correction and return its bounded Contracts report. Gate 2C
-evidence is not requested.
+Gate 2B resolver cards and the menu snapshot are device-proven. Build and
+execute only the single `.3` multi-region correction, then repeat menu and
+TheIsland captures. Gate 2C evidence is not requested.

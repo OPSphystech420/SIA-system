@@ -13,6 +13,7 @@
 #include <cstring>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <string>
 #include <utility>
@@ -218,6 +219,77 @@ private:
     std::vector<std::byte> bytes_;
 };
 
+class SyntheticVirtualMemoryAccess final : public IVirtualMemoryAccess {
+public:
+    struct Region final {
+        std::uintptr_t base{};
+        std::vector<std::byte> bytes;
+        bool readable{};
+    };
+
+    void Add(std::uintptr_t base, std::vector<std::byte> bytes, bool readable = true) {
+        regions_.push_back({base, std::move(bytes), readable});
+    }
+
+    void FailCopyAt(std::uintptr_t address) { failingCopyAddress_ = address; }
+
+    ContractResult<VirtualMemoryRegion> QueryRegion(
+        std::uintptr_t address) const override {
+        const Region* following = nullptr;
+        for (const Region& region : regions_) {
+            if (address >= region.base && address - region.base < region.bytes.size()) {
+                return ContractResult<VirtualMemoryRegion>::Success({
+                    region.base, region.bytes.size(), region.readable});
+            }
+            if (region.base > address
+                && (following == nullptr || region.base < following->base)) {
+                following = &region;
+            }
+        }
+        if (following != nullptr) {
+            return ContractResult<VirtualMemoryRegion>::Success({
+                following->base, following->bytes.size(), following->readable});
+        }
+        return ContractResult<VirtualMemoryRegion>::Failure(
+            ContractErrorCategory::OutOfRange, "synthetic VM query failed");
+    }
+
+    ContractResult<void> CopyFromRegion(
+        std::uintptr_t address, std::span<std::byte> destination) const override {
+        if (failingCopyAddress_.has_value() && address == *failingCopyAddress_) {
+            return ContractResult<void>::Failure(
+                ContractErrorCategory::OutOfRange, "synthetic VM region unmapped");
+        }
+        for (const Region& region : regions_) {
+            if (!region.readable || address < region.base
+                || destination.size() > region.bytes.size()
+                || address - region.base > region.bytes.size() - destination.size()) {
+                continue;
+            }
+            std::memcpy(
+                destination.data(), region.bytes.data() + (address - region.base),
+                destination.size());
+            ++copyCalls_;
+            return ContractResult<void>::Success();
+        }
+        crossedRegionBoundary_ = true;
+        return ContractResult<void>::Failure(
+            ContractErrorCategory::OutOfRange,
+            "synthetic copy crossed a VM region boundary");
+    }
+
+    [[nodiscard]] std::size_t CopyCalls() const noexcept { return copyCalls_; }
+    [[nodiscard]] bool CrossedRegionBoundary() const noexcept {
+        return crossedRegionBoundary_;
+    }
+
+private:
+    std::vector<Region> regions_;
+    std::optional<std::uintptr_t> failingCopyAddress_;
+    mutable std::size_t copyCalls_{};
+    mutable bool crossedRegionBoundary_{};
+};
+
 struct SyntheticImage final {
     LoadedImageRecord record;
     std::shared_ptr<const IMemorySource> source;
@@ -286,6 +358,41 @@ ExactFixture MakeExactFixture() {
 }  // namespace
 
 void RunPlatformBoundaryTests(TestContext& context) {
+    constexpr std::uintptr_t splitBase = 0x300000000ULL;
+    auto splitAccess = std::make_shared<SyntheticVirtualMemoryAccess>();
+    splitAccess->Add(splitBase, {std::byte{1}, std::byte{2}, std::byte{3}});
+    splitAccess->Add(splitBase + 3, {std::byte{4}, std::byte{5}});
+    ProcessMemorySource splitSource(splitAccess);
+    std::array<std::byte, 5> splitDestination{};
+    const auto splitCopy = splitSource.Copy(splitBase, splitDestination);
+    V2_EXPECT(context, splitCopy);
+    V2_EXPECT(context, splitDestination[0] == std::byte{1}
+        && splitDestination[4] == std::byte{5});
+    V2_EXPECT(context, splitAccess->CopyCalls() == 2);
+    V2_EXPECT(context, !splitAccess->CrossedRegionBoundary());
+
+    auto gapAccess = std::make_shared<SyntheticVirtualMemoryAccess>();
+    gapAccess->Add(splitBase, {std::byte{1}, std::byte{2}});
+    gapAccess->Add(splitBase + 3, {std::byte{3}, std::byte{4}});
+    ProcessMemorySource gapSource(gapAccess);
+    std::array<std::byte, 4> gapDestination{};
+    V2_EXPECT(context, !gapSource.Copy(splitBase, gapDestination));
+
+    auto unreadableAccess = std::make_shared<SyntheticVirtualMemoryAccess>();
+    unreadableAccess->Add(splitBase, {std::byte{1}, std::byte{2}});
+    unreadableAccess->Add(
+        splitBase + 2, {std::byte{3}, std::byte{4}}, false);
+    ProcessMemorySource unreadableSource(unreadableAccess);
+    V2_EXPECT(context, !unreadableSource.Copy(splitBase, gapDestination));
+
+    auto unmappedAccess = std::make_shared<SyntheticVirtualMemoryAccess>();
+    unmappedAccess->Add(splitBase, {std::byte{1}, std::byte{2}});
+    unmappedAccess->Add(splitBase + 2, {std::byte{3}, std::byte{4}});
+    unmappedAccess->FailCopyAt(splitBase + 2);
+    ProcessMemorySource unmappedSource(unmappedAccess);
+    V2_EXPECT(context, !unmappedSource.Copy(splitBase, gapDestination));
+    V2_EXPECT(context, !ProcessMemorySource(nullptr).Copy(splitBase, gapDestination));
+
     const std::vector<std::byte> valid = BuildMachOPrefix();
     V2_EXPECT(context, !MachOImageView::Parse(
         std::span<const std::byte>(valid).first(20), 0));
@@ -342,6 +449,12 @@ void RunPlatformBoundaryTests(TestContext& context) {
     const auto derivedByte = reader.Value().Read(derived.Value(), 0, 1);
     V2_EXPECT(context, derivedByte
         && derivedByte.Value().ValueAt<std::uint8_t>(0).Value() == 0x6B);
+    const auto wideDerived = reader.Value().DerivePointer(
+        pointerCopy.Value(), 0, 0x4000, "synthetic derived range");
+    const auto failedWideRead = reader.Value().Read(wideDerived.Value(), 0, 0x4000);
+    V2_EXPECT(context, !failedWideRead
+        && failedWideRead.Error().context.find("synthetic derived range:") == 0);
+    V2_EXPECT(context, failedWideRead.Error().context.find("0x") == std::string::npos);
     V2_EXPECT(context, !reader.Value().DerivePointer(
         pointerCopy.Value(), sizeof(std::uintptr_t), 1, "out of copy"));
     auto secondReader = CheckedMemoryReader::Create(

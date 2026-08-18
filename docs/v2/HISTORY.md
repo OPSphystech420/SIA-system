@@ -508,3 +508,22 @@ Mach-O/dSYM UUID is `F02EC54E-DEB7-35AA-B91C-C868547BCD03`; manifest SHA is
 the archival `.deb` SHA is
 `ceffbde6f34f3323459a3e2754cf18ce09e6d353336564caee01e401a44bad83`.
 The replacement awaits one menu capture before the world-stage protocol.
+
+## 2026-08-18 — Gate 2B menu snapshot device-verified
+
+`V2-G2B-MENU-CAPTURE-PASS-003` executed the exact `.2` artifact and completed
+generation 1 in the main menu. It copied 24,675,046 bytes in 49 ms, owned 178
+FName blocks/390585 entries and 61171 object items, accepted reserve capacity
+25231360/385, and passed all ten names, nine core objects/functions and bounded
+reflection validators. Hooks, engine calls and mutation remained zero.
+
+The same process produced immutable `V2-G2B-WORLD-VM-REGION-ABORT-002` after
+entering TheIsland. Generation 2 invalidated generation 1 but aborted in 37 ms
+because one logical copy was required to fit one readable VM region. No crash
+or generation-2 snapshot is claimed.
+
+The low boundary now composes a token-bounded owned result across consecutive
+readable regions while keeping every `vm_read_overwrite` inside its queried
+region. Gaps, permissions and unmap/copy failures remain fail-closed; derived
+errors add only a redacted type label. Normal and UBSan-only suites each pass
+290 assertions and the boundary audit passes. Gate 2C remains unstarted.

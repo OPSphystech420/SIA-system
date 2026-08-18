@@ -53,6 +53,9 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G2B-CAPTURE-ABORT-001 | 2026-08-18 | exact `.1` build/source above; screenshot SHAs `cf9e0cf…cb0392`, `ea0bb3d…2deed` | Exact profile matched; panel open/close/reopen and Copy logs worked. Explicit generations 1/2/3 each aborted after 47/39/38 ms on `invalid TUObjectArray num/max/chunk relationship`. | FAIL: completed read-only contract snapshot contradicted | Fail-closed behavior passed with scans=1 and hooks/engine calls/mutation=0. `.1` returned no valid FName/object/reflection result. Source audit found operational limits incorrectly applied to reserved Max fields; corrected artifact required. | [Device abort report](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md) |
 | V2-G2B-CAPACITY-FIX-STATIC-002 | 2026-08-18 | Gate 2B `.2` correction source before clean artifact receipt | 280 normal + 280 UBSan-only assertions; large valid reserve capacity, insufficient capacity envelope, configured capacity limit, allocated-chunk work limit and address-free counter diagnostics; boundary audit; iOS arm64 compile | PASS | Capacity is separated from bounded live work statically; exact live header/capture remains device-unverified | [Device abort report](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md) |
 | V2-G2B-CAPACITY-FIX-BUILD-008 | 2026-08-18 | clean revision `739f274c5b01c29703bbc9b34b40ad6a167c24af`, tag `v2-gate2b-readonly-contracts-20260818.2-source`; `gate2b-readonly-contracts-20260818.2`; raw dylib SHA-256 `56e9ebb0d4453b90e4d63ccfa5431a142d8d94bc42b043b0e45b24e819203a6c`; Mach-O/dSYM UUID `F02EC54E-DEB7-35AA-B91C-C868547BCD03`; package SHA-256 `ceffbde6f34f3323459a3e2754cf18ce09e6d353336564caee01e401a44bad83` | 280 normal + 280 UBSan-only assertions; boundary audit; iOS arm64 build; package/control/payload/build/source ID and injection isolation audits; dSYM DWARF SHA `3360fab…d2771`; manifest SHA `88c29c9…a17cc`; no installation/execution | PASS | Single corrected artifact ready for the bounded Gate 2B menu capture repeat; live header and owned snapshots remain device-unverified | [Device abort report](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md) |
+| V2-G2B-MENU-CAPTURE-PASS-003 | 2026-08-18 | exact `.2` artifact above; screenshot SHAs `14c6265…34b9d`, `a6eb666…28c6` | Generation 1 completed in 49 ms: 178/390585 FName blocks/entries; objects 61171/25231360; chunks 1/385; 24,675,046 copied bytes; ten names, nine core objects/functions and required reflection checks passed. | PASS: exact main-menu owned snapshot | ABI-005/006 and bounded ABI-007 are device-proven for the menu snapshot; scans=1 and hooks/engine calls/mutation=0. No world or repeated-success claim. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
+| V2-G2B-WORLD-VM-REGION-ABORT-002 | 2026-08-18 | same `.2` process after entering TheIsland | Generation 2 marked previous invalidated, then aborted after 37 ms: `requested bytes are not contained in one readable VM region`. Bounded report copy succeeded; no crash in supplied log. | FAIL: TheIsland replacement snapshot contradicted | Partial zeros are discarded candidate state. No generation-2 object count or snapshot is claimed; scans=1 and zero capabilities retained. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
+| V2-G2B-MULTIREGION-STATIC-003 | 2026-08-18 | Gate 2B `.3` source before clean artifact receipt | 290 normal + 290 UBSan-only assertions; adjacent-readable composition, gap, unreadable, unmap/copy failure and redacted type-context tests; boundary audit | PASS | Each underlying copy remains within one queried readable region; composed owned result is returned only after full success. Exact TheIsland result remains device-unverified. | [Menu PASS/world abort report](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -290,7 +293,7 @@ Interpret exactly as follows:
 ## PLAN-G2B-DISCOVERY-001 exact protocol
 
 Use only the single manifested raw artifact under
-`packages/v2/injection/gate2b-readonly-contracts-20260818.2/`. Do not inject
+`packages/v2/injection/gate2b-readonly-contracts-20260818.3/`. Do not inject
 Legacy or another mod and do not start hosting, client travel or death/respawn.
 
 1. Launch ShooterGame 1.10280 and open Status in the main menu.
@@ -303,7 +306,8 @@ Legacy or another mod and do not start hosting, client travel or death/respawn.
 6. Confirm discovery generation changed, previous generation is invalidated,
    object count is reported, and hooks/engine calls/mutation remain zero.
 7. Return to menu naturally if possible and perform a third capture.
-8. Report any retry, timeout, malformed relationship, crash or UI regression
+8. If a capture aborts, copy the exact stage-prefixed reason and stop that run.
+9. Report any retry, timeout, malformed relationship, crash or UI regression
    with the bounded output and Console tail.
 
 Death/respawn is not a Gate 2B PASS/FAIL condition because the same exit is a

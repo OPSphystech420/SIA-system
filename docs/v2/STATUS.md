@@ -10,7 +10,9 @@ Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
 Gate 2B .1: exact identity/UI device verified; contract capture aborted fail-closed
-Gate 2B .2: capacity-validator correction built; device repeat pending
+Gate 2B .2 menu capture: device verified
+Gate 2B .2 TheIsland capture: fail-closed VM-region abort
+Gate 2B .3: bounded multi-region owned-copy correction under verification
 Gate 2C: not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
@@ -20,8 +22,9 @@ Legacy: archived evidence only; not built, linked, or modified
 The user explicitly authorized progression from Gate 1.5 to Gate 2. Gate 2 is
 split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
 investigation is closed as an external reproduced baseline limitation. Gate 2B
-read-only name/object/reflection capture reached the exact target but the `.1`
-artifact rejected its live TUObjectArray capacity header. The fail-closed
+read-only name/object/reflection capture now completes in the main menu. The
+same `.2` run aborted its generation-2 TheIsland capture because one logical
+owned copy crossed a Mach VM-region edge. A fail-closed multi-region copy
 correction remains inside Gate 2B. Gate 2C Engine, World and NetDriver
 relationship discovery has not started.
 
@@ -261,9 +264,8 @@ capacity ceiling. Exact IDA and FreshSDK still support the root and field
 offsets. The replacement bounds live `NumElements`, allocated `NumChunks`, bytes
 and time, while checking reserved max fields through overflow-safe semantic
 relationships. Future aborts include the four integer counters but no address.
-The correction passes 280 normal and 280 UBSan-only assertions, the boundary
-audit and an iOS arm64 compile; clean artifact packaging is the remaining local
-step.
+The correction passed 280 normal and 280 UBSan-only assertions, the boundary
+audit and an iOS arm64 compile and was packaged as `.2` below.
 
 Full intake: [Gate 2B device capture abort 001](evidence/GATE2B_DEVICE_CAPTURE_ABORT_001.md).
 
@@ -312,6 +314,30 @@ suites each pass 280 assertions; boundary, iOS package and injection audits
 pass. This replaces `.1` only for the pending Gate 2B device protocol and does
 not turn `V2-G2B-CAPTURE-ABORT-001` into a PASS.
 
+## Gate 2B `.2` device menu PASS / world abort
+
+`V2-G2B-MENU-CAPTURE-PASS-003` completed generation 1 in the main menu in 49
+ms, copying 24,675,046 bytes. It owned 178 FName blocks with 390,585 entries and
+61,171 object items (`max=25231360`, `num_chunks=1`, `max_chunks=385`). All ten
+known names, all nine exact core objects/functions, UObject `0x28` metadata and
+UFunction flags at `0xB0` passed. This device-verifies ABI-005/006 and the
+bounded ABI-007 subset for a menu snapshot. Capabilities remained zero.
+
+`V2-G2B-WORLD-VM-REGION-ABORT-002` is the immutable generation-2 TheIsland
+result. The previous generation was invalidated, but capture aborted after 37
+ms because a requested owned copy did not fit in one readable VM region. The
+zero partial counters in the abort view are discarded candidate state, not an
+empty runtime. No crash occurred and zero capabilities remained.
+
+The `.3` correction composes one token-bounded owned result from consecutive
+readable VM regions while keeping each individual `vm_read_overwrite` inside
+one queried region. Gaps, unreadable ranges, overflow and unmap/copy failure
+still fail closed. Derived errors now add only a redacted expected-type label.
+Normal and UBSan-only suites pass 290 assertions; boundary audit passes. Device
+verification of this correction remains pending.
+
+Full report: [Gate 2B menu PASS / world abort](evidence/GATE2B_DEVICE_MENU_PASS_WORLD_ABORT_002.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -323,6 +349,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Inject only the corrected Gate 2B `.2` raw artifact and repeat one bounded menu
-capture before attempting the local-world captures. Do not start Gate 2C, hosting,
-Engine/World/NetDriver discovery, hooks, UE calls or mutation.
+Finish one clean `.3` raw artifact, then repeat the successful menu capture and
+the TheIsland capture. Do not start Gate 2C, hosting, Engine/World/NetDriver
+discovery, hooks, UE calls or mutation.

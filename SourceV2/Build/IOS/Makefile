@@ -1,6 +1,6 @@
 ARCHS = arm64
 TARGET = iphone:clang:16.5:15.0
-V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.2
+V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.3
 V2_SOURCE_REVISION ?= unavailable
 V2_CFLAGS ?= -fobjc-arc -fno-modules -Wall -Wextra -Wpedantic -Werror
 V2_REPOSITORY_ROOT := $(abspath ../../..)
