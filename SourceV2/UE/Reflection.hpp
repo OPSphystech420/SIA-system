@@ -40,13 +40,9 @@ struct UFunctionDescriptor final {
     ObjectIdentity identity;
     std::string fullName;
     EFunctionFlags functionFlags{EFunctionFlags::None};
-    uint8 numParms{};
-    uint16 parmsSize{};
-    uint16 returnValueOffset{};
 
     [[nodiscard]] ContractResult<void> Validate(
-        std::uint64_t expectedGeneration, EFunctionFlags requiredFlags,
-        uint16 expectedParmsSize, uint8 expectedNumParms) const;
+        std::uint64_t expectedGeneration, EFunctionFlags requiredFlags) const;
 };
 
 struct UClassDescriptor final {
@@ -61,18 +57,20 @@ public:
     using FunctionLookup = std::function<ContractResult<UFunctionDescriptor>(const std::string&)>;
     using ClassLookup = std::function<ContractResult<UClassDescriptor>(const std::string&)>;
 
-    ReflectionRegistry(std::uint64_t worldGeneration, FunctionLookup functionLookup,
+    ReflectionRegistry(std::uint64_t discoveryGeneration, FunctionLookup functionLookup,
                        ClassLookup classLookup)
-        : worldGeneration_(worldGeneration), functionLookup_(std::move(functionLookup)),
+        : discoveryGeneration_(discoveryGeneration), functionLookup_(std::move(functionLookup)),
           classLookup_(std::move(classLookup)) {}
 
     [[nodiscard]] ContractResult<UFunctionDescriptor> FindFunction(const std::string& fullName);
     [[nodiscard]] ContractResult<UClassDescriptor> FindClass(const std::string& fullName);
-    void Invalidate(std::uint64_t newWorldGeneration);
-    [[nodiscard]] std::uint64_t WorldGeneration() const noexcept { return worldGeneration_; }
+    void Invalidate(std::uint64_t newDiscoveryGeneration);
+    [[nodiscard]] std::uint64_t DiscoveryGeneration() const noexcept {
+        return discoveryGeneration_;
+    }
 
 private:
-    std::uint64_t worldGeneration_{};
+    std::uint64_t discoveryGeneration_{};
     FunctionLookup functionLookup_;
     ClassLookup classLookup_;
     std::unordered_map<std::string, UFunctionDescriptor> functions_;

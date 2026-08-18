@@ -1,9 +1,12 @@
 #include "SourceV2/Bindings/Profiles/IOS_1_10280.hpp"
+#include "SourceV2/Bindings/Profiles/ReadOnlyContracts_1_10280.hpp"
+#include "SourceV2/Bindings/Platform/CheckedMemoryReader.hpp"
 #include "SourceV2/Bindings/Platform/ExactProfileSelector.hpp"
 #include "SourceV2/Bindings/Platform/LoadedImageCatalog.hpp"
 #include "SourceV2/Bindings/Platform/MemorySource.hpp"
 #include "SourceV2/Bootstrap/LegacyRuntimeGuard.hpp"
 #include "SourceV2/Diagnostics/DiagnosticSnapshot.hpp"
+#include "SourceV2/Diagnostics/ContractCaptureInternal.hpp"
 #include "SourceV2/Diagnostics/Logger.hpp"
 #include "SourceV2/UI/DiagnosticUIBootstrap.hpp"
 
@@ -33,7 +36,7 @@ __attribute__((constructor)) void V2Entry() {
         .startupState = "diagnostic-bootstrap",
         .profileState = "not-evaluated",
         .legacyGuardState = "not-evaluated",
-        .detail = "Gate 2A exact image identity starting; later discovery remains disabled",
+        .detail = "Gate 2B exact identity starting; capture remains explicit and read-only",
     };
     logger.Add(
         diagnostics::LogSeverity::Info,
@@ -84,7 +87,7 @@ __attribute__((constructor)) void V2Entry() {
     const bindings::platform::IdentityReceipt& receipt = selection.receipt;
     diagnosticState.startupState = selection.state
             == bindings::platform::ProfileMatchState::ExactMatch
-        ? "gate2a-read-only-identity-available"
+        ? "gate2b-read-only-contract-capture-available"
         : "runtime-refused-diagnostics-available";
     diagnosticState.profileState = receipt.profileMatchState;
     if (!receipt.profileId.empty())
@@ -97,8 +100,21 @@ __attribute__((constructor)) void V2Entry() {
     diagnosticState.textFingerprint = receipt.shortenedTextFingerprint;
     diagnosticState.identityReason = receipt.reason;
     diagnosticState.detail = selection.state == bindings::platform::ProfileMatchState::ExactMatch
-        ? "Unique exact profile matched; name/object discovery was not started"
+        ? "Unique exact profile matched; press Capture to create owned name/object contracts"
         : "Identity mismatch or ambiguity refused all later discovery";
+
+    if (selection.match.has_value()) {
+        const auto reader = bindings::platform::CheckedMemoryReader::Create(
+            *selection.match, memory);
+        if (reader) {
+            diagnostics::ConfigureReadOnlyContractCapture(
+                reader.Value(), bindings::profiles::kReadOnlyContractsIOS_1_10280);
+        } else {
+            diagnosticState.startupState = "runtime-refused-diagnostics-available";
+            diagnosticState.detail = "Exact identity matched but checked capture boundary refused initialization";
+            diagnosticState.identityReason = reader.Error().context;
+        }
+    }
 
     const diagnostics::LogSeverity severity = selection.state
             == bindings::platform::ProfileMatchState::ExactMatch

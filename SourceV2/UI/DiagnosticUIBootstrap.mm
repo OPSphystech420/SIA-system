@@ -9,6 +9,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_metal.h"
 #include "SourceV2/Diagnostics/DiagnosticSnapshot.hpp"
+#include "SourceV2/Diagnostics/ContractCapture.hpp"
 #include "SourceV2/Diagnostics/Logger.hpp"
 #include "SourceV2/UI/DiagnosticPresentationModel.hpp"
 #include "SourceV2/UI/PresentationStateMachine.hpp"
@@ -384,7 +385,7 @@ void ApplyDiagnosticTheme() {
 - (void)drawStatusPage:(const serverhost::v2::ui::DiagnosticPresentationModel&)model
 {
     ImGui::TextColored(RGB(0x72FFFF), "Runtime capability receipt");
-    ImGui::TextDisabled("Gate 2A identity only; no scans or engine access");
+    ImGui::TextDisabled("Gate 2B explicit read-only capture; no engine calls");
     ImGui::Spacing();
 
     const ImGuiTableFlags flags = ImGuiTableFlags_RowBg
@@ -393,6 +394,36 @@ void ApplyDiagnosticTheme() {
         ImGui::TableSetupColumn("Field", ImGuiTableColumnFlags_WidthFixed, 122.0f);
         ImGui::TableSetupColumn("Value", ImGuiTableColumnFlags_WidthStretch);
         for (const serverhost::v2::ui::DiagnosticStatusRow& row : model.StatusRows()) {
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            ImGui::TextColored(RGB(0x82B5BE), "%s", row.label.c_str());
+            ImGui::TableSetColumnIndex(1);
+            ImGui::TextWrapped("%s", row.value.c_str());
+        }
+        ImGui::EndTable();
+    }
+}
+
+- (void)drawContractsPage:(const serverhost::v2::ui::DiagnosticPresentationModel&)model
+{
+    ImGui::TextColored(RGB(0x72FFFF), "Owned read-only contracts");
+    ImGui::TextDisabled("Explicit bounded capture; no polling, calls, hooks or writes");
+    if (ImGui::Button("Capture read-only contracts", ImVec2(230.0f, 32.0f))) {
+        const auto state = serverhost::v2::diagnostics::RequestReadOnlyContractCapture();
+        if (state == serverhost::v2::diagnostics::ContractCaptureRequestState::Started)
+            LogUI(LogSeverity::Info, "Gate 2B capture action accepted");
+        else if (state == serverhost::v2::diagnostics::ContractCaptureRequestState::Busy)
+            LogUI(LogSeverity::Warning, "Gate 2B capture already running");
+        else
+            LogUI(LogSeverity::Error, "Gate 2B capture unavailable; exact profile required");
+    }
+    ImGui::Separator();
+    const ImGuiTableFlags flags = ImGuiTableFlags_RowBg
+        | ImGuiTableFlags_BordersInnerH | ImGuiTableFlags_SizingStretchProp;
+    if (ImGui::BeginTable("DiagnosticContractsTable", 2, flags)) {
+        ImGui::TableSetupColumn("Contract", ImGuiTableColumnFlags_WidthFixed, 175.0f);
+        ImGui::TableSetupColumn("Receipt", ImGuiTableColumnFlags_WidthStretch);
+        for (const serverhost::v2::ui::DiagnosticStatusRow& row : model.ContractRows()) {
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::TextColored(RGB(0x82B5BE), "%s", row.label.c_str());
@@ -505,7 +536,7 @@ void ApplyDiagnosticTheme() {
     if (ImGui::Begin("##ServerHostV2Diagnostics", nullptr, windowFlags)) {
         ImGui::TextColored(RGB(0x72FFFF), "SERVER HOST V2");
         ImGui::SameLine();
-        ImGui::TextDisabled("Gate 2A identity diagnostics");
+        ImGui::TextDisabled("Gate 2B read-only contracts");
         ImGui::Separator();
 
         constexpr float railWidth = 116.0f;
@@ -515,14 +546,18 @@ void ApplyDiagnosticTheme() {
         ImGui::Spacing();
         if (ImGui::Selectable("Status", selectedPage == 0, 0, ImVec2(0.0f, 38.0f)))
             selectedPage = 0;
-        if (ImGui::Selectable("Logs", selectedPage == 1, 0, ImVec2(0.0f, 38.0f)))
+        if (ImGui::Selectable("Contracts", selectedPage == 1, 0, ImVec2(0.0f, 38.0f)))
             selectedPage = 1;
+        if (ImGui::Selectable("Logs", selectedPage == 2, 0, ImVec2(0.0f, 38.0f)))
+            selectedPage = 2;
         ImGui::EndChild();
 
         ImGui::SameLine();
         ImGui::BeginChild("DiagnosticContent", ImVec2(0.0f, -footerHeight), true);
         if (selectedPage == 0)
             [self drawStatusPage:model];
+        else if (selectedPage == 1)
+            [self drawContractsPage:model];
         else
             [self drawLogsPage:model];
         ImGui::EndChild();
@@ -534,7 +569,8 @@ void ApplyDiagnosticTheme() {
         ImGui::SetCursorPosX(std::max(ImGui::GetCursorPosX(),
                                      ImGui::GetWindowWidth()
                                          - actionWidth - ImGui::GetStyle().WindowPadding.x));
-        if (ImGui::Button("Copy logs", ImVec2(copyWidth, 30.0f)))
+        if (ImGui::Button(selectedPage == 1 ? "Copy report" : "Copy logs",
+                          ImVec2(copyWidth, 30.0f)))
             copyRequested = true;
         ImGui::SameLine();
         ImGui::PushStyleColor(ImGuiCol_Button, RGB(0x26323A));
@@ -589,13 +625,15 @@ void ApplyDiagnosticTheme() {
     [commandBuffer commit];
 
     if (copyRequested) {
-        const std::string text = model.CopyableLogs();
+        const std::string text = selectedPage == 1
+            ? model.CopyableContractsAndLogs() : model.CopyableLogs();
         NSString* value = [[NSString alloc] initWithBytes:text.data()
                                                    length:text.size()
                                                  encoding:NSUTF8StringEncoding];
         if (value) {
             UIPasteboard.generalPasteboard.string = value;
-            LogUI(LogSeverity::Info, "bounded diagnostic logs copied");
+            LogUI(LogSeverity::Info, selectedPage == 1
+                ? "bounded contract report copied" : "bounded diagnostic logs copied");
         }
     }
     if (closeRequested && self.closeHandler)

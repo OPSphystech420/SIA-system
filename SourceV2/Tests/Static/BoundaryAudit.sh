@@ -108,7 +108,14 @@ rg -Fq '[view draw];' SourceV2/UI/DiagnosticUIBootstrap.mm
 rg -Fq 'FailedWithVisibleFallback' SourceV2/UI/PresentationStateMachine.cpp
 rg -Fq 'presentation failed; visible fallback stage=' SourceV2/UI/DiagnosticUIBootstrap.mm
 rg -Fq 'ImGui::Selectable("Status"' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'ImGui::Selectable("Contracts"' SourceV2/UI/DiagnosticUIBootstrap.mm
 rg -Fq 'ImGui::Selectable("Logs"' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'Capture read-only contracts' SourceV2/UI/DiagnosticUIBootstrap.mm
+
+fail_if_match \
+    "UI must not expose raw pointer/address/RVA vocabulary" \
+    'uintptr_t|intptr_t|objectWord|pointerWord|[A-Za-z]Rva|ASLR|heap address|absolute address' \
+    SourceV2/UI
 
 echo "boundary audit: PASS (regex raw-access rules and include-layer dependencies)"
 echo "permitted low-level raw-access inventory (Bindings/Platform only):"

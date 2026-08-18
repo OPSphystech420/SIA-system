@@ -21,31 +21,38 @@ struct FNamePoolLayout final {
 };
 
 struct FUObjectItemLayout final {
-    const void* object;
-    std::byte opaque_0008[0x10];
+    uint64 objectWord;
+    uint32 flags;
+    int32 clusterIndex;
+    int32 serialNumber;
+    uint32 pad_0014;
 };
 
 struct TUObjectArrayLayout final {
-    FUObjectItemLayout** objects;
-    void* opaque_0008;
+    uint64 objectsWord;
+    uint64 preAllocatedObjectsWord;
     int32 maxElements;
     int32 numElements;
     int32 maxChunks;
     int32 numChunks;
 };
 
-// FreshSDK's current GObjects offset names the TUObjectArray directly. V2 uses
-// this alias for the global object-array contract and deliberately does not add
-// the legacy candidate's unconfirmed 0x10-byte FUObjectArray prefix.
-using FUObjectArrayLayout = TUObjectArrayLayout;
+struct FUObjectArrayLayout final {
+    int32 firstGCIndex;
+    int32 lastNonGCIndex;
+    int32 maxObjectsNotConsideredByGC;
+    bool openForDisregardForGC;
+    std::byte pad_000D[0x3];
+    TUObjectArrayLayout objObjects;
+};
 
 struct UObjectLayout final {
-    void* vtable;
+    uint64 vtableWord;
     EObjectFlags flags;
     int32 index;
-    const void* classObject;
+    uint64 classObjectWord;
     FName name;
-    const void* outer;
+    uint64 outerWord;
 };
 
 struct UFieldLayout final {
@@ -146,10 +153,14 @@ static_assert(offsetof(FNamePoolLayout, currentBlock) == 0xC8);
 static_assert(offsetof(FNamePoolLayout, currentByteCursor) == 0xCC);
 static_assert(offsetof(FNamePoolLayout, blocks) == 0xD0);
 static_assert(sizeof(FUObjectItemLayout) == 0x18);
-static_assert(offsetof(FUObjectItemLayout, object) == 0x0);
+static_assert(offsetof(FUObjectItemLayout, objectWord) == 0x0);
+static_assert(offsetof(FUObjectItemLayout, flags) == 0x8);
+static_assert(offsetof(FUObjectItemLayout, clusterIndex) == 0xC);
+static_assert(offsetof(FUObjectItemLayout, serialNumber) == 0x10);
 static_assert(sizeof(TUObjectArrayLayout) == 0x20);
-static_assert(sizeof(FUObjectArrayLayout) == 0x20);
-static_assert(offsetof(TUObjectArrayLayout, objects) == 0x0);
+static_assert(sizeof(FUObjectArrayLayout) == 0x30);
+static_assert(offsetof(FUObjectArrayLayout, objObjects) == 0x10);
+static_assert(offsetof(TUObjectArrayLayout, objectsWord) == 0x0);
 static_assert(offsetof(TUObjectArrayLayout, maxElements) == 0x10);
 static_assert(offsetof(TUObjectArrayLayout, numElements) == 0x14);
 static_assert(offsetof(TUObjectArrayLayout, maxChunks) == 0x18);
@@ -157,9 +168,9 @@ static_assert(offsetof(TUObjectArrayLayout, numChunks) == 0x1C);
 static_assert(sizeof(UObjectLayout) == 0x28 && alignof(UObjectLayout) == 0x8);
 static_assert(offsetof(UObjectLayout, flags) == 0x8);
 static_assert(offsetof(UObjectLayout, index) == 0xC);
-static_assert(offsetof(UObjectLayout, classObject) == 0x10);
+static_assert(offsetof(UObjectLayout, classObjectWord) == 0x10);
 static_assert(offsetof(UObjectLayout, name) == 0x18);
-static_assert(offsetof(UObjectLayout, outer) == 0x20);
+static_assert(offsetof(UObjectLayout, outerWord) == 0x20);
 static_assert(sizeof(UFieldLayout) == 0x30);
 static_assert(offsetof(UFieldLayout, next) == 0x28);
 static_assert(sizeof(FStructBaseChainLayout) == 0x10);

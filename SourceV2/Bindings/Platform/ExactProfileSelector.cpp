@@ -157,7 +157,7 @@ ExactProfileSelection ExactProfileSelector::Select(
         outcome.state = ProfileMatchState::ExactMatch;
         outcome.receipt = ReceiptFor(
             selected.resolved, *selected.profile, outcome.state,
-            "unique exact image/profile match; later discovery remains disabled");
+            "unique exact image/profile match; explicit bounded capture is available");
         outcome.match = ExactProfileMatch(
             std::move(selected.resolved), selected.profile->profileId);
         return outcome;

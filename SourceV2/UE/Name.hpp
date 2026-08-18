@@ -36,6 +36,7 @@ public:
     static constexpr uint32 kBlockOffsetBits = 16;
     static constexpr uint32 kMaxBlocks = 0x2000;
     static constexpr uint16 kMaxNameLength = 0x3FF;
+    static constexpr std::size_t kMaxOutputBytes = 2048;
 
     FNamePoolView(std::span<const NamePoolBlock> blocks, uint32 currentBlock,
                   uint32 currentByteCursor)

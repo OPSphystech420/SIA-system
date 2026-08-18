@@ -9,6 +9,7 @@ constexpr std::size_t kStateFieldLimit = 160;
 constexpr std::size_t kSegmentFieldLimit = 384;
 constexpr std::size_t kIdentityReasonLimit = 256;
 constexpr std::size_t kDetailLimit = 512;
+constexpr std::size_t kMaximumReportChecks = 24;
 
 std::string SafeStateField(std::string_view value) {
     return RedactDiagnosticText(value, kStateFieldLimit);
@@ -28,6 +29,28 @@ DiagnosticState SafeState(DiagnosticState state) {
     state.textFingerprint = SafeStateField(state.textFingerprint);
     state.identityReason = RedactDiagnosticText(state.identityReason, kIdentityReasonLimit);
     state.detail = RedactDiagnosticText(state.detail, kDetailLimit);
+    if (state.contracts.has_value()) {
+        auto& report = *state.contracts;
+        report.captureState = SafeStateField(report.captureState);
+        report.profileRootState = SafeStateField(report.profileRootState);
+        report.retryOrAbortReason = RedactDiagnosticText(
+            report.retryOrAbortReason, kIdentityReasonLimit);
+        const auto safeChecks = [](std::vector<ContractCheck>& checks) {
+            if (checks.size() > kMaximumReportChecks)
+                checks.resize(kMaximumReportChecks);
+            for (ContractCheck& check : checks) {
+                check.label = RedactDiagnosticText(check.label, kStateFieldLimit);
+                check.state = RedactDiagnosticText(check.state, kStateFieldLimit);
+                check.detail = RedactDiagnosticText(check.detail, kIdentityReasonLimit);
+            }
+        };
+        safeChecks(report.knownNames);
+        safeChecks(report.knownObjects);
+        safeChecks(report.reflectionChecks);
+        report.hooks = 0;
+        report.engineCalls = 0;
+        report.mutation = 0;
+    }
     return state;
 }
 
@@ -38,6 +61,13 @@ DiagnosticSnapshotPublisher::DiagnosticSnapshotPublisher(Logger& logger) : logge
 void DiagnosticSnapshotPublisher::Publish(DiagnosticState state) {
     std::lock_guard lock(mutex_);
     state_ = SafeState(std::move(state));
+}
+
+void DiagnosticSnapshotPublisher::PublishContractReport(ReadOnlyContractReport report) {
+    std::lock_guard lock(mutex_);
+    state_.scansStarted = report.scansStarted == 0 ? state_.scansStarted : 1;
+    state_.contracts = std::move(report);
+    state_ = SafeState(std::move(state_));
 }
 
 std::shared_ptr<const DiagnosticSnapshot> DiagnosticSnapshotPublisher::Capture() const {
@@ -60,10 +90,11 @@ std::shared_ptr<const DiagnosticSnapshot> DiagnosticSnapshotPublisher::Capture()
     snapshot->textFingerprint = std::move(state.textFingerprint);
     snapshot->identityReason = std::move(state.identityReason);
     snapshot->detail = std::move(state.detail);
-    snapshot->scansStarted = 0;
+    snapshot->scansStarted = state.scansStarted;
     snapshot->hooks = 0;
     snapshot->engineCalls = 0;
     snapshot->mutation = 0;
+    snapshot->contracts = std::move(state.contracts);
     snapshot->logs = logger_.Snapshot();
     return snapshot;
 }

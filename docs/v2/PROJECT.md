@@ -25,11 +25,12 @@ The near-term platform is iOS:
   outside-window touch verification were not separately reported;
 - Gate 2A exact ShooterGame image/profile identity is device-verified, with
   `scans_started=0` and every capability counter at zero;
-- active workflow: classify the death/respawn signal exit using the existing
-  no-injection / closed-panel / open-panel A/B/C protocol, with no new build;
-- Gate 2B name/object/reflection discovery is blocked pending that causal
-  classification; Gate 2C Engine/world relationships/generation invalidation
-  has not started.
+- death/respawn exit reproduced without any injected dylib and is deferred as
+  an external baseline limitation; B/C were waived by user decision;
+- active workflow: Gate 2B read-only FNamePool/GUObjectArray/reflection snapshot;
+  implementation and static/iOS compile checks are complete, device capture is
+  pending; Gate 2C Engine/world relationships/generation invalidation has not
+  started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 
@@ -63,9 +64,9 @@ archival/package-inspection artifact that Codex builds and inspects but does not
 install.
 
 For Gate 1.5, diagnostics must never degrade into a visible no-op: an accepted
-icon action presents the styled Status/Logs panel, or a bounded UIKit fallback
+icon action presents the styled diagnostics panel, or a bounded UIKit fallback
 names the failed presentation stage. The panel uses ordinary ImGui primitives,
-a compact dark cyan/teal palette, a left Status/Logs rail and a right content
+a compact dark cyan/teal palette, a left Status/Contracts/Logs rail and a right content
 area. It contains no Host, Client, administration, authentication, remote image
 or placeholder controls.
 

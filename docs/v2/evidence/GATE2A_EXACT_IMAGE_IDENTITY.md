@@ -180,7 +180,8 @@ receipt.
 The same artifact later passed the positive exact-target identity sub-contract
 as `V2-G2A-IDENTITY-PASS-001`. Its extended stability was separately
 contradicted by death-triggered signal exit
-`V2-G2A-DEATH-SIGNAL-EXIT-001`; cause remains unclassified and Gate 2B is
-blocked pending `PLAN-G2A-DEATH-CAUSAL-001`.
+`V2-G2A-DEATH-SIGNAL-EXIT-001`. The subsequent no-injection control reproduced
+the same symptom as `V2-G2A-DEATH-BASELINE-002`, so it is an external baseline
+limitation and Gate 2B is unblocked.
 
 See [Gate 2A device identity and death exit](GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md).

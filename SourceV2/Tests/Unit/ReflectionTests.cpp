@@ -19,9 +19,6 @@ void RunReflectionTests(TestContext& context) {
                 .identity = {11, 22, 7},
                 .fullName = name,
                 .functionFlags = EFunctionFlags::Native | EFunctionFlags::NetClient,
-                .numParms = 1,
-                .parmsSize = 8,
-                .returnValueOffset = 0,
             });
         },
         [&classLookups](const std::string& name) {
@@ -39,8 +36,8 @@ void RunReflectionTests(TestContext& context) {
     V2_EXPECT(context, registry.FindFunction("Function ShooterGame.ShooterPC.ClientInit"));
     V2_EXPECT(context, functionLookups == 1);
     V2_EXPECT(context, function.Value().Validate(
-        7, EFunctionFlags::Native | EFunctionFlags::NetClient, 8, 1));
-    V2_EXPECT(context, !function.Value().Validate(7, EFunctionFlags::Native, 1, 1));
+        7, EFunctionFlags::Native | EFunctionFlags::NetClient));
+    V2_EXPECT(context, !function.Value().Validate(8, EFunctionFlags::Native));
 
     V2_EXPECT(context, registry.FindClass("Class Engine.World"));
     V2_EXPECT(context, registry.FindClass("Class Engine.World"));

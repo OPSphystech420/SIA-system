@@ -423,3 +423,35 @@ production discovery-reader creation, so a V2 dangling UE pointer is
 incompatible with this path. Base death behavior, open-overlay interaction and
 another latent injection/startup/UI defect remain candidates. Gate 2B is blocked
 pending the single no-build `PLAN-G2A-DEATH-CAUSAL-001` A/B/C protocol.
+
+## 2026-08-18 — death exit reproduced without injection; Gate 2B unblocked
+
+The user executed arm A of `PLAN-G2A-DEATH-CAUSAL-001` with ShooterGame,
+the same local save and no injected Server-Host dylib. Character death caused
+the identical application exit, and EOS login did not change the outcome.
+
+Immutable result `V2-G2A-DEATH-BASELINE-002` is classified `external baseline
+reproduced`. Gate 2A is not a necessary cause of the symptom. The exact stock
+cause—save damage, base death/respawn behavior, or iOS-on-Apple-Silicon
+behavior—is deferred outside this workflow. This does not claim V2 can never
+influence that path. By explicit user decision arms B/C are not required,
+death/respawn is removed from current V2 stability acceptance, Gate 2A exact
+identity remains device verified, and Gate 2B becomes active.
+
+## 2026-08-18 — Gate 2B read-only contracts implemented
+
+The required Sishen name/object/reflection implementations and both FreshSDK
+trees were reviewed. IDA MCP on exact `110280.i64` proved the inline FNamePool
+root at RVA `0x5BB5180`, resolved enclosing `FUObjectArray 0x5D434D8` versus
+direct `ObjObjects 0x5D434E8`, and established the current item, UObject and
+FunctionFlags fields used by Gate 2B. FreshSDK absolute values were normalized
+to stable RVAs; GWorld/ProcessEvent are recorded but not consumed.
+
+SourceV2 gained a profile-bound provenance reader for derived heap copies,
+double-sampled owned FName/object snapshots, discovery-generation identities,
+bounded class/function/full-name checks and an explicit serial Contracts capture.
+The UI consumes only an immutable redacted report. Before capture scans remain
+zero; after a request scans=1 while hooks, engine calls and mutation remain zero.
+Synthetic host tests, the strict boundary audit and an iOS arm64 compile passed.
+No Gate 2C relationship, native call, hook, hosting control or death workaround
+was added. Device verification remains pending.

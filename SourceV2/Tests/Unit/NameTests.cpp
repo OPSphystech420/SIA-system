@@ -48,6 +48,25 @@ void RunNameTests(TestContext& context) {
     V2_EXPECT(context, wide.Value() == "Ark\xF0\x9F\xA6\x95");
     V2_EXPECT(context, !pool.Resolve(FName{-1, 0}));
     V2_EXPECT(context, !pool.Resolve(FName{1000, 0}));
+
+    FNamePoolView invalidCursor(blocks, 0, static_cast<uint32>(bytes.size() + 1));
+    V2_EXPECT(context, !invalidCursor.Resolve(FName{1, 0}));
+
+    std::array<std::byte, 16> malformedBytes{};
+    const uint16 excessiveHeader = static_cast<uint16>(100U << 6U);
+    std::memcpy(malformedBytes.data(), &excessiveHeader, sizeof(excessiveHeader));
+    const std::array<NamePoolBlock, 1> malformedBlocks{{{malformedBytes}}};
+    V2_EXPECT(context, !FNamePoolView(malformedBlocks, 0, malformedBytes.size())
+        .Resolve(FName{0, 0}));
+
+    std::array<std::byte, 4096> oversizedWideBytes{};
+    std::u16string oversizedWide(800, static_cast<char16_t>(0x0800));
+    WriteWide(oversizedWideBytes, 0, oversizedWide);
+    const std::array<NamePoolBlock, 1> oversizedWideBlocks{{{oversizedWideBytes}}};
+    const auto oversizedResult = FNamePoolView(
+        oversizedWideBlocks, 0, oversizedWideBytes.size()).Resolve(FName{0, 0});
+    V2_EXPECT(context, !oversizedResult
+        && oversizedResult.Error().category == ContractErrorCategory::LimitExceeded);
 }
 
 }  // namespace serverhost::v2::tests

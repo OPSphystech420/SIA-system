@@ -20,14 +20,17 @@ public:
 
     [[nodiscard]] bool ShowsFloatingButton() const noexcept;
     [[nodiscard]] bool HasRuntimeCapabilityControls() const noexcept;
-    [[nodiscard]] std::array<std::string_view, 2> Tabs() const noexcept;
+    [[nodiscard]] std::array<std::string_view, 3> Tabs() const noexcept;
     [[nodiscard]] const std::vector<DiagnosticStatusRow>& StatusRows() const noexcept;
+    [[nodiscard]] const std::vector<DiagnosticStatusRow>& ContractRows() const noexcept;
     [[nodiscard]] const diagnostics::LogSnapshot& Logs() const noexcept;
     [[nodiscard]] std::string CopyableLogs() const;
+    [[nodiscard]] std::string CopyableContractsAndLogs() const;
 
 private:
     diagnostics::LogSnapshot logs_;
     std::vector<DiagnosticStatusRow> statusRows_;
+    std::vector<DiagnosticStatusRow> contractRows_;
 };
 
 }  // namespace serverhost::v2::ui

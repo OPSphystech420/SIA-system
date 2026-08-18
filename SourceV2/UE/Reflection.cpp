@@ -26,9 +26,9 @@ ContractResult<void> FPropertyDescriptor::Validate() const {
 }
 
 ContractResult<void> UFunctionDescriptor::Validate(
-    std::uint64_t expectedGeneration, EFunctionFlags requiredFlags,
-    uint16 expectedParmsSize, uint8 expectedNumParms) const {
-    if (!identity.IsStructurallyValid() || identity.worldGeneration != expectedGeneration) {
+    std::uint64_t expectedGeneration, EFunctionFlags requiredFlags) const {
+    if (!identity.IsStructurallyValid()
+        || identity.discoveryGeneration != expectedGeneration) {
         return ContractResult<void>::Failure(
             ContractErrorCategory::WrongGeneration, "function identity is stale for this registry generation");
     }
@@ -36,16 +36,12 @@ ContractResult<void> UFunctionDescriptor::Validate(
         return ContractResult<void>::Failure(
             ContractErrorCategory::TypeMismatch, "function name or required flags do not match");
     }
-    if (parmsSize != expectedParmsSize || numParms != expectedNumParms) {
-        return ContractResult<void>::Failure(
-            ContractErrorCategory::MalformedLayout, "function parameter metadata does not match its contract");
-    }
     return ContractResult<void>::Success();
 }
 
 ContractResult<UFunctionDescriptor> ReflectionRegistry::FindFunction(const std::string& fullName) {
     if (auto cached = functions_.find(fullName); cached != functions_.end()) {
-        if (cached->second.identity.worldGeneration == worldGeneration_) {
+        if (cached->second.identity.discoveryGeneration == discoveryGeneration_) {
             return ContractResult<UFunctionDescriptor>::Success(cached->second);
         }
         functions_.erase(cached);
@@ -58,7 +54,7 @@ ContractResult<UFunctionDescriptor> ReflectionRegistry::FindFunction(const std::
     if (!result) {
         return result;
     }
-    if (result.Value().identity.worldGeneration != worldGeneration_) {
+    if (result.Value().identity.discoveryGeneration != discoveryGeneration_) {
         return ContractResult<UFunctionDescriptor>::Failure(
             ContractErrorCategory::WrongGeneration, "lookup returned a function from another generation");
     }
@@ -68,7 +64,7 @@ ContractResult<UFunctionDescriptor> ReflectionRegistry::FindFunction(const std::
 
 ContractResult<UClassDescriptor> ReflectionRegistry::FindClass(const std::string& fullName) {
     if (auto cached = classes_.find(fullName); cached != classes_.end()) {
-        if (cached->second.identity.worldGeneration == worldGeneration_) {
+        if (cached->second.identity.discoveryGeneration == discoveryGeneration_) {
             return ContractResult<UClassDescriptor>::Success(cached->second);
         }
         classes_.erase(cached);
@@ -81,7 +77,7 @@ ContractResult<UClassDescriptor> ReflectionRegistry::FindClass(const std::string
     if (!result) {
         return result;
     }
-    if (result.Value().identity.worldGeneration != worldGeneration_) {
+    if (result.Value().identity.discoveryGeneration != discoveryGeneration_) {
         return ContractResult<UClassDescriptor>::Failure(
             ContractErrorCategory::WrongGeneration, "lookup returned a class from another generation");
     }
@@ -89,8 +85,8 @@ ContractResult<UClassDescriptor> ReflectionRegistry::FindClass(const std::string
     return result;
 }
 
-void ReflectionRegistry::Invalidate(std::uint64_t newWorldGeneration) {
-    worldGeneration_ = newWorldGeneration;
+void ReflectionRegistry::Invalidate(std::uint64_t newDiscoveryGeneration) {
+    discoveryGeneration_ = newDiscoveryGeneration;
     functions_.clear();
     classes_.clear();
 }

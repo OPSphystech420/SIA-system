@@ -75,7 +75,17 @@ ContractResult<std::string> FNamePoolView::Resolve(FName name) const {
         std::memcpy(decoded.data(), entry.subspan(sizeof(rawHeader)).data(), payloadSize);
     }
 
+    if (decoded.size() > kMaxOutputBytes) {
+        return ContractResult<std::string>::Failure(
+            ContractErrorCategory::LimitExceeded, "decoded FName exceeds output bound");
+    }
+
     if (name.number > 0) {
+        if (decoded.size() > kMaxOutputBytes - 16) {
+            return ContractResult<std::string>::Failure(
+                ContractErrorCategory::LimitExceeded,
+                "numbered FName exceeds output bound");
+        }
         decoded += "_" + std::to_string(name.number - 1);
     }
     return ContractResult<std::string>::Success(std::move(decoded));

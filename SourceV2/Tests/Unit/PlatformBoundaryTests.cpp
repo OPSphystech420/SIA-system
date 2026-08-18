@@ -231,6 +231,9 @@ SyntheticImage MakeSyntheticImage(
     for (std::size_t index = 0; index < 16; ++index)
         memory[0x1000 + index] = static_cast<std::byte>(0xA0 + index);
     memory[0x4000] = std::byte{0x2A};
+    const std::uintptr_t derivedTarget = kImageBase + 0x4100;
+    std::memcpy(memory.data() + 0x4010, &derivedTarget, sizeof(derivedTarget));
+    memory[0x4100] = std::byte{0x6B};
     return {
         .record = {
             .path = "/Applications/ARK.app/" + imageName,
@@ -313,22 +316,40 @@ void RunPlatformBoundaryTests(TestContext& context) {
 
     auto reader = CheckedMemoryReader::Create(*fixture.selection.match, fixture.image.source);
     V2_EXPECT(context, reader);
-    const auto dataByte = reader.Value().Read<std::uint8_t>(
-        kImageBase + 0x4000, MemoryReadKind::ReadableData);
-    V2_EXPECT(context, dataByte && dataByte.Value() == 0x2A);
-    V2_EXPECT(context, reader.Value().Read<std::uint32_t>(
-        std::numeric_limits<std::uintptr_t>::max() - 1,
-        MemoryReadKind::ReadableData).Error().category == ContractErrorCategory::OutOfRange);
-    V2_EXPECT(context, !reader.Value().ReadBytes(
-        kImageBase + 0x7000, 1, MemoryReadKind::ReadableData));
-    V2_EXPECT(context, !reader.Value().ReadBytes(
-        kImageBase + 0x3FFF, 2, MemoryReadKind::ReadableData));
-    V2_EXPECT(context, !reader.Value().ReadBytes(
-        1, 1, MemoryReadKind::ReadableData));
-    V2_EXPECT(context, !reader.Value().ReadBytes(
-        kImageBase + 0x1000, 1, MemoryReadKind::ReadableData));
-    V2_EXPECT(context, reader.Value().ReadBytes(
-        kImageBase + 0x1000, 1, MemoryReadKind::ExecutableText));
+    const auto dataToken = reader.Value().ResolveImageRva(
+        0x4000, 0x200, MemoryReadKind::ReadableData);
+    V2_EXPECT(context, dataToken);
+    const auto dataByte = reader.Value().Read(dataToken.Value(), 0, 1);
+    V2_EXPECT(context, dataByte && dataByte.Value().ValueAt<std::uint8_t>(0).Value() == 0x2A);
+    V2_EXPECT(context, !reader.Value().ResolveImageRva(
+        std::numeric_limits<std::uint64_t>::max(), 4, MemoryReadKind::ReadableData));
+    V2_EXPECT(context, !reader.Value().ResolveImageRva(
+        0x7000, 1, MemoryReadKind::ReadableData));
+    V2_EXPECT(context, !reader.Value().ResolveImageRva(
+        0x3FFF, 2, MemoryReadKind::ReadableData));
+    V2_EXPECT(context, !reader.Value().ResolveImageRva(
+        0x1000, 1, MemoryReadKind::ReadableData));
+    const auto textToken = reader.Value().ResolveImageRva(
+        0x1000, 1, MemoryReadKind::ExecutableText);
+    V2_EXPECT(context, textToken && reader.Value().Read(textToken.Value(), 0, 1));
+    V2_EXPECT(context, !reader.Value().Read(dataToken.Value(), 0x1FF, 2));
+
+    const auto pointerCopy = reader.Value().Read(dataToken.Value(), 0x10, sizeof(std::uintptr_t));
+    V2_EXPECT(context, pointerCopy);
+    const auto derived = reader.Value().DerivePointer(
+        pointerCopy.Value(), 0, 1, "synthetic derived byte");
+    V2_EXPECT(context, derived);
+    const auto derivedByte = reader.Value().Read(derived.Value(), 0, 1);
+    V2_EXPECT(context, derivedByte
+        && derivedByte.Value().ValueAt<std::uint8_t>(0).Value() == 0x6B);
+    V2_EXPECT(context, !reader.Value().DerivePointer(
+        pointerCopy.Value(), sizeof(std::uintptr_t), 1, "out of copy"));
+    auto secondReader = CheckedMemoryReader::Create(
+        *fixture.selection.match, fixture.image.source);
+    V2_EXPECT(context, secondReader);
+    V2_EXPECT(context, !secondReader.Value().Read(dataToken.Value(), 0, 1));
+    V2_EXPECT(context, !secondReader.Value().DerivePointer(
+        pointerCopy.Value(), 0, 1, "foreign provenance"));
 
     bindings::BuildProfile wrongUuid = fixture.profile;
     (*wrongUuid.expectedImageUuid)[0] ^= 0xFF;

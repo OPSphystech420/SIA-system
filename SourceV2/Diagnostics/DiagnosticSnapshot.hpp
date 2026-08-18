@@ -1,10 +1,12 @@
 #pragma once
 
 #include "SourceV2/Diagnostics/Logger.hpp"
+#include "SourceV2/Core/ReadOnlyContractReport.hpp"
 
 #include <cstdint>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 
 namespace serverhost::v2::diagnostics {
@@ -24,6 +26,7 @@ struct DiagnosticState final {
     std::string identityReason;
     std::string detail;
     std::uint32_t scansStarted{};
+    std::optional<ReadOnlyContractReport> contracts;
 };
 
 struct DiagnosticSnapshot final {
@@ -44,6 +47,7 @@ struct DiagnosticSnapshot final {
     std::uint32_t hooks{};
     std::uint32_t engineCalls{};
     std::uint32_t mutation{};
+    std::optional<ReadOnlyContractReport> contracts;
     LogSnapshot logs;
 };
 
@@ -52,6 +56,7 @@ public:
     explicit DiagnosticSnapshotPublisher(Logger& logger);
 
     void Publish(DiagnosticState state);
+    void PublishContractReport(ReadOnlyContractReport report);
     [[nodiscard]] std::shared_ptr<const DiagnosticSnapshot> Capture() const;
 
 private:

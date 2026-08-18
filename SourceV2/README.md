@@ -1,16 +1,16 @@
-# Server-Host V2 Gate 2A identity diagnostics
+# Server-Host V2 Gate 2B read-only contracts
 
 This is the separate Server-Host V2 implementation. Gate 1 provides the
 portable typed foundation. Gate 1.5 added the UE-free Sideloadly diagnostic
-surface. Gate 2A adds only exact Mach-O image/profile identity and a checked
-mapped-memory boundary for future Gate 2B use.
+surface. Gate 2A added exact Mach-O image/profile identity. Gate 2B adds one
+explicit bounded capture of names, object items and minimal reflection identity.
 
 The iOS dylib contains a bounded structured/redacted logger, immutable
 diagnostic snapshots, a scene-safe UIKit floating button and a transparent
-Metal/ImGui panel with only `Status` and `Logs`. A missing/unsupported profile or
+Metal/ImGui panel with `Status`, `Contracts` and `Logs`. A missing/unsupported profile or
 Legacy guard or identity mismatch disables later discovery but does not hide
-the diagnostic button. Scans, hooks, engine calls and mutation remain exactly
-zero.
+the diagnostic button. Before capture `scans_started=0`; after an explicit
+request it is `1`. Hooks, engine calls and mutation remain exactly zero.
 
 The corrected Gate 1.5 presentation revalidates and reattaches its active
 window/root hierarchy on lifecycle and open requests, puts the overlay above
@@ -22,7 +22,7 @@ a local UIKit status card naming the exact stage instead of becoming a silent
 no-op.
 
 The ImGui surface uses a compact dark cyan/teal palette with an ordinary
-left-hand Status/Logs navigation rail and right content panel. It imports no
+left-hand Status/Contracts/Logs navigation rail and right content panel. It imports no
 Dragon/Sishen widget, image, font, authentication, network or gameplay code.
 Continuous rendering starts only after the first command buffer succeeds and
 stops completely on Close; the closed `MTKView` remains hidden and paused.
@@ -56,12 +56,15 @@ linked.
 
 `BoundaryAudit.sh` enforces raw/include layering, V2 UI isolation, explicit
 source lists and the rule that raw address/ASLR/Mach-O operations stay in
-`Bindings/Platform`. Host-local tests use synthetic Mach-O/memory buffers for
-malformed/ambiguous/mismatch, segment/overflow/permission and exact-match cases;
+the approved low Bindings boundary. Host-local tests use synthetic Mach-O and
+sparse memory buffers for malformed/ambiguous/mismatch, mutation/retry,
+unmap/read failure, overflow/permission, cycle, generation and limit cases;
 they never read arbitrary host-process addresses.
 
 The exact 1.10280 profile uses UUID plus stable segment identity and the full
 `__TEXT,__text` SHA-256. `CheckedMemoryReader` can be created only from a unique
-exact-match proof, but Gate 2A runtime intentionally does not create it or start
-any name/object scan. Gate 2B and 2C have not started. There is no hook,
-`ProcessEvent`, native engine call, host/client behavior or gameplay mutation.
+exact-match proof. Gate 2B derives heap tokens only from checked root copies,
+uses the checked platform copier for owned bytes, double-samples mutable headers and
+publishes only an immutable bounded report. Gate 2C and hosting have not
+started. There is no hook, native engine call, host/client behavior or gameplay
+mutation.

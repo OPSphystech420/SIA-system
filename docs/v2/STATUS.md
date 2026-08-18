@@ -5,20 +5,23 @@ Last updated: 2026-08-18.
 ## Current state
 
 ```text
-active workflow: Gate 2A — death/respawn causal classification
+active workflow: Gate 2B — read-only FNamePool, GUObjectArray and reflection snapshot
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
-Gate 2A extended stability: contradicted by death-triggered signal exit
-Gate 2B: blocked pending causal classification
+Gate 2A death exit: external baseline reproduced; deferred
+Gate 2B: implemented; static/iOS compile verified; device capture pending
 Gate 2C: not started
-capabilities: scans_started=0 hooks=0 engine_calls=0 mutation=0
+capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
+capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
 ```
 
 The user explicitly authorized progression from Gate 1.5 to Gate 2. Gate 2 is
-split into 2A/2B/2C, and only Gate 2A causal classification is active. No
-FNamePool, GUObjectArray, reflection, Engine, World or NetDriver discovery
-exists in this workflow. No new build is authorized by the active protocol.
+split into 2A/2B/2C. Gate 2A exact identity is complete and its death-path
+investigation is closed as an external reproduced baseline limitation. Gate 2B
+read-only name/object/reflection capture is implemented and awaits the named
+device protocol. Gate 2C Engine, World and NetDriver relationship discovery has
+not started.
 
 ## Immutable Gate 1.5 result
 
@@ -101,9 +104,10 @@ full `__text` fingerprint and exactly one matching image/profile pair. Mismatch,
 ambiguity and malformed input fail closed before later discovery.
 
 `CheckedMemoryReader` is the only Gate 2B-facing read mechanism. It requires the
-selector's private unique-match proof, rejects `address + size` overflow,
-outside/cross-segment reads and wrong permission class, and returns owned typed
-results. Gate 2A runtime does not instantiate it and starts no scan.
+selector's private unique-match proof, rejects overflow, outside/cross-segment
+reads and wrong permission class, and returns owned typed results. The historical
+Gate 2A `.1` runtime did not instantiate it or start a scan; Gate 2B now creates
+it after exact match but performs no name/object read until the explicit button.
 
 Status/Logs receive only an immutable redacted receipt: selected image/product,
 architecture, UUID, decimal segment sizes, shortened fingerprint, match state,
@@ -149,7 +153,7 @@ exact `.1` artifact. Status/Logs, open/close/reopen, Copy logs and panel
 interaction were confirmed. The wrong-profile negative was not reported and is
 not inferred.
 
-Extended-stability result: `V2-G2A-DEATH-SIGNAL-EXIT-001`. On Apple Silicon Mac
+The initial extended-stability result was `V2-G2A-DEATH-SIGNAL-EXIT-001`. On Apple Silicon Mac
 in a local saved world without EOS, the character died and ShooterGame exited
 during the death/respawn transition while the Gate 2A panel was open. The last
 reported V2 open was `uptime_ms=120678`; no later close exists. The preserved
@@ -165,9 +169,68 @@ identity work once inside `V2Entry` before publishing owned diagnostic values.
 After startup the UI consumes only immutable snapshots and bounded logs.
 Therefore a dangling UE pointer inside V2 is incompatible with this code path;
 base death/respawn behavior, an open-overlay interaction and other latent
-startup/UI defects remain unclassified candidates.
+startup/UI defects were initially unclassified candidates.
+
+The user then executed arm A with no injected dylib, the same local save and a
+character death. ShooterGame exited in the same way; EOS login did not change
+the result. Immutable result `V2-G2A-DEATH-BASELINE-002` is therefore
+`classification: external baseline reproduced`. Gate 2A is not a necessary
+cause of the observed symptom. Plausible base-game causes include save damage,
+the stock death/respawn path, or running the iOS application on Apple Silicon
+Mac; this project does not investigate which one. This does not assert that V2
+can never affect that path, only that the current symptom is not a V2-specific
+regression. Arms B/C were waived by explicit user decision. Death/respawn is
+excluded from the current V2 stability acceptance criteria as a reproduced
+baseline limitation, and Gate 2B is unblocked.
 
 Full report: [Gate 2A device identity and death exit](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md).
+
+## Gate 2B implementation state
+
+Workflow: `Gate 2B — read-only FNamePool, GUObjectArray and reflection snapshot`.
+
+Exact resolver cards established in the required open `110280.i64` database:
+
+```text
+FNamePool inline root             RVA 0x5BB5180
+FUObjectArray enclosing           RVA 0x5D434D8
+TUObjectArray direct / ObjObjects RVA 0x5D434E8 (= enclosing + 0x10)
+GWorld evidence only              RVA 0x5DBA4F0 (not read before Gate 2C)
+ProcessEvent evidence only        RVA 0x250147C (not resolved or invoked)
+```
+
+The two FreshSDK address sets normalize to these RVAs after subtracting their
+respective dump-time image bases; production stores no FreshSDK absolute value.
+FNamePool `C8/CC/D0`, two-byte entry encoding, FUObjectItem `0/8/C/10` and
+`0x18`, chunk size `0x10000`, flags masks, TUObjectArray header, UObject `0x28`
+and FunctionFlags `0xB0` are exact-binary/source card facts. Function parameter
+offsets remain unavailable.
+
+Gate 2B extends the platform boundary with profile-bound opaque image/derived
+tokens. Every derived token originates in an earlier owned copy; every heap copy
+rechecks overflow, token scope, readable VM region and copy completion. FName and
+object roots are sampled before/after bounded copies and retried at most three
+times. All decoding/relationship work uses owned buffers and discovery-generation
+identities. Raw pointer values, tokens, ASLR data and RVAs do not enter the
+immutable Diagnostics/UI report.
+
+Capture is explicit, never per-frame, and runs on one controlled serial queue.
+Before the action `scans_started=0`; after a request it is `1`. Repeated capture
+increments discovery generation and invalidates the prior owned snapshot.
+Hooks, native/UE calls and mutation remain zero. The Contracts page exposes only
+bounded root/name/object/reflection receipts and Copy report; it is not a hosting
+control and does not redesign the Gate 1.5 panel.
+
+Host/static validation covers normalization, wrong profile/RVA, derived scope,
+VM failure, mutation/retry, name and object bounds, flags/serial/index, stale
+generation, malformed/unknown/cyclic relationships, cancellation and limits,
+plus diagnostics redaction/immutability. Normal and UBSan-only suites each pass
+270 assertions; the combined ASan/UBSan binary compiled but stalled before its
+first marker and is not claimed as passing. The boundary audit and iOS arm64
+compile pass. No live name/object capture is claimed until the device protocol
+succeeds.
+
+Detailed evidence: [Gate 2B read-only contracts](evidence/GATE2B_READ_ONLY_CONTRACTS.md).
 
 ## Deferred production UI debt
 
@@ -180,8 +243,6 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Execute `PLAN-G2A-DEATH-CAUSAL-001`: one baseline death without any injected
-dylib, one exact Gate 2A death after the panel has been closed for at least 30
-seconds, and one exact Gate 2A death with the panel open. Use the same save/map
-and no EOS, hosting, client travel or other mods. Do not build another artifact
-and do not start Gate 2B until the A/B/C result is classified.
+Build/inject the one Gate 2B raw artifact and execute its bounded menu/local-world
+capture protocol. Do not start Gate 2C, hosting, Engine/World/NetDriver discovery,
+hooks, UE calls or mutation.

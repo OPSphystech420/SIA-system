@@ -6,9 +6,10 @@ Identity result: `V2-G2A-IDENTITY-PASS-001`
 
 Failure intake: `V2-G2A-DEATH-SIGNAL-EXIT-001`
 
-Causal protocol: `PLAN-G2A-DEATH-CAUSAL-001`
+Causal protocol: `PLAN-G2A-DEATH-CAUSAL-001` (closed after arm A)
 
-This report separates two claims from one exact artifact execution. The exact
+This report separates the exact artifact execution from its later no-injection
+control. The exact
 image-identity sub-contract is device-verified. Extended Gate 2A stability is
 contradicted by a death/respawn-triggered signal exit whose cause is not yet
 classified.
@@ -177,10 +178,32 @@ Do not create a new package or change the artifact between B and C.
 - **All three stable:** intermittent result. Do not patch code without a second
   reproduction.
 
-Until this protocol classifies the failure:
+## Subsequent causal result
+
+Result ID: `V2-G2A-DEATH-BASELINE-002`
+
+```text
+classification: external baseline reproduced
+```
+
+The user executed arm A with ShooterGame carrying no injected Server-Host
+dylib, the same local saved world and a character death. The application exited
+in the identical manner. Signing in to EOS did not alter the result.
+
+This proves that Gate 2A injection is not necessary for the observed symptom.
+It does not identify whether the stock cause is damaged save data, base
+death/respawn logic or the iOS application running on Apple Silicon Mac, and
+that attribution is outside this project workflow. It also does not assert
+that V2 can never influence this path. Arms B/C are no longer required by
+explicit user decision. Death/respawn is a reproduced baseline limitation and
+is excluded from the current V2 stability acceptance criteria.
+
+Final classification:
 
 ```text
 Gate 2A exact identity: device verified
-Gate 2A extended stability: contradicted by death-triggered signal exit
-Gate 2B: blocked pending causal classification
+Gate 2A death exit: external baseline reproduced; deferred
+Gate 2B: active
+Gate 2C: not started
+hooks=0 engine_calls=0 mutation=0
 ```

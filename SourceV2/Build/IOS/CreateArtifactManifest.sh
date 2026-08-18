@@ -109,7 +109,11 @@ manifest="$stage_dir/manifest.txt"
     echo 'target_text_size=0x448B030'
     echo 'target_text_sha256=8bfc1fd248a5bf2fc589b85de0afccb57fe872789dff1b0e8c0d7b3db591bcf8'
     echo 'target_stable_prefix_size=0x59DC000'
-    echo 'runtime_capabilities=scans_started=0,hooks=0,engine_calls=0,mutation=0'
+    echo 'gate2b_fname_pool_rva=0x5BB5180'
+    echo 'gate2b_fuobjectarray_rva=0x5D434D8'
+    echo 'gate2b_tuobjectarray_rva=0x5D434E8'
+    echo 'runtime_capabilities_before_capture=scans_started=0,hooks=0,engine_calls=0,mutation=0'
+    echo 'runtime_capabilities_after_explicit_capture=scans_started=1,hooks=0,engine_calls=0,mutation=0'
     printf 'host_cppflags=%s\n' "$V2_HOST_CPPFLAGS"
     printf 'host_cxxflags=%s\n' "$V2_HOST_CXXFLAGS"
     printf 'host_ldflags=%s\n' "$V2_HOST_LDFLAGS"

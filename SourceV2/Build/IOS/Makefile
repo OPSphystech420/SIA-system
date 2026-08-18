@@ -1,6 +1,6 @@
 ARCHS = arm64
 TARGET = iphone:clang:16.5:15.0
-V2_BUILD_ID ?= gate2a-exact-identity-20260818.1
+V2_BUILD_ID ?= gate2b-readonly-contracts-20260818.1
 V2_SOURCE_REVISION ?= unavailable
 V2_CFLAGS ?= -fobjc-arc -fno-modules -Wall -Wextra -Wpedantic -Werror
 V2_REPOSITORY_ROOT := $(abspath ../../..)
@@ -31,6 +31,7 @@ ServerHostV2_FILES = \
     $(V2_SOURCE_ROOT)/Bootstrap/LegacyRuntimeGuard.cpp \
     $(V2_SOURCE_ROOT)/Diagnostics/Logger.cpp \
     $(V2_SOURCE_ROOT)/Diagnostics/DiagnosticSnapshot.cpp \
+    $(V2_SOURCE_ROOT)/Diagnostics/ContractCapture.mm \
     $(V2_SOURCE_ROOT)/UI/DiagnosticPresentationModel.cpp \
     $(V2_SOURCE_ROOT)/UI/PresentationStateMachine.cpp \
     $(V2_SOURCE_ROOT)/UI/DiagnosticUIBootstrap.mm \
@@ -44,6 +45,7 @@ ServerHostV2_FILES = \
     $(V2_SOURCE_ROOT)/Bindings/Platform/ImageIdentityResolver.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/ExactProfileSelector.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Platform/CheckedMemoryReader.cpp \
+    $(V2_SOURCE_ROOT)/Bindings/UE/ReadOnlySnapshotCapture.cpp \
     $(V2_SOURCE_ROOT)/Bindings/Validation/ProfileValidator.cpp \
     $(V2_SOURCE_ROOT)/Tests/Static/LayoutTests.cpp \
     $(V2_REPOSITORY_ROOT)/ImGui/imgui.cpp \

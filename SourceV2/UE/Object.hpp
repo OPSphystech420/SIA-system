@@ -40,9 +40,6 @@ struct UClassMetadata final {
 struct UFunctionMetadata final {
     UStructMetadata structure;
     EFunctionFlags functionFlags{EFunctionFlags::None};
-    uint8 numParms{};
-    uint16 parmsSize{};
-    uint16 returnValueOffset{};
 };
 
 class UObjectView final {
@@ -74,8 +71,6 @@ private:
 class UFunctionView final {
 public:
     explicit UFunctionView(const UFunctionMetadata& metadata) : metadata_(metadata) {}
-    [[nodiscard]] uint16 ParmsSize() const noexcept { return metadata_.parmsSize; }
-    [[nodiscard]] uint8 NumParms() const noexcept { return metadata_.numParms; }
     [[nodiscard]] EFunctionFlags Flags() const noexcept { return metadata_.functionFlags; }
 
 private:

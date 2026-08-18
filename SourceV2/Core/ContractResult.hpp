@@ -17,6 +17,9 @@ enum class ContractErrorCategory {
     WrongGeneration,
     TypeMismatch,
     NotFound,
+    ChangedDuringCapture,
+    Cancelled,
+    LimitExceeded,
 };
 
 struct ContractError final {

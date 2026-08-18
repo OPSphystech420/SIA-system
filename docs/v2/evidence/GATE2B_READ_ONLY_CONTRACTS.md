@@ -1,0 +1,264 @@
+# Gate 2B read-only FNamePool, GUObjectArray and reflection snapshot
+
+```text
+Report ID: V2-G2B-READONLY-CONTRACTS-001
+Workflow / ABI backlog IDs: Gate 2B; ABI-005, ABI-006, ABI-007; ABI-008 evidence-only
+Date: 2026-08-18
+Author/task: Codex Gate 2B workflow
+Exact platform and build identity: ShooterGame 1.10280 arm64 MH_EXECUTE
+Binary/database: /Users/grimreaper31/Desktop/Dev/MHGA/Extra_For_Host/110280.i64
+IDA stored input SHA-256: d98d25778e893413ebd6c4da9156e1b74efe2b203bc488393795c3db6c83a178
+Target LC_UUID: E52A980C-9C36-34C7-84B0-DD6E846328DC
+Claim status before: Gate 2B active; FName/object/reflection ABI unresolved for runtime use
+Claim status after: exact-binary resolver cards and static/iOS build validation complete; device capture pending
+```
+
+## Scope and non-scope
+
+Gate 2B creates one explicit read-only capture. It resolves exact-build roots,
+copies names/object items/minimal UObject metadata into owned storage and emits a
+bounded immutable report. It does not discover a live Engine, World, viewport or
+NetDriver instance. It does not call ProcessEvent or any UE/native method, install
+a hook, schedule gameplay work, poll every frame or write memory. Gate 2C and
+hosting have not started.
+
+The reproduced death/respawn exit is closed separately as
+`V2-G2A-DEATH-BASELINE-002`: the identical symptom occurs without injection.
+It is excluded from this gate's acceptance criteria as an external baseline
+limitation; no save/EOS/death workaround was added.
+
+## Sources read
+
+Sishen was read completely for organization and rejected as current ABI truth:
+
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/UnrealEngine/NameTypes.hpp`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/UnrealEngine/ObjectArray.hpp`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/UnrealEngine/ScriptCore.h`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/UnrealEngine/ScriptCore.mm`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/StaticClasses.h`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Source/GameStructs.h`;
+- `/Users/grimreaper31/Desktop/Dev/MHGA/Sishen/Sishen-main/Utilities/Memory.h`.
+
+Both current FreshSDK trees were compared:
+
+- `Reference/FreshSDK/4.26.2-0+++UE4+Release-4.26-ShooterGame`;
+- `Reference/FreshSDK/4.26.2-0+++UE4+Release-4.26-ShooterGame-Full-Version`.
+
+The review included each `UEOffsets.hpp`, `CppSDK/UnrealContainers.hpp`, relevant
+`CppSDK/SDK/CoreUObject_*` files, both object dumps and the Dumpspace offsets,
+classes and functions JSON files. The two SDK trees agree on the used layouts
+and dumps; their exported absolute addresses differ by constant dump-time ASLR.
+
+## Adopted, adapted and rejected patterns
+
+Adopted as organization:
+
+- typed FName/pool representation;
+- chunked object-array organization;
+- small name/object/full-name helpers;
+- separate class and function lookup;
+- one centralized resolver/capture owner.
+
+Adapted:
+
+- Sishen's direct reads became profile-gated opaque tokens and owned
+  `vm_read_overwrite` copies;
+- global name/object access became bounded snapshots with double-sampled mutable
+  headers and discovery-generation invalidation;
+- object/full-name helpers operate only on copied metadata with cycle/depth
+  checks.
+
+Rejected:
+
+- every Sishen offset/signature and unchecked global/singleton pointer;
+- direct dereference, borrowed live UObject return, infinite scan and permanent
+  class cache;
+- unverified serial/flags ABI, hooks, FunctionFlags mutation and ProcessEvent;
+- gameplay, login, security, download and legacy offset paths.
+
+## FreshSDK address normalization
+
+The regular dump base is `0x100A9C000`; the full dump base is `0x1044D8000`.
+Corresponding exported addresses differ by `0x3A3C000`, proving session ASLR
+rather than a different ABI.
+
+| Contract | Regular absolute | Full absolute | Stable RVA | Gate 2B use |
+|---|---:|---:|---:|---|
+| FNamePool | `0x106651180` | `0x10A08D180` | `0x5BB5180` | used |
+| direct TUObjectArray | `0x1067DF4E8` | `0x10A21B4E8` | `0x5D434E8` | used |
+| GWorld | `0x1068564F0` | `0x10A2924F0` | `0x5DBA4F0` | recorded only; Gate 2C |
+| ProcessEvent | `0x102F9D47C` | `0x1069D947C` | `0x250147C` | recorded only; never invoked |
+
+Production stores only stable RVAs. No dump-time absolute address, ASLR slide,
+runtime pointer or heap address is published.
+
+## ABI-005 resolver card — FNamePool
+
+Result: the root at IDA address `0x105BB5180` / RVA `0x5BB5180` is an inline
+pool, not a pointer to a pool.
+
+Validated layout:
+
+```text
+CurrentBlock      +0xC8
+CurrentByteCursor +0xCC
+Blocks            +0xD0
+maximum blocks    0x2000
+block bytes       0x20000
+entry stride      2
+header bit 0      wide
+header bits 6..15 length
+```
+
+Representative exact-binary evidence:
+
+- `sub_10234E684` initializes the inline root and first block;
+- `sub_10235072C` and `sub_102351754` compute
+  `Blocks[HIWORD(index)] + 2 * LOWORD(index)` and branch on the wide bit;
+- `sub_102351CDC` reads CurrentBlock;
+- `sub_102355E14` uses `+C8/+CC/+D0`, the `0x20000` block capacity, two-byte
+  alignment and narrow/wide allocation paths.
+
+Runtime validator: read `C8/CC` and the used part of `Blocks[]`, copy every used
+block, resample header/table, discard and retry at most three times if changed,
+then decode only owned buffers. Bounds are 512 captured blocks, 96 MiB copied,
+1023 encoded units and 2048 output bytes. Known round trips are `None`, `Object`,
+`Class`, `Function`, `World`, `Engine`, `GameEngine`, `GameViewportClient`,
+`NetDriver` and `GameNetDriver`.
+
+## ABI-006 resolver card — GUObjectArray
+
+The two candidates describe one object:
+
+```text
+FUObjectArray enclosing RVA 0x5D434D8
+ObjObjects/TUObjectArray    +0x10
+direct TUObjectArray RVA    0x5D434E8
+```
+
+Gate 2B resolves both roots and requires the enclosing `+0x10` bytes to equal
+the direct header before any heap derivation.
+
+Validated current layout:
+
+```text
+FUObjectItem: Object +0x0; Flags +0x8; ClusterIndex +0xC;
+              SerialNumber +0x10; size 0x18
+unreachable mask 0x10000000; pending-kill mask 0x20000000
+chunk items 0x10000
+TUObjectArray: Objects +0x0; MaxElements +0x10; NumElements +0x14;
+               MaxChunks +0x18; NumChunks +0x1C; size 0x20
+```
+
+Representative exact-binary evidence:
+
+- `sub_100F8CBB8` addresses the enclosing object and its direct fields;
+- `sub_10158C9BC` performs chunk/index math with 65536 items and 24-byte items;
+- `sub_100FAC328` and `sub_100FBDA28` use UObject index `+C`, item flags `+8`
+  and the pending mask;
+- weak-pointer validation at `0x102530648`, `0x1025306E8`, `0x10253075C`,
+  `0x1025307DC` and `0x1025308CC` validates chunk lookup and serial `+0x10`;
+- `sub_10251C484`/`sub_10251C5F4` use cluster `+C` and unreachable state.
+
+Runtime validator: sample header, validate num/max/chunks/capacities, copy the
+chunk-pointer table and required item bytes, then resample header/table. Null,
+pending, unreachable, malformed serial and index counts are owned report values;
+no object address survives the low capture layer.
+
+## ABI-007 resolver card — UObject/reflection
+
+FreshSDK and exact-binary data flow support the used current layout:
+
+```text
+UObject size 0x28
+ObjectFlags +0x8; InternalIndex +0xC; ClassPrivate +0x10;
+NamePrivate +0x18; OuterPrivate +0x20
+UField Next +0x28
+UStruct SuperStruct +0x40; Children +0x48; ChildProperties +0x50;
+        PropertiesSize +0x58; MinAlignment +0x5C; size 0xB0
+UFunction FunctionFlags +0xB0; size 0xE0
+```
+
+Only UObject identity, class/outer, bounded class super chains and FunctionFlags
+are read in Gate 2B. `NumParms`, `ParmsSize` and `ReturnValueOffset` are explicitly
+unavailable. The exact ProcessEvent body at `0x10250147C` was inspected only as
+data-flow evidence for UObject index and FunctionFlags; there is no binding or
+call.
+
+Static dump indices seed validation but never become live pointers:
+
+```text
+0x1    Class CoreUObject.Object
+0x44   Class Engine.NetDriver
+0x1A8  Class Engine.Engine
+0x266  Class Engine.GameViewportClient
+0x358  Class Engine.GameEngine
+0x37F  Class CoreUObject.Class
+0x380  Class CoreUObject.Function
+0x712  Class Engine.World
+0x410D Function Engine.KismetStringLibrary.Conv_StringToName
+```
+
+Every seed is re-read through a derived token, checks `InternalIndex`, resolves
+FName/class/outer from the same object snapshot and reconstructs a bounded full
+name. Unknown pointers, cycles, excessive depth or malformed names fail that
+relationship. Class and function lookups return discovery-generation identities.
+
+## Provenance and lifetime contract
+
+`CheckedMemoryReader` can be created only from the selector's private unique
+exact-match proof and retains the matched profile ID. An image RVA becomes an
+opaque image token only when one mapped segment contains the complete range and
+its permission class matches. A derived token can be created only by decoding a
+pointer field from an earlier `OwnedMemoryCopy`; it records reader nonce, scope,
+expected type and depth. Maximum depth is eight.
+
+Every copy checks offset/size overflow and token scope. Process memory then
+rechecks one readable VM region and calls `vm_read_overwrite`; unmap, permission
+change, partial copy or crossing a region returns an error. Borrowed pointers are
+never returned. The low capture implementation may temporarily compare copied
+pointer words to the copied object-item inventory, but raw values/tokens do not
+enter Diagnostics, UI or Features.
+
+The capture runs only after the explicit Contracts action on one serial worker
+queue. It supports cancellation and time/byte/object/name/depth/retry limits. A
+new request increments `DiscoveryGeneration` and drops the prior owned snapshot;
+old identities fail `WrongGeneration`. UI reads only the publisher's immutable,
+redacted `DiagnosticSnapshot` and bounded `ReadOnlyContractReport`.
+
+## Static verification
+
+Synthetic tests use injected sparse byte regions, never random host addresses.
+They cover exact profile/RVA normalization, wrong/overflow RVA and profile,
+derived-token scope, unmap/read failure, FName header mutation/retry, cursor and
+entry bounds, narrow/wide/output limits, object header/table mutation/retry,
+invalid num/max/chunks, null chunks, flags/serial/index, serial zero/reuse,
+stale generation, malformed names, unknown/cyclic outer and super chains,
+cancellation and time/byte/object limits. Diagnostics tests cover redaction,
+bounded reports and immutable prior snapshots. The boundary audit prevents UI
+from including Bindings or using address/RVA vocabulary.
+
+The normal host suite passed 270 assertions; an independent UBSan-only build
+also passed 270 assertions. The combined ASan/UBSan binary compiled but its local
+runtime stalled before the first test marker and was interrupted, so no combined
+sanitizer PASS is claimed. The boundary audit and iOS arm64 compile pass. Exact
+artifact receipts are recorded after the clean tagged build.
+
+## Device protocol
+
+1. Inject only the Gate 2B raw `ServerHostV2.dylib` through Sideloadly.
+2. In main menu verify the exact identity card and `scans_started=0`.
+3. Open Contracts and press **Capture read-only contracts** once.
+4. Wait for `capture=complete`; copy the bounded report/logs.
+5. Confirm all ten known FNames and nine core object/function checks pass.
+6. Enter an ordinary TheIsland local world and capture again.
+7. Confirm discovery generation changed, previous generation is invalidated,
+   object count may change, and `hooks=0 engine_calls=0 mutation=0` remains.
+8. Return to menu naturally if possible and perform a third capture.
+9. Do not use death/respawn as PASS/FAIL; it is a reproduced baseline limitation.
+10. Report timeout, retry, malformed relationship, crash or UI regression with
+    copied bounded output and Console tail.
+
+Gate 2B PASS requires exact profile roots, successful known-name/core-object
+validators, generation change, bounded address-free diagnostics and unchanged
+zero capabilities. Gate 2C does not begin in this workflow.

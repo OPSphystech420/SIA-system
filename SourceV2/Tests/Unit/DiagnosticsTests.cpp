@@ -110,12 +110,42 @@ void RunDiagnosticsTests(TestContext& context) {
     const auto tabs = refusedModel.Tabs();
     V2_EXPECT(context, refusedModel.ShowsFloatingButton());
     V2_EXPECT(context, !refusedModel.HasRuntimeCapabilityControls());
-    V2_EXPECT(context, tabs[0] == "Status" && tabs[1] == "Logs");
+    V2_EXPECT(context, tabs[0] == "Status" && tabs[1] == "Contracts"
+        && tabs[2] == "Logs");
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "runtime-refused"));
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "legacy-runtime-loaded"));
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "E52A980C-9C36"));
     V2_EXPECT(context, ContainsStatusValue(refusedModel, "8bfc1fd248a5"));
     V2_EXPECT(context, refusedModel.CopyableLogs().find("do-not-copy") == std::string::npos);
+
+    ReadOnlyContractReport unsafeReport;
+    unsafeReport.captureState = "complete pointer=0x1234567890";
+    unsafeReport.profileRootState = "token=private-root";
+    unsafeReport.retryOrAbortReason = "address=0xabcdef1234";
+    unsafeReport.discoveryGeneration = 2;
+    unsafeReport.scansStarted = 1;
+    unsafeReport.hooks = 99;
+    unsafeReport.engineCalls = 99;
+    unsafeReport.mutation = 99;
+    for (int index = 0; index < 30; ++index) {
+        unsafeReport.knownNames.push_back({
+            "name" + std::to_string(index), "pass",
+            "pointer=0x1111111111 token=secret"});
+    }
+    publisher.PublishContractReport(std::move(unsafeReport));
+    const auto contractSnapshot = publisher.Capture();
+    V2_EXPECT(context, contractSnapshot->scansStarted == 1);
+    V2_EXPECT(context, contractSnapshot->contracts.has_value());
+    V2_EXPECT(context, contractSnapshot->contracts->knownNames.size() <= 24);
+    V2_EXPECT(context, contractSnapshot->contracts->hooks == 0);
+    V2_EXPECT(context, contractSnapshot->contracts->engineCalls == 0);
+    V2_EXPECT(context, contractSnapshot->contracts->mutation == 0);
+    const ui::DiagnosticPresentationModel contractModel(*contractSnapshot);
+    const std::string copiedContract = contractModel.CopyableContractsAndLogs();
+    V2_EXPECT(context, copiedContract.find("1234567890") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("abcdef1234") == std::string::npos);
+    V2_EXPECT(context, copiedContract.find("private-root") == std::string::npos);
+    V2_EXPECT(context, copiedContract.size() < 20000);
 
     snapshotLogger.Add(LogSeverity::Info, LogCategory::Profile, "later snapshot mutation");
     publisher.Publish({

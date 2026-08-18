@@ -28,8 +28,8 @@ rewrite a PASS or FAIL into a later conclusion.
 | PLAN-G1.5-SIDELOAD-001 | 1.5 | Inject only manifested raw V2 dylib into a clean app; inspect Status/Logs, close/pause behavior and menu/local-world soak | Icon/refusal visibility, exact zero capabilities, bounded logs, touch/render isolation and stability | executed; FAIL `V2-G1.5-SIDELOAD-FAIL-001` |
 | PLAN-G1.5-SIDELOAD-002 | 1.5 | Inject corrected `.2`; verify acknowledged action, visible panel, Status/Logs, Copy, Close/reopen and zero capabilities | Functional panel path passes; missing longer soak/touch checks remain explicit | executed by `V2-G1.5-SIDELOAD-PASS-002`; functional-device-pass, extended-soak-pending |
 | PLAN-G2A-SIDELOAD-001 | 2A | Inject the single Gate 2A artifact; verify exact image/profile receipt, zero scans/capabilities, fail-close behavior and rolled-over read-only stability/touches | One exact profile, no address disclosure, no later discovery, panel lifecycle and ordinary menu/local-world stability | partially executed: identity PASS; death-triggered stability FAIL; wrong-profile negative unexecuted |
-| PLAN-G2A-DEATH-CAUSAL-001 | 2A | One same-save death each for no dylib, exact Gate 2A with UI closed 30+ seconds and exact Gate 2A with UI open | Classify base game vs open overlay vs injection/bootstrap, or retain intermittent status | ready; no new build; blocks Gate 2B |
-| PLAN-G2B-DISCOVERY-001 | 2B | Future FNamePool, GUObjectArray and reflection discovery only through the checked reader | Known names/objects/reflection validate read-only | blocked pending `PLAN-G2A-DEATH-CAUSAL-001` |
+| PLAN-G2A-DEATH-CAUSAL-001 | 2A | Same-save death baseline without injection; B/C were conditional controls | Classify whether injection is necessary for the symptom | closed after arm A; external baseline reproduced; B/C waived by user |
+| PLAN-G2B-DISCOVERY-001 | 2B | Explicit bounded FNamePool, GUObjectArray and reflection capture only through the provenance reader | Owned known-name/object/reflection snapshots; generation invalidation; zero capabilities | active |
 | PLAN-G2C-RELATIONSHIPS-001 | 2C | Future Engine/GameViewport/World/NetDriver relationships and world-generation invalidation | Exact relationships and stale-generation refusal | not started; outside current task |
 
 ## Immutable V2 execution rows
@@ -46,7 +46,9 @@ rewrite a PASS or FAIL into a later conclusion.
 | V2-G1.5-SIDELOAD-PASS-002 | 2026-08-18 | `gate1.5-diagnostic-ui-20260818.2`; source `8fb09e654466b07b534a3dd16b2618e789d84777`; raw input dylib SHA-256 `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32` | User manual Sideloadly execution. Runtime receipt confirmed button action, open request, verified hierarchy, first frame, Metal drawable/pass, ImGui submission/presentation, stopped Metal on Close, reopen and bounded log copy. | PASS: functional device path | Device-verified icon action, visible Metal/ImGui, Status, Logs, Copy logs, Close/reopen; no UIKit fallback; capabilities remained zero. Longer menu/map soak and independent outside-window touch check were not separately reported and are not claimed; user authorized Gate 2A. | [Gate 1.5 PASS 002](evidence/GATE1_5_SIDELOAD_PASS_002.md) |
 | V2-G2A-BUILD-006 | 2026-08-18 | clean revision `17e4e09ce8029bb89b22560da771ddc170e2ad0d`, tag `v2-gate2a-exact-identity-20260818.1-source`; `gate2a-exact-identity-20260818.1`; host binary SHA-256 `89b6e8322857c64cd731fa17897212fd5748fe744bd8c4ccd81c8455d5b67abc`; raw dylib SHA-256 `65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72`; Mach-O/dSYM UUID `0704076C-EAB6-3F25-800D-C0F0B85431E8`; package SHA-256 `19d75c2e4ec8df0bc3e00d33e7337f3f7e981ddfc8308ebd8981007eb0784209` | 191 normal host assertions and 191 UBSan-only assertions; malformed/ambiguous identity and checked-read negative tests; raw boundary audit; iOS arm64 compile; package/control/payload/build-ID and injection Legacy/gameplay isolation audits; byte-identical package/raw dylib, matching dSYM; manifest SHA-256 `77329da6d35f49c332c63a39e733d6fc970eaf474f89600b7edd37909ad1c5ca`; no installation/execution | PASS | statically validated and ready for `PLAN-G2A-SIDELOAD-001`; exact runtime match, wrong-profile refusal and stability/touch behavior remain device-unverified; Gate 2B not started | [Gate 2A report](evidence/GATE2A_EXACT_IMAGE_IDENTITY.md) |
 | V2-G2A-IDENTITY-PASS-001 | 2026-08-18 | `gate2a-exact-identity-20260818.1`; source `17e4e09ce8029bb89b22560da771ddc170e2ad0d`; raw input dylib SHA-256 `65bb0975e7de52b83df082fa16f5ba7478f111355174d7255724c9afb6d9ef72` | User manual Sideloadly execution on Apple Silicon Mac. Status/Logs showed exact-match UUID `E52A980C-9C36-34C7-84B0-DD6E846328DC`, expected segment card and fingerprint `8bfc1fd248a5...`; open/close/reopen, Copy logs and interaction worked. | PASS: positive exact-target identity sub-contract | Exact image identity is device verified; `scans_started=0`, hooks/engine calls/mutation zero. Wrong-profile negative and extended stability are not included in this PASS. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
-| V2-G2A-DEATH-SIGNAL-EXIT-001 | 2026-08-18 | same exact Gate 2A artifact; Console SHA-256 `0578303bea504af55cf6762d147debe6443e6f915bc9d3a56738608b360c7a8f` | Apple Silicon Mac; local saved world; no EOS; character death and death/respawn transition with panel open. Last V2 open `uptime_ms=120678`, no later close. Console line 7579: `GASignalHandler entered`; subsequent crash-event upload received HTTP 200; no signal number, stack, faulting thread or new 2026-08-18 ShooterGame `.ips`. | FAIL: extended stability contradicted | Root cause unclassified. HTTP 200 is upload success, not cause. Source audit excludes a V2 dangling Pawn/HUD/World/UObject pointer but not base death path, open overlay or another latent injection/startup/UI defect. Gate 2B blocked. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
+| V2-G2A-DEATH-SIGNAL-EXIT-001 | 2026-08-18 | same exact Gate 2A artifact; Console SHA-256 `0578303bea504af55cf6762d147debe6443e6f915bc9d3a56738608b360c7a8f` | Apple Silicon Mac; local saved world; no EOS; character death and death/respawn transition with panel open. Last V2 open `uptime_ms=120678`, no later close. Console line 7579: `GASignalHandler entered`; subsequent crash-event upload received HTTP 200; no signal number, stack, faulting thread or new 2026-08-18 ShooterGame `.ips`. | FAIL: extended stability contradicted | At intake the cause was unclassified and Gate 2B paused. Subsequent `V2-G2A-DEATH-BASELINE-002` reproduced the symptom without injection and reclassified it as an external baseline limitation. HTTP 200 is upload success, not cause. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
+| V2-G2A-DEATH-BASELINE-002 | 2026-08-18 | ShooterGame 1.10280 without any injected Server-Host dylib | User executed arm A with the same local saved world and character death. The application exited identically; signing in to EOS did not alter the result. | classification: external baseline reproduced | Gate 2A is not a necessary cause. Exact stock-game cause is deferred; B/C waived; death/respawn removed from current V2 stability acceptance; Gate 2B unblocked. | [Gate 2A device report](evidence/GATE2A_DEVICE_IDENTITY_DEATH_EXIT_001.md) |
+| V2-G2B-STATIC-001 | 2026-08-18 | Gate 2B source; synthetic exact image plus sparse owned memory regions | 270 normal + 270 UBSan-only assertions; FreshSDK RVA normalization; provenance/unmap/overflow/scope; FName/object double-sample mutation/retry; malformed bounds/entries/chunks/relationships; flags/serial/generation/cycles; cancellation/time/byte/object limits; report redaction/immutability; boundary audit; iOS arm64 compile. Combined ASan/UBSan compiled but stalled before the first marker and was interrupted. | PASS for normal/UBSan/audit/iOS compile; combined sanitizer runtime unverified | Static/compile claim only. Exact live roots/names/objects remain device-unverified; Gate 2C and hosting not started. | [Gate 2B report](evidence/GATE2B_READ_ONLY_CONTRACTS.md) |
 
 The old `.build` paths above are historical and no longer exist in the source
 tree. Current outputs use ignored `.artifacts/v2` paths.
@@ -226,6 +228,10 @@ the causal protocol below before any Gate 2B work.
 
 ## PLAN-G2A-DEATH-CAUSAL-001 exact protocol
 
+Status: closed after arm A. `V2-G2A-DEATH-BASELINE-002` reproduced the symptom
+without injection. Arms B/C below are retained only as the immutable original
+plan and are not required by user decision.
+
 Purpose: classify the death/respawn signal exit using the existing application
 and exact Gate 2A dylib only. Build no replacement, A/B or diagnostic package.
 Use the same ShooterGame 1.10280 save/map and character in all arms. Do not log
@@ -268,3 +274,26 @@ Interpret exactly as follows:
 - A and B exit: ambiguous; repeat baseline A before attribution.
 - All three stable: intermittent result; do not patch code without a second
   reproduction.
+
+## PLAN-G2B-DISCOVERY-001 exact protocol
+
+Use only the single manifested raw artifact under
+`packages/v2/injection/gate2b-readonly-contracts-20260818.1/`. Do not inject
+Legacy or another mod and do not start hosting, client travel or death/respawn.
+
+1. Launch ShooterGame 1.10280 and open Status in the main menu.
+2. Confirm exact profile, UUID/fingerprint/segments, `scans_started=0` and zero
+   hooks/engine calls/mutation.
+3. Open Contracts and press **Capture read-only contracts** once.
+4. Wait for `complete`, copy report/logs and confirm ten known FNames plus nine
+   exact core object/function validators pass without any displayed address.
+5. Enter an ordinary TheIsland local world and capture again.
+6. Confirm discovery generation changed, previous generation is invalidated,
+   object count is reported, and hooks/engine calls/mutation remain zero.
+7. Return to menu naturally if possible and perform a third capture.
+8. Report any retry, timeout, malformed relationship, crash or UI regression
+   with the bounded output and Console tail.
+
+Death/respawn is not a Gate 2B PASS/FAIL condition because the same exit is a
+reproduced no-injection baseline limitation. PASS does not authorize Gate 2C or
+hosting; it closes only the read-only name/object/reflection snapshot contract.
