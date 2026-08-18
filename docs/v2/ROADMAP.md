@@ -29,7 +29,8 @@ packaged as clean `.2` receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`; its
 device repeat isolated a second fail-closed Engine instance full-name failure
 before relationship reads. A narrow `.3` source correction canonicalizes only
 the exact transient-package alias and adds bounded address-free name-shape
-failure evidence while preserving every strict class/name validator. This does
+failure evidence while preserving every strict class/name validator. It is
+packaged as clean `.3` receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`. This does
 not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 
 | Gate | State | Strongest claim |
@@ -39,7 +40,7 @@ not authorize Gate 3 dispatch, hosting, travel, hooks or later behavior.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | `.1` and `.2` device aborts; `.3` source correction statically validated | prerequisite snapshots device-proven for both attempts; fixed dump-index and isolated full-name assumptions corrected narrowly; all live relationships/world transitions remain unverified |
+| 2C — Engine/world relationships/invalidation | `.1` and `.2` device aborts; clean `.3` ready | prerequisite snapshots device-proven for both attempts; fixed dump-index and isolated full-name assumptions corrected narrowly; all live relationships/world transitions remain unverified |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -278,8 +279,8 @@ not a live UWorld, and parameter ABI/native dispatch remain unavailable.
 ## Gate 2C — Engine/world relationships and generation invalidation
 
 State: `.1` immutable device abort `V2-G2C-ENGINE-VALIDATOR-ABORT-001`; `.2`
-immutable device abort `V2-G2C-ENGINE-FULLNAME-ABORT-002`; `.3` correction
-source statically validated and awaiting a clean artifact receipt.
+immutable device abort `V2-G2C-ENGINE-FULLNAME-ABORT-002`; clean `.3` correction
+artifact `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012` ready for isolated execution.
 
 Entry: Gate 2B read-only discovery passes.
 

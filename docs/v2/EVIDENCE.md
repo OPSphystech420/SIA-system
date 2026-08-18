@@ -13,7 +13,7 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed historically + latest build statically validated | Latest completed receipt `V2-G2C-ENGINE-VALIDATOR-FIX-BUILD-011`: clean tagged source `4a53ab9…5764c`, dylib/dSYM UUID `E70F89CA-A7DE-3AEA-8CA1-D23AEF07AD8F`, manifest SHA `832ace6…10e7`. Its exact `.2` execution is now the immutable full-name abort; `.3` source awaits a new clean receipt. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | device executed historically + latest build statically validated | Latest receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`: clean tagged source `f459839…de6d3`, raw dylib SHA `4b7ddd7…2ae3`, dylib/dSYM UUID `78EAF0B0-9C08-39BE-B37B-25E4A8EC7629`, manifest SHA `a821b4a…6749b`. Its `.3` behavior is not device-proven; exact `.2` remains the immutable full-name abort. |
 | V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.1` and `.2` aborted fail-closed at distinct Engine identity predicates; Gate 2C remains the active workflow. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
@@ -141,6 +141,6 @@ Detailed reviews:
 ## Evidence required next
 
 Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
-`.1` and `.2` are immutable fail-closed device aborts. Produce and execute only
-the clean `.3` transient-owner/full-name diagnostic correction under the
-isolated Gate 2C protocol. Gate 3, hosting, travel and hooks remain closed.
+`.1` and `.2` are immutable fail-closed device aborts. Execute only clean `.3`
+receipt `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012` under the isolated Gate 2C
+protocol. Gate 3, hosting, travel and hooks remain closed.

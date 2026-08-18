@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .1/.2 device aborts recorded; .3 source correction ready for clean build
+active workflow: Gate 2C .1/.2 device aborts recorded; clean .3 artifact ready
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -16,7 +16,7 @@ Gate 2B .3: device verified in main menu and TheIsland
 Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
 Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
-Gate 2C .3: exact transient-owner alias correction; 393 normal/UBSan assertions and boundary audit pass
+Gate 2C .3: clean raw artifact ready; 393 normal/UBSan assertions and all audits pass
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -476,9 +476,32 @@ or field reads. World generation remained zero and capabilities remained
 and GameEngine/Engine ancestry, and emits a bounded printable observed name if
 the check still fails. A path-named transient positive and an unnumbered Engine
 negative are included. Normal and UBSan-only SourceV2 suites each pass 393
-assertions and the boundary audit passes; clean iOS packaging is pending.
+assertions; boundary, arm64, package and injection-isolation audits pass.
 
 Full report: [Gate 2C `.2` Engine full-name abort](evidence/GATE2C_DEVICE_ENGINE_FULLNAME_ABORT_002.md).
+
+## Gate 2C `.3` correction build receipt
+
+Result ID: `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`
+
+```text
+Build ID: gate2c-live-relationships-20260818.3
+Source revision: f4598395efeadcd882af5f257b1e6d72a78de6d3
+Source tag: v2-gate2c-live-relationships-20260818.3-source
+Raw dylib SHA-256: 4b7ddd7cf68cd089c69ca632415ec0a56594e49f60be0dccabc438dd471e2ae3
+Mach-O / dSYM UUID: 78EAF0B0-9C08-39BE-B37B-25E4A8EC7629
+dSYM DWARF SHA-256: 04724342f3e9d343b1c562703e3ce791581244135e295201ec0840c2bb5d8707
+Manifest SHA-256: a821b4a88a8228b1f3b81d4c00da063b7103aa2ca35854ec24f95d369bc6749b
+Archive .deb SHA-256: 18d4dd6dab7d02325d4e2ce3f513cf1cbe0403d7263424669b2a5bcae674e8f6
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2c-live-relationships-20260818.3/ServerHostV2.dylib`.
+The source tag resolves to the manifest revision. The clean source passes 393
+normal and 393 UBSan-only assertions, boundary audit, arm64 compile, package/
+control/payload/build/source identity and injection-isolation inspection. The
+package/raw dylib bytes and dylib/dSYM UUIDs match. No artifact was installed or
+executed; live relationships remain unverified.
 
 ## Deferred production UI debt
 
@@ -491,8 +514,7 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Build, inspect and execute only corrected
-`gate2c-live-relationships-20260818.3` under the bounded
+Execute only corrected `gate2c-live-relationships-20260818.3` under the bounded
 menu/TheIsland/same-world/optional-return capture protocol in
 [`GATE2C_LIVE_RELATIONSHIPS.md`](evidence/GATE2C_LIVE_RELATIONSHIPS.md).
 Do not start Gate 3, hooks, UE calls, hosting or mutation in this workflow.

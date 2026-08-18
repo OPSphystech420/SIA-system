@@ -1,9 +1,8 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
 Status: exact-binary/sdk/source cards and implementation complete; `.1` and
-`.2` are immutable fail-closed Engine-identity aborts; `.3` narrow transient-
-owner/full-name correction passes host-static validation and awaits a clean
-artifact receipt.
+`.2` are immutable fail-closed Engine-identity aborts; clean `.3` narrow
+transient-owner/full-name correction is ready for isolated device execution.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -290,8 +289,30 @@ instance full-name still differs, the failure includes at most 160 printable
 bytes each of observed full name/object name with controls, quotes and
 backslashes replaced by `?`; it includes no raw address, RVA, slide or pointer.
 The `/Engine/Transient` positive and unnumbered Engine negative pass both 393-
-assertion normal and UBSan-only suites plus the boundary audit. Clean `.3`
-packaging remains pending.
+assertion normal and UBSan-only suites plus all boundary, arm64, package and
+injection-isolation audits.
+
+## Corrected `.3` artifact receipt
+
+Result ID: `V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`
+
+```text
+build_id=gate2c-live-relationships-20260818.3
+source_revision=f4598395efeadcd882af5f257b1e6d72a78de6d3
+source_tag=v2-gate2c-live-relationships-20260818.3-source
+dylib_sha256=4b7ddd7cf68cd089c69ca632415ec0a56594e49f60be0dccabc438dd471e2ae3
+dsym_uuid=78EAF0B0-9C08-39BE-B37B-25E4A8EC7629
+dsym_dwarf_sha256=04724342f3e9d343b1c562703e3ce791581244135e295201ec0840c2bb5d8707
+manifest_sha256=a821b4a88a8228b1f3b81d4c00da063b7103aa2ca35854ec24f95d369bc6749b
+archival_deb_sha256=18d4dd6dab7d02325d4e2ce3f513cf1cbe0403d7263424669b2a5bcae674e8f6
+raw_dylib=packages/v2/injection/gate2c-live-relationships-20260818.3/ServerHostV2.dylib
+manifest=packages/v2/injection/gate2c-live-relationships-20260818.3/manifest.txt
+archival_deb=packages/v2/com.mhga.serverhost.v2_0.4.2~gate2c.20260818.3_iphoneos-arm.deb
+```
+
+The source tag resolves to the revision embedded in both dylib and manifest.
+The package/raw dylib bytes match, the dSYM UUID matches, and no package was
+installed or executed. This is build/static evidence only.
 
 ## Corrected `.3` device protocol
 
@@ -318,10 +339,11 @@ engine_calls=0
 mutation=0
 ```
 
-Use only build `gate2c-live-relationships-20260818.3`; `.1` and `.2` cannot satisfy this
-protocol. PASS requires no raw address output, no relationship abort/mismatch, bounded
-duration, correct same-world generation stability and all applicable identity/
-class/FName checks. Gate 3 and hosting remain closed after this artifact.
+Use only build `gate2c-live-relationships-20260818.3`; `.1` and `.2` cannot
+satisfy this protocol. PASS requires no raw address output, no relationship
+abort/mismatch, bounded duration, correct same-world generation stability and
+all applicable identity/class/FName checks. Gate 3 and hosting remain closed
+after this artifact.
 
 ## Preserved limitations
 

@@ -114,6 +114,14 @@ An unnumbered `ShooterEngine Transient.ShooterEngine` fixture remains rejected.
 A `/Engine/Transient` owner fixture canonicalizes to the exact required full
 name. No relationship offset, root or runtime capability changes.
 
+The correction is packaged as clean receipt
+`V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012`: source
+`f4598395efeadcd882af5f257b1e6d72a78de6d3`, tag
+`v2-gate2c-live-relationships-20260818.3-source`, raw dylib SHA-256
+`4b7ddd7cf68cd089c69ca632415ec0a56594e49f60be0dccabc438dd471e2ae3`,
+UUID `78EAF0B0-9C08-39BE-B37B-25E4A8EC7629`, and manifest SHA-256
+`a821b4a88a8228b1f3b81d4c00da063b7103aa2ca35854ec24f95d369bc6749b`.
+
 ## Preserved limitations
 
 - Gate 2C remains open and no live relationship is device-proven.

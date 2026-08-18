@@ -607,3 +607,17 @@ and adds bounded printable address-free observed-name diagnostics. A canonical-
 alias positive and unnumbered negative bring both normal and UBSan-only suites
 to 393 assertions; boundary audit passes. Clean artifact packaging remains
 next. Gate 3 and hosting remain closed.
+
+## 2026-08-19 — Gate 2C full-name correction built
+
+`V2-G2C-ENGINE-FULLNAME-FIX-BUILD-012` was produced from clean revision
+`f4598395efeadcd882af5f257b1e6d72a78de6d3` and annotated source tag
+`v2-gate2c-live-relationships-20260818.3-source`. Raw dylib SHA-256 is
+`4b7ddd7cf68cd089c69ca632415ec0a56594e49f60be0dccabc438dd471e2ae3`;
+Mach-O/dSYM UUID is `78EAF0B0-9C08-39BE-B37B-25E4A8EC7629`; manifest SHA is
+`a821b4a88a8228b1f3b81d4c00da063b7103aa2ca35854ec24f95d369bc6749b`;
+the archival `.deb` SHA is
+`18d4dd6dab7d02325d4e2ce3f513cf1cbe0403d7263424669b2a5bcae674e8f6`.
+Both 393-assertion SourceV2 suites and all boundary, arm64, package, manifest,
+dSYM and injection-isolation audits pass. The exact `.3` runtime behavior
+awaits the bounded Gate 2C device repeat.
