@@ -33,9 +33,10 @@ The near-term platform is iOS:
 - active workflow: Gate 2C read-only Engine/world relationships. `.1` and `.2`
   aborted fail-closed at distinct Engine identity predicates with zero
   capabilities; exact `.3` passed its first TheIsland Engine/Viewport/World/
-  definitions capture with world generation 1 and zero capabilities. Same-
-  world generation stability and lifecycle transition/invalidation remain
-  pending. Gate 3 has not started.
+  definitions capture with world generation 1 and zero capabilities, but its
+  public receipt omitted optional GameMode/GameState presence. Clean `.4`
+  publishes those existing validated views and is ready for the full menu/map/
+  same-world repeat. Gate 3 has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

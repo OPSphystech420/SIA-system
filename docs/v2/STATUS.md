@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .3 first TheIsland relationship capture passed; generation transition/stability pending
+active workflow: Gate 2C .3 first map subset passed; clean .4 full-repeat artifact ready
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -17,6 +17,7 @@ Gate 2B: complete for scoped read-only name/object/reflection snapshots
 Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted fail-closed
 Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
 Gate 2C .3: exact map relationship subset device-pass; world generation 1 established
+Gate 2C .4: optional GameMode/GameState presence receipt added; clean raw artifact ready
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -37,7 +38,9 @@ only the exact `/Engine/Transient` owner alias and adds bounded address-free
 observed-name diagnostics after class-chain validation. Its first exact
 TheIsland capture then passed Engine, GameViewport, World/GWorld match,
 definitions and normal `net_driver=none`, establishing world generation 1.
-Same-world stability and lifecycle transition/invalidation remain unverified.
+The public `.3` report omitted optional AuthorityGameMode/GameState presence.
+Narrow `.4` publishes those already-validated views without a new read. Same-
+world stability and lifecycle transition/invalidation remain unverified.
 
 ## Immutable Gate 1.5 result
 
@@ -526,6 +529,29 @@ This first map capture does not prove same-world generation stability, a menu
 lifecycle state, transition invalidation, or AuthorityGameMode/GameState
 presence. Full report: [Gate 2C `.3` map PASS 003](evidence/GATE2C_DEVICE_MAP_PASS_003.md).
 
+## Gate 2C `.4` optional-presence receipt build
+
+Result ID: `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013`
+
+```text
+Build ID: gate2c-live-relationships-20260819.4
+Source revision: 4db2599d25350b1eadd9d704afcba2fe76743473
+Source tag: v2-gate2c-live-relationships-20260819.4-source
+Raw dylib SHA-256: 95c0fe69f420250e22b850f9fa124859ba545bd0dc27b0effc719d9d5fa94677
+Mach-O / dSYM UUID: 7CB1B073-D9A5-39E0-BDD3-2638B0618B28
+dSYM DWARF SHA-256: 2d1f7bac4560cae4fbff566702289507d5b7ec25baf5b26565692fafb9d5719b
+Manifest SHA-256: 0a7cd36e23430cc616cfb91608964f60267ca2e1e75f69f9d17c5d677bb99387
+Archive .deb SHA-256: 190ffbb9addb5e1b3a388d5e5cda168042e0df7738c34e1203f4b8259f78bbcb
+```
+
+Canonical Sideloadly input:
+`packages/v2/injection/gate2c-live-relationships-20260819.4/ServerHostV2.dylib`.
+`.4` adds only bounded redacted AuthorityGameMode/GameState present/none/not-
+applicable rows sourced from existing owned views. Normal and UBSan-only suites
+each pass 399 assertions; boundary, arm64, package, manifest, dSYM and injection-
+isolation checks pass. It has not been device-executed. Full report:
+[Gate 2C `.4` receipt correction](evidence/GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -537,9 +563,8 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-In the same `.3` process and TheIsland world, capture again. Discovery generation
-must advance to 2 while world generation remains 1 and previous invalidated is
-no. If naturally possible, return to menu without restarting and capture the
-lifecycle transition, then re-enter TheIsland and capture again. If natural
-return is unavailable, use a later menu-first run. Do not start Gate 3, hooks,
-UE calls, hosting or mutation in this workflow.
+Inject only `gate2c-live-relationships-20260819.4`. Capture main menu, enter
+TheIsland and capture, then repeat Capture in the same world. Confirm both
+optional-presence rows, generation transition/stability and zero capabilities.
+If naturally possible, return to menu and capture once more. Do not start Gate
+3, hooks, UE calls, hosting or mutation in this workflow.

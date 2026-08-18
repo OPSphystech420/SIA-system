@@ -92,14 +92,12 @@ This result does not yet prove:
 ## Disposition and next bounded capture
 
 The Gate 2C map relationship subset is device-proven. Gate 2C remains open.
-While the same process and TheIsland world are still active, capture once more.
-Expected result: discovery generation 2, world generation 1,
-`previous_world_invalidated=no`, the same relationship outcome and zero
-capabilities. If naturally possible, return to menu without restarting and
-capture again to record the resulting lifecycle transition and invalidation.
-After any accepted menu capture, re-entering TheIsland and capturing again can
-prove the menu/null-to-world direction in the same process. If natural return is
-unavailable, that direction requires a later menu-first run.
+Review found that `.3` did not publish AuthorityGameMode/GameState presence,
+although it validated those optional relationships internally. The narrow `.4`
+receipt correction supersedes `.3` for further Gate 2C device execution. Run
+the full menu/TheIsland/repeated-same-world protocol in
+[the `.4` correction report](GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md).
+This does not rewrite the `.3` map PASS above.
 
 Gate 3, Host research, hosting, travel, hooks, GetNetMode policy, calls and
 mutation remain closed.

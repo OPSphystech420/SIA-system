@@ -2,8 +2,9 @@
 
 Status: exact-binary/sdk/source cards and implementation complete; `.1` and
 `.2` are immutable fail-closed Engine-identity aborts; exact `.3` has passed one
-TheIsland relationship capture. Same-world generation stability and lifecycle
-transition/invalidation remain pending, so Gate 2C is still open.
+TheIsland relationship capture but omitted optional relationship presence from
+the public receipt. Clean `.4` corrects only that receipt and is ready for the
+full menu/map/same-world sequence. Gate 2C remains open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -343,22 +344,45 @@ claim is made. Because this was the first accepted relationship capture, no
 prior world could be invalidated. Hooks, engine calls and mutation stayed zero.
 See [Gate 2C `.3` map PASS 003](GATE2C_DEVICE_MAP_PASS_003.md).
 
-## Remaining corrected `.3` device protocol
+## `.4` optional relationship receipt correction
 
-1. While the exact current process and TheIsland world remain active, Capture
-   again. Discovery generation should become 2 while world generation remains
-   1 and `previous_world_invalidated=no`.
-2. If naturally possible, return to menu without restarting and capture once
-   more. Record the lifecycle and world transition; do not invent a null World
-   if the game retains/replaces one.
-3. After any accepted menu capture, enter ordinary TheIsland and capture again
-   to prove the menu-to-map direction. If natural return is unavailable, use a
-   later menu-first run. Repeat once in the same world when needed.
-4. Verify Engine/Viewport identities, definitions, GWorld/ViewportWorld state
-   and optional relationships in every accepted report. A null driver remains
-   `net_driver=none` and is not hosting proof.
-5. Do not use death/respawn as PASS/FAIL.
-6. In every state confirm exactly:
+Result ID: `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013`
+
+`.4` maps the existing owned `authorityGameMode` and `gameState` optionals into
+bounded redacted present/none/not-applicable report fields and renders them
+under World. It adds no read, root, offset, lookup, cache or capability.
+
+```text
+build_id=gate2c-live-relationships-20260819.4
+source_revision=4db2599d25350b1eadd9d704afcba2fe76743473
+source_tag=v2-gate2c-live-relationships-20260819.4-source
+dylib_sha256=95c0fe69f420250e22b850f9fa124859ba545bd0dc27b0effc719d9d5fa94677
+dsym_uuid=7CB1B073-D9A5-39E0-BDD3-2638B0618B28
+dsym_dwarf_sha256=2d1f7bac4560cae4fbff566702289507d5b7ec25baf5b26565692fafb9d5719b
+manifest_sha256=0a7cd36e23430cc616cfb91608964f60267ca2e1e75f69f9d17c5d677bb99387
+archival_deb_sha256=190ffbb9addb5e1b3a388d5e5cda168042e0df7738c34e1203f4b8259f78bbcb
+raw_dylib=packages/v2/injection/gate2c-live-relationships-20260819.4/ServerHostV2.dylib
+```
+
+Both 399-assertion SourceV2 suites, boundary audit, arm64 build and every
+artifact/injection audit pass. See
+[Gate 2C `.4` receipt correction](GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md).
+
+## Required `.4` device protocol
+
+1. Start in the main menu and Capture once. Verify Engine/Viewport,
+   definitions, lifecycle and both optional-presence rows.
+2. Enter ordinary TheIsland and Capture. Verify live World,
+   `GWorld/ViewportWorld=match`, NetDriver and explicit AuthorityGameMode/
+   GameState present/none validated state.
+3. Verify the world-generation transition and prior-world invalidation when
+   the validated world identity changes.
+4. Capture again in the same world. Discovery generation advances; world
+   generation does not; previous-world-invalidated remains no.
+5. If naturally possible, return to menu and capture once more. Record actual
+   lifecycle/root state without assuming null.
+6. Do not use death/respawn as PASS/FAIL.
+7. In every state confirm exactly:
 
 ```text
 hooks=0
@@ -366,10 +390,10 @@ engine_calls=0
 mutation=0
 ```
 
-Use only build `gate2c-live-relationships-20260818.3`; `.1` and `.2` cannot
-satisfy this protocol. Gate closure still requires no raw address output, no
-relationship abort/mismatch, bounded duration, correct same-world generation
-stability and applicable transition invalidation. Gate 3 and hosting remain
+Use only build `gate2c-live-relationships-20260819.4`; earlier artifacts cannot
+satisfy the complete receipt. Gate closure requires no raw address output, no
+relationship abort/mismatch, bounded duration, correct generation transition/
+stability and applicable identity/class/FName checks. Gate 3 and hosting remain
 closed.
 
 ## Preserved limitations
@@ -380,3 +404,5 @@ closed.
 - Parameter ABI and native dispatch remain unavailable.
 - The first Gate 2C TheIsland relationship values are device-proven, but menu
   lifecycle, same-world stability and transition invalidation are not.
+- `.4` optional-presence publication is statically/artifact validated but not
+  device-proven.

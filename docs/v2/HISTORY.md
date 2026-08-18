@@ -640,3 +640,25 @@ no errors. This device-verifies the map relationship subset without rewriting
 the immutable `.1/.2` aborts. Gate 2C remains open for repeated same-world
 generation stability, menu lifecycle and transition invalidation. Gate 3 and
 hosting remain closed.
+
+## 2026-08-19 — Gate 2C optional relationship receipt corrected
+
+The `.3` device report proved the map relationship subset but did not publish
+AuthorityGameMode/GameState presence, despite the capture already validating
+both optional fields against the fresh snapshot when non-null. `.4` adds two
+bounded redacted presentation fields sourced from those owned optional views;
+it performs no new memory read or ABI resolution. Present values explicitly say
+that the GameModeBase/GameStateBase class was validated; absent World reports
+not-applicable.
+
+`V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` was produced from clean source
+`4db2599d25350b1eadd9d704afcba2fe76743473` and tag
+`v2-gate2c-live-relationships-20260819.4-source`. Raw dylib SHA-256 is
+`95c0fe69f420250e22b850f9fa124859ba545bd0dc27b0effc719d9d5fa94677`;
+Mach-O/dSYM UUID is `7CB1B073-D9A5-39E0-BDD3-2638B0618B28`; manifest SHA is
+`0a7cd36e23430cc616cfb91608964f60267ca2e1e75f69f9d17c5d677bb99387`;
+the archive SHA is
+`190ffbb9addb5e1b3a388d5e5cda168042e0df7738c34e1203f4b8259f78bbcb`.
+Both 399-assertion SourceV2 suites and every boundary, arm64, package, dSYM and
+injection-isolation audit pass. The full `.4` device sequence remains pending;
+Gate 3 and hosting remain closed.

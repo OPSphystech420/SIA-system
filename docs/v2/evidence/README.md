@@ -62,6 +62,9 @@ here must create or update one summary claim and the corresponding contract in
   — exact `.3` first TheIsland capture validated the native Engine, Viewport,
   World/GWorld match, definitions and normal null NetDriver with world
   generation 1; stability and lifecycle transition evidence remain pending.
+- [Gate 2C `.4` optional relationship receipt correction](GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md)
+  — publishes already-validated AuthorityGameMode/GameState presence without
+  new reads; clean raw artifact and full repeat protocol.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

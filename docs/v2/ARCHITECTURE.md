@@ -243,6 +243,13 @@ generation remain deliberately separate. The first capture established world
 generation 1; it does not yet prove same-world stability or transition
 invalidation, so no raw handle may be retained and Gate 3 remains closed.
 
+Build result `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` corrects only the
+diagnostic boundary exposed by that device result. `AuthorityGameMode` and
+`GameState` presence are copied from existing owned optional views into bounded
+redacted present/none/not-applicable states. This adds no heap read, class
+resolution, offset, pointer lifetime or capability; the typed capture boundary
+is unchanged.
+
 ## 4. Dependency graph
 
 ```mermaid
