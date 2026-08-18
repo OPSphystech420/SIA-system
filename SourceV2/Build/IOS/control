@@ -1,0 +1,9 @@
+Package: com.mhga.serverhost.v2
+Name: MHGA Server Host V2 (Inert Foundation)
+Depends: mobilesubstrate
+Conflicts: com.mhga.serverhost
+Version: 0.1.1~gate1.20260818.2
+Architecture: iphoneos-arm
+Description: Inert Server-Host V2 typed-foundation package with Legacy isolation; no gameplay capabilities
+Maintainer: MHGA
+Author: MHGA

@@ -1,0 +1,35 @@
+#include "SourceV2/Tests/TestHarness.hpp"
+
+#include <iostream>
+
+namespace serverhost::v2::tests {
+void CompileLayoutAssertions();
+void RunContainerStringTests(TestContext&);
+void RunNameTests(TestContext&);
+void RunObjectIdentityTests(TestContext&);
+void RunReflectionTests(TestContext&);
+void RunProfileInitializationTests(TestContext&);
+void RunLegacyRuntimeGuardTests(TestContext&);
+}  // namespace serverhost::v2::tests
+
+int main() {
+    serverhost::v2::tests::TestContext context;
+    std::cout << "[v2] layout assertions\n" << std::flush;
+    serverhost::v2::tests::CompileLayoutAssertions();
+    std::cout << "[v2] containers and strings\n" << std::flush;
+    serverhost::v2::tests::RunContainerStringTests(context);
+    std::cout << "[v2] names\n" << std::flush;
+    serverhost::v2::tests::RunNameTests(context);
+    std::cout << "[v2] object identity\n" << std::flush;
+    serverhost::v2::tests::RunObjectIdentityTests(context);
+    std::cout << "[v2] reflection cache\n" << std::flush;
+    serverhost::v2::tests::RunReflectionTests(context);
+    std::cout << "[v2] profile and inert initialization\n" << std::flush;
+    serverhost::v2::tests::RunProfileInitializationTests(context);
+    std::cout << "[v2] legacy runtime isolation\n" << std::flush;
+    serverhost::v2::tests::RunLegacyRuntimeGuardTests(context);
+
+    std::cout << "serverhost_v2_core_tests: " << context.Assertions() << " assertions, "
+              << context.Failures() << " failures\n";
+    return context.Failures() == 0 ? 0 : 1;
+}

@@ -1,0 +1,24 @@
+# Finder metadata
+.DS_Store
+**/.DS_Store
+
+# Local build state. V2 uses .artifacts/ intentionally; none of these paths are source.
+/.artifacts/
+/.build/
+**/.build/
+/.theos/
+**/.theos/
+
+# Historical and newly built packages are immutable external artifacts, not source.
+/packages/
+*.deb
+
+# Compiler and Theos by-products.
+*.o
+*.Td
+*.dSYM/
+
+# Guard against old Theos stamp directories appearing in the iOS source project.
+/SourceV2/Build/IOS/Bindings/
+/SourceV2/Build/IOS/Bootstrap/
+/SourceV2/Build/IOS/UE/

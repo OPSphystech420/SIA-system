@@ -1,0 +1,133 @@
+# Server-Host V2 project
+
+## Purpose
+
+Server-Host V2 is a separate, evidence-backed in-process hosting and client
+integration layer for the mobile ShooterGame application. It uses validated
+Unreal Engine and ShooterGame paths to turn a locally loaded world into an IP
+listen host and allow another modified client to connect and reach gameplay.
+
+It does not emulate Unreal networking or reimplement the game server protocol.
+It should restore or invoke game-owned initialization, replication, login,
+player-flow, travel and later persistence operations through typed, validated
+bindings.
+
+## Current goal and active stage
+
+The near-term platform is iOS:
+
+- host: the iOS game running on an Apple Silicon Mac;
+- client: a physical iPhone running the compatible modified game;
+- build under study: ShooterGame 1.10280 / UE 4.26.2;
+- completed workflow: Roadmap Gate 1, the host-local static typed identity spine;
+- next workflow: Roadmap Gate 2, read-only build/name/object/Engine discovery.
+
+The stable-iOS milestone requires all of the following, in ordered gates:
+
+- exact build/profile and typed UE discovery;
+- verified game-thread dispatch and world/object invalidation;
+- inert, reversible observation infrastructure where hooks are necessary;
+- typed client travel and cleanup;
+- game-native host preparation and one IP listen driver without broad forced
+  Dedicated semantics;
+- near/far replication without host sky/weather/render/audio/animation damage;
+- new, existing and reconnecting remote players reaching gameplay;
+- repeated lifecycle stability;
+- manual save only after gameplay stability.
+
+Transport success alone is not gameplay success, and gameplay success alone is
+not persistence or stability verification.
+
+## User-facing outcome
+
+The eventual normal UI may expose Host, Client, proven administration controls
+and Logs. A control appears only after its workflow and regression gate passes.
+Developer probes remain compile-time gated and separate from release controls.
+
+Logs must make build/profile identity, workflow transitions, refusal reasons and
+postconditions understandable without exposing passwords, tokens or private
+credentials.
+
+## Technical strategy
+
+The approved structure is defined in [ARCHITECTURE.md](ARCHITECTURE.md):
+
+1. portable Core values and strict object/thread identities;
+2. minimal UE primitives, owned/borrowed containers/strings, names, object array
+   and reflection views;
+3. typed Engine and ShooterGame model views;
+4. exact-build Profiles, Resolver, Generated slices, Native/Script bindings,
+   Validation and platform facilities under the raw Bindings boundary;
+5. isolated Hook transport with small observer/policy layers;
+6. bounded game-thread Runtime context and dispatcher;
+7. one stateful Service per user outcome;
+8. bounded Diagnostics and a UE-free UI adapter.
+
+The typed surface grows from workflow demand. A new type/field/function requires
+current evidence, static assertions where applicable, runtime validation and a
+device gate. Feature code cannot add arbitrary offsets or generated public
+fields.
+
+## Evidence strategy
+
+Sishen is the primary code-pattern authority for UE mod organization, core
+types, lookups, wrappers, memory and hooks. Future tasks must read the relevant
+Sishen implementation before designing the corresponding V2 subsystem.
+
+Current ABI and addresses come from the exact 1.10280 binary, both current
+FreshSDK dumps and live reflection/device evidence. Dragon is a secondary typed
+generated-SDK pattern. UE4.17 provides lower-priority engine behavior context.
+SEA informs deferred control-plane behavior. None of those lower-priority
+examples can override exact-build evidence.
+
+## Existing legacy implementation
+
+`Source`, `Menu`, `MenuLoad`, the legacy Makefile and historical packages are
+research/regression sources. They include valuable behaviors and experiments,
+but also a coupled HostingRuntime, raw ABI access and mixed verification state.
+Their disposition is recorded in [MIGRATION_MAP.md](MIGRATION_MAP.md).
+
+Known control identity and historical result (artifact file currently missing):
+
+```text
+/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/com.mhga.serverhost_0.2.11+debug_iphoneos-arm.deb
+SHA-256 54dda1d682bc01f5fbd38a078a33994c23ffbe4ac6d466c978ffa86775ae8dbf
+```
+
+The matching 0.2.11 source snapshot is missing. Strings, symbols and disassembly
+may establish a behavior map but must never be presented as recovered source.
+The `.deb` itself was removed by a later Theos clean and no duplicate was found,
+so this path is a historical record rather than an available rollback.
+
+## In scope now
+
+- iOS V2 typed core, binding/profile validation and host-local tests;
+- exact current iOS binary/FreshSDK analysis needed by the active gate;
+- later, one ordered iOS runtime/device workflow at a time;
+- preservation of legacy/control artifacts and living documentation.
+
+## Out of scope now
+
+- changing or deleting legacy gameplay behavior;
+- compiling the full FreshSDK into V2;
+- speculative save, administration, generic console or broad ProcessEvent APIs;
+- a production caller-RVA GetNetMode whitelist;
+- Android implementation, emulator/VPS supervision, public server directory,
+  web panel, heartbeat, backups or external command service;
+- EOS work unless a bounded workflow produces evidence that EOS is its blocker.
+
+## Long-term direction
+
+After the iOS stability gate, obtain the exact Android `LibUE.so`/IDA path and
+add an Android build profile plus platform/hook backend while reusing only the
+portable typed/runtime/service layers. An Android emulator may later run on a
+VPS under a separate control plane providing heartbeat, start/stop/restart,
+save, configuration, administration, audit and backup behavior. These wishes
+must not enlarge the near-term typed API.
+
+## Claim model
+
+The project distinguishes `compiled`, `statically validated`, `ready for device
+test`, `device verified`, `contradicted` and `unverified` exactly as defined in
+[README.md](README.md). A function is not device verified merely because it is
+found in source, matches a signature, returns success or does not crash.

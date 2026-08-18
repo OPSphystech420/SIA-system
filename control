@@ -1,0 +1,8 @@
+Package: com.mhga.serverhost
+Name: MHGA Server Host
+Depends: mobilesubstrate
+Version: 0.2.24
+Architecture: iphoneos-arm
+Description: In-process Unreal Engine listen server and local administration controller
+Maintainer: MHGA
+Author: MHGA
