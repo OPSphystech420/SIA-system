@@ -17,9 +17,10 @@ active V2 blocker.
 | V2-EV-006 | V2 packaging is revision-bound and produces a read-only SHA-addressed artifact manifest. | statically validated | Clean revision `23da20fe1bbc472bf2476ec6d33a7cd658d7c0d3`; package/content inspection passed; manifest and artifact hashes are recorded in `TEST_MATRIX.md`. |
 | V2-EV-007 | Gate 2 implementation has not started. | source-confirmed | Gate 1.5 adds diagnostics/UI/artifact work only. No `Bindings/Platform` reader, live resolver, hook, invoker, host/client service or mutation path exists. |
 | V2-EV-008 | Gate 1.5 has a bounded structured/redacted multi-producer logger and immutable diagnostic snapshot with explicit zero capabilities. | statically validated | `Logger`, `DiagnosticSnapshot` and host tests passed bounds, overflow, redaction, concurrent addition and no-address/refusal snapshot cases in `V2-G1.5-BUILD-004`; no device sink/UI claim. |
-| V2-EV-009 | Gate 1.5 UI remains present for missing/unsupported profile and Legacy refusal, renders only Status/Logs snapshots, pauses when closed and has no UE/Bindings/Legacy dependency. | static portions validated; visible opening contradicted | Refusal presentation tests and boundary audit passed; iOS arm64 UI/Metal build passed. `V2-G1.5-SIDELOAD-FAIL-001` confirms the icon but contradicts visible panel opening. Metal rendering, touch routing, logs and close/pause remain unverified. |
-| V2-EV-010 | The canonical manual artifact is the final packaged raw dylib with matching dSYM/manifest; it contains no named Legacy/gameplay symbols. | statically validated; ready for device test | Dylib SHA-256 `780dee…e48b`, Mach-O/dSYM UUID `A4313EC9-3901-3EFC-BC54-5A910DA4F514`, package SHA-256 `f5e050…9348`; package/injection audits passed. Sideloadly may re-sign the input. |
+| V2-EV-009 | Gate 1.5 UI remains present for missing/unsupported profile and Legacy refusal, renders only Status/Logs snapshots, pauses when closed and has no UE/Bindings/Legacy dependency. | corrected static portions validated; `.1` visible opening contradicted; `.2` device behavior unverified | `.2` state-machine/refusal tests, boundary audit and iOS arm64 build passed in `V2-G1.5-FIX-BUILD-005`. Static tests cannot prove hierarchy, touches, Metal pixels, copy or closed rendering on device. |
+| V2-EV-010 | The canonical corrected manual artifact is the final packaged raw dylib with matching dSYM/manifest; it contains no named Legacy/gameplay symbols. | statically validated; ready for device test | Clean revision `8fb09e6…477`; dylib SHA-256 `421211…58c32`, Mach-O/dSYM UUID `4D308F3A-41F6-392C-9C0C-D2384DAFB889`, package SHA-256 `646798…423ee`; package/injection audits passed. Sideloadly may re-sign the input. |
 | V2-EV-011 | Exact build `.1` started far enough to install its local V2 icon, but the reported tap produced no visible menu. | device-observed bootstrap; open claim contradicted | User result `V2-G1.5-SIDELOAD-FAIL-001`, exact input SHA-256 `780dee…e48b`. No device/OS, reproducibility, screenshot or logs supplied. This does not validate button dispatch, hierarchy, drawable/frame, ImGui, Logs, Copy, Close or pause behavior. |
+| V2-EV-012 | Corrected `.2` implements hierarchy repair/order, unambiguous tap/drag input, explicit first-frame handling, rate-limited frame diagnostics, visible failed-stage fallback and a compact Dragon/Sishen-inspired Status/Logs layout. | source-confirmed and statically validated; device unverified | Clean source `8fb09e6…477`; 143 assertions and boundary/package/injection audits in `V2-G1.5-FIX-BUILD-005`; exact reference dispositions in the failure investigation report. Awaiting `PLAN-G1.5-SIDELOAD-002`. |
 
 ## Sishen pattern evidence
 
@@ -42,10 +43,10 @@ The `.1` failure-path and Sishen/Dragon presentation investigation is
 
 ## Evidence required next
 
-First, preserve and correct `V2-G1.5-SIDELOAD-FAIL-001`, then execute the new
-bounded Gate 1.5 protocol against one newly identified artifact. The `.1` icon
-bootstrap is observed, but visible opening is contradicted and all later
-presentation behavior remains unverified.
+Execute `PLAN-G1.5-SIDELOAD-002` against corrected artifact `.2`. The `.1` icon
+bootstrap remains observed and its opening claim contradicted. The corrected
+panel, fallback, touch path, Metal frames, copy, close/reopen and closed pause
+remain unverified until the user supplies the new device result.
 
 After Gate 1.5 passes, Gate 2 requires:
 

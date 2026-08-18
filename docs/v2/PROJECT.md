@@ -21,8 +21,9 @@ The near-term platform is iOS:
 - build under study: ShooterGame 1.10280 / UE 4.26.2;
 - completed workflow: Roadmap Gate 1, the host-local static typed identity spine;
 - active intermediate workflow: Gate 1.5 diagnostic UI and raw Sideloadly
-  injection artifact, failed under investigation after the icon appeared but
-  tapping it opened no visible panel;
+  injection artifact, failed under investigation after `.1` installed an icon
+  but opened no visible panel; corrected `.2` is ready for the bounded device
+  protocol and is not device-verified;
 - next implementation workflow after a verified Gate 1.5 correction: Gate 2
   read-only build/name/object/Engine discovery. Gate 2 has not started.
 

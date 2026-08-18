@@ -12,14 +12,16 @@ Legacy failure workflows are preserved under `archive/legacy/` and are not an
 active interruption. Gate 1 foundation hardening is complete. The explicitly
 inserted Gate 1.5 diagnostic UI/raw-injection workflow is
 `failed-under-investigation`: exact build `.1` installed its icon but did not
-open a visible panel. Gate 2 read-only discovery has not started. This does not
-authorize Gate 2 early, Gate 3 dispatch, Gate 4 hooks or any later behavior.
+open a visible panel. Corrected build `.2` is statically validated and awaiting
+`PLAN-G1.5-SIDELOAD-002`; it has no device PASS. Gate 2 read-only discovery has
+not started. This does not authorize Gate 2 early, Gate 3 dispatch, Gate 4 hooks
+or any later behavior.
 
 | Gate | State | Strongest claim |
 |---|---|---|
 | 0 — architecture/evidence baseline | complete; documentation refreshed 2026-08-18 | statically analyzed/documented |
 | 1 — static typed identity spine | complete 2026-08-18; infrastructure hardening verified in `V2-G1-PREP-003` | original 56 host-local assertions preserved; 61 current host-local assertions plus boundary/package audits passed, all explicitly non-live validation |
-| 1.5 — diagnostic UI and Sideloadly artifact | failed-under-investigation after `V2-G1.5-SIDELOAD-FAIL-001` | icon/bootstrap reached the device; visible menu opening contradicted; Metal/render/touch/log/close behavior unverified |
+| 1.5 — diagnostic UI and Sideloadly artifact | failed-under-investigation; corrected `.2` ready for `PLAN-G1.5-SIDELOAD-002` | `.1` icon/bootstrap reached the device and opening was contradicted; `.2` has static/build evidence only |
 | 2 — read-only discovery | next implementation workflow after Gate 1.5 device intake; not begun | unverified/not started |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
@@ -137,6 +139,9 @@ State: `failed-under-investigation` on 2026-08-18. Exact artifact
 `gate1.5-diagnostic-ui-20260818.1` installed its floating icon, but one reported
 tap/open attempt produced no visible panel under `PLAN-G1.5-SIDELOAD-001`.
 Hardware, OS, reproducibility, logs and screenshots were not supplied.
+Corrected artifact `gate1.5-diagnostic-ui-20260818.2` passed host/static/iOS and
+artifact inspections from clean revision
+`8fb09e654466b07b534a3dd16b2618e789d84777`; it remains awaiting device input.
 
 Goal: make Gate 1 refusal reasons visible in the user's real raw-dylib test path
 without beginning Gate 2 or coupling UI rendering to runtime work.
@@ -157,7 +162,7 @@ Work:
 - **Build:** create the canonical raw injection dylib, matching dSYM and manifest
   from the same final packaged dylib bytes; retain `.deb` only as archive;
 - **Device:** inject only V2 into a clean app, inspect Status/Logs, close the menu
-  and run the requested 10-minute menu/local-world soak.
+  close/reopen, then run the bounded closed-overlay and short stability check.
 
 Exit:
 
@@ -500,11 +505,11 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-Correct and re-test **Gate 1.5 only**, preserving failed build `.1` and its
-source/artifact identity. Produce one newly identified, instrumented raw dylib;
-its icon must visibly acknowledge an accepted action and either show the styled
-panel or a UIKit failed-stage fallback. No implementation expansion is
-authorized while this exact UI failure remains unresolved.
+Re-test **Gate 1.5 only** with corrected build `.2`, preserving failed build
+`.1` and its source/artifact identity. The icon must visibly acknowledge an
+accepted action and either show the styled panel or a UIKit failed-stage
+fallback; fallback is diagnostic evidence, not PASS. No implementation
+expansion is authorized while this exact UI failure remains unresolved.
 
 After Gate 1.5 passes, the next implementation workflow is **Gate 2 only:
 read-only build, name, object and Engine discovery**. It must complete ABI-001

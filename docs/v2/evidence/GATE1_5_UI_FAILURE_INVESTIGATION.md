@@ -154,3 +154,20 @@ packages. It does not start Gate 2 and adds no UE discovery, binding, hook,
 ProcessEvent, scheduler, native call, hosting, travel or mutation. A corrected
 device PASS still requires visible styled pixels, working input/navigation/copy,
 clean close/reopen and the bounded stability protocol.
+
+## Corrected implementation and artifact
+
+The one correction artifact was produced from clean commit
+`8fb09e654466b07b534a3dd16b2618e789d84777`, tagged
+`v2-gate1.5-diagnostic-ui-20260818.2-source`. It implements the hierarchy,
+input, first-frame, diagnostic, fallback and restrained Dragon/Sishen-inspired
+layout decisions above without importing reference sources.
+
+`V2-G1.5-FIX-BUILD-005` passed 143 host assertions, the strengthened boundary
+audit, iOS arm64 compile/package inspection and injectable Legacy/gameplay
+symbol audit. The raw dylib SHA-256 is
+`4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`;
+its Mach-O and dSYM UUID are both
+`4D308F3A-41F6-392C-9C0C-D2384DAFB889`. This is compile/static/artifact
+evidence only. No device hierarchy, input delivery, rendered pixel, fallback,
+copy, pause or stability claim is made before `PLAN-G1.5-SIDELOAD-002`.

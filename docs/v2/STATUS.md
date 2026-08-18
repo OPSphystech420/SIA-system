@@ -7,9 +7,9 @@ Last updated: 2026-08-18.
 ```text
 active workflow: V2 Gate 1.5 diagnostic UI and Sideloadly injection artifact
 workflow state: failed-under-investigation
-next action: preserve failed source/artifact, correct hierarchy/input/first-frame observability and build one new Gate 1.5 artifact
+next action: execute PLAN-G1.5-SIDELOAD-002 against the corrected immutable artifact
 Gate 2 state: not started
-device state: user reports icon visible but no visible menu after tap for exact build .1
+device state: .1 opening failed; corrected .2 is ready for device test and is not device-verified
 Legacy state: archived evidence only; it cannot block V2 without an explicit Legacy investigation request
 ```
 
@@ -34,8 +34,9 @@ Established facts are deliberately separate:
 
 No device model, OS/runtime, reproducibility count, console log or screenshot
 was supplied. The failed dylib, manifest, dSYM and archive package remain
-preserved at the paths and hashes below. The exact failed source state is to be
-recorded as tag `v2-gate1.5-sideload-fail-001` before correction.
+preserved at the paths and hashes below. Its exact source state is commit
+`97a3cbd3a2c3a19f46a633db72d540837ea8d30c`, tagged
+`v2-gate1.5-sideload-fail-001`.
 
 Gate 1.5 keeps every UE/runtime capability fail-closed while making the refusal
 visible. The scene-safe UIKit button is requested on the main thread from
@@ -50,11 +51,11 @@ closed `MTKView` is paused with set-needs-display mode, so it has no continuous
 through. No UI file includes UE, Bindings, Hooks, Runtime, Legacy source or
 `HostingRuntime`.
 
-## Static and artifact result
+## Corrected static and artifact result
 
-- 96 host-local assertions passed: the prior Gate 1 foundation plus logger
-  bounds/redaction/concurrency, immutable snapshot and refusal-presentation
-  cases.
+- 143 host-local assertions passed, including logger bounds/redaction,
+  immutable snapshot/refusal presentation and the bounded presentation state
+  machine/timeout/fallback transitions.
 - `BoundaryAudit.sh` passed UI include/source isolation and render/runtime
   exclusions.
 - iOS arm64 compiled with local ImGui core/Metal backend and declared Apple
@@ -62,8 +63,43 @@ through. No UI file includes UE, Bindings, Hooks, Runtime, Legacy source or
 - Package and raw injection audits passed; the injection dylib contains no named
   Legacy/gameplay strings or exported symbols.
 - Dylib and dSYM UUIDs match.
-- Strongest runtime claim for `.1`: bootstrap/icon installed; visible panel
-  opening is **contradicted**. The earlier compile/static claims remain valid.
+- The corrected source revalidates/reattaches/reorders overlay then button,
+  separates taps from drags, explicitly drives the first frame, records bounded
+  frame stages, and shows a UIKit failed-stage fallback.
+- Strongest claim for `.2`: compiled/statically validated and ready for device
+  test. No UIKit/Metal/device success is claimed.
+
+Build ID: `gate1.5-diagnostic-ui-20260818.2`
+
+Clean source revision: `8fb09e654466b07b534a3dd16b2618e789d84777`
+
+Source tag: `v2-gate1.5-diagnostic-ui-20260818.2-source`
+
+- Canonical injectable dylib:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/ServerHostV2.dylib`
+- Dylib SHA-256:
+  `4212111d133f961f3b9f1676ab73d87966e82f69e54f0a1ee0feadf17cc58c32`
+- Mach-O/dSYM UUID:
+  `4D308F3A-41F6-392C-9C0C-D2384DAFB889`
+- Matching dSYM:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/ServerHostV2.dylib.dSYM`
+- Injection manifest:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/injection/gate1.5-diagnostic-ui-20260818.2/manifest.txt`
+- Manifest SHA-256:
+  `6aea8368b71e74363f9c5e3c4faf95d943c24d744d208dc8d7a9d319f770b9e7`
+- Archival `.deb`:
+  `/Users/grimreaper31/Desktop/Dev/MHGA/Server-Host/packages/v2/com.mhga.serverhost.v2_0.1.3~gate1.5.20260818.2_iphoneos-arm.deb`
+- Package SHA-256:
+  `646798a6c880767146d8c32b068a972e39deafb87ecd5c3e0aedabb9602423ee`
+
+The raw dylib is byte-identical to the inspected package payload. The manifest
+identifies the clean input bytes before any Sideloadly re-signing. Codex built
+and inspected the `.deb` but did not install it.
+
+## Preserved failed artifact `.1`
+
+Strongest runtime claim for `.1`: bootstrap/icon installed; visible panel
+opening is **contradicted**. Its earlier compile/static claims remain valid.
 
 Build ID: `gate1.5-diagnostic-ui-20260818.1`
 
@@ -95,12 +131,10 @@ Codex built and inspected the `.deb` but did not install it.
 
 ## Exact next action and exclusions
 
-Create one corrected and instrumented Gate 1.5 build from the recorded failed
-source state. The correction must validate/reorder the view hierarchy, separate
-tap from drag, explicitly request the first frame, record bounded presentation
-stages, provide a visible UIKit failed-stage fallback and use the approved
-compact dark cyan/teal Status/Logs layout. It then receives a new bounded device
-protocol before any Gate 2 implementation begins.
+Execute `PLAN-G1.5-SIDELOAD-002` with only corrected build `.2`. A visible UIKit
+fallback is useful failed-stage evidence but is not PASS. Gate 1.5 remains
+`failed-under-investigation` until the styled panel, touch/navigation/copy,
+close/reopen and closed-render behavior pass on the user's device.
 
 No loaded-image/FNamePool/GUObjectArray/Engine/World discovery, hook,
 `ProcessEvent`, native engine call, host/client flow, scheduler, resolver or
