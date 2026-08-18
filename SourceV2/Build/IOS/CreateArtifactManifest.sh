@@ -23,6 +23,10 @@ if [ ! -f "$package_path" ] || [ "$source_revision" = unavailable ]; then
     echo "injection artifact requires an existing package and Git revision" >&2
     exit 1
 fi
+if [ "$V2_SOURCE_TREE_STATE" != clean ]; then
+    echo "injection artifact requires a clean committed source tree" >&2
+    exit 1
+fi
 if [ ! -d "$dsym_source" ]; then
     echo "dSYM does not exist: $dsym_source" >&2
     exit 1

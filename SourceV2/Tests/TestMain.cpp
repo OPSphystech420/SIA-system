@@ -11,6 +11,7 @@ void RunReflectionTests(TestContext&);
 void RunProfileInitializationTests(TestContext&);
 void RunLegacyRuntimeGuardTests(TestContext&);
 void RunDiagnosticsTests(TestContext&);
+void RunPresentationStateMachineTests(TestContext&);
 }  // namespace serverhost::v2::tests
 
 int main() {
@@ -31,6 +32,8 @@ int main() {
     serverhost::v2::tests::RunLegacyRuntimeGuardTests(context);
     std::cout << "[v2] diagnostics and refusal presentation\n" << std::flush;
     serverhost::v2::tests::RunDiagnosticsTests(context);
+    std::cout << "[v2] presentation state machine\n" << std::flush;
+    serverhost::v2::tests::RunPresentationStateMachineTests(context);
 
     std::cout << "serverhost_v2_core_tests: " << context.Assertions() << " assertions, "
               << context.Failures() << " failures\n";

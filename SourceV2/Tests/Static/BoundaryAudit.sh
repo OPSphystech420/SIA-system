@@ -67,6 +67,14 @@ if [ -d SourceV2/UI ]; then
         "SourceV2/UI render/bootstrap code must not call runtime scheduling or engine paths" \
         'HostingRuntime|::Tick *\(|ProcessEvent|GetNetMode|SetClientTravel|RequestHost|RequestJoin|RequestSave|scheduler|resolver' \
         SourceV2/UI
+    fail_if_match \
+        "SourceV2/UI must not add network, remote image, authentication, or fixed-sleep paths" \
+        'NSURLSession|dataWithContentsOfURL|https?://|UDID|authorization|authentication|sleepForTimeInterval|usleep *\(|sleep *\(' \
+        SourceV2/UI
+    fail_if_match \
+        "Gate 1.5 presentation must use the two-page navigation rail, not an ImGui tab bar" \
+        'BeginTabBar|BeginTabItem' \
+        SourceV2/UI
 fi
 
 fail_if_match \
@@ -84,6 +92,16 @@ rg -Fq 'ServerHostV2_FRAMEWORKS = UIKit Foundation QuartzCore Metal MetalKit' \
     SourceV2/Build/IOS/Makefile
 rg -Fq 'view.paused = !shouldRender;' SourceV2/UI/DiagnosticUIBootstrap.mm
 rg -Fq 'view.enableSetNeedsDisplay = !shouldRender;' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq '[root.view bringSubviewToFront:self.overlay.view];' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq '[root.view bringSubviewToFront:self.floatingButton];' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'pan.cancelsTouchesInView = NO;' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'UIControlEventPrimaryActionTriggered' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'UIControlEventTouchUpInside' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq '[view draw];' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'FailedWithVisibleFallback' SourceV2/UI/PresentationStateMachine.cpp
+rg -Fq 'presentation failed; visible fallback stage=' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'ImGui::Selectable("Status"' SourceV2/UI/DiagnosticUIBootstrap.mm
+rg -Fq 'ImGui::Selectable("Logs"' SourceV2/UI/DiagnosticUIBootstrap.mm
 
 echo "boundary audit: PASS (regex raw-access rules and include-layer dependencies)"
 echo "permitted low-level raw-access inventory:"

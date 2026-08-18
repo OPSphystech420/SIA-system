@@ -1,7 +1,7 @@
 V2_CXX ?= clang++
 V2_SANITIZERS ?= 0
-V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.1
-V2_PACKAGE_VERSION := 0.1.2~gate1.5.20260818.1
+V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.2
+V2_PACKAGE_VERSION := 0.1.3~gate1.5.20260818.2
 
 V2_ARTIFACT_ROOT ?= .artifacts/v2
 ifeq ($(V2_SANITIZERS),1)
@@ -28,6 +28,7 @@ V2_PRODUCTION_SOURCES := \
     SourceV2/Diagnostics/Logger.cpp \
     SourceV2/Diagnostics/DiagnosticSnapshot.cpp \
     SourceV2/UI/DiagnosticPresentationModel.cpp \
+    SourceV2/UI/PresentationStateMachine.cpp \
     SourceV2/Bindings/Validation/ProfileValidator.cpp \
     SourceV2/Bootstrap/InertInitialization.cpp \
     SourceV2/Bootstrap/LegacyRuntimeGuard.cpp
@@ -41,7 +42,8 @@ V2_TEST_SOURCES := \
     SourceV2/Tests/Unit/ReflectionTests.cpp \
     SourceV2/Tests/Unit/ProfileInitializationTests.cpp \
     SourceV2/Tests/Unit/LegacyRuntimeGuardTests.cpp \
-    SourceV2/Tests/Unit/DiagnosticsTests.cpp
+    SourceV2/Tests/Unit/DiagnosticsTests.cpp \
+    SourceV2/Tests/Unit/PresentationStateMachineTests.cpp
 
 V2_SOURCES := $(V2_PRODUCTION_SOURCES) $(V2_TEST_SOURCES)
 V2_OBJECTS := $(patsubst %.cpp,$(V2_BUILD_DIR)/%.o,$(V2_SOURCES))
@@ -90,6 +92,7 @@ audit: boundary-audit
 
 check-source-revision:
 	@test "$(V2_SOURCE_REVISION)" != unavailable || { echo "V2 packaging requires the Server-Host git baseline" >&2; exit 1; }
+	@test "$(V2_SOURCE_TREE_STATE)" = clean || { echo "V2 packaging requires a clean committed source tree" >&2; exit 1; }
 	@echo "source_revision=$(V2_SOURCE_REVISION) source_tree_state=$(V2_SOURCE_TREE_STATE)"
 
 ios-package: test boundary-audit check-source-revision

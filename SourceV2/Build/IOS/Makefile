@@ -1,6 +1,6 @@
 ARCHS = arm64
 TARGET = iphone:clang:16.5:15.0
-V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.1
+V2_BUILD_ID ?= gate1.5-diagnostic-ui-20260818.2
 V2_SOURCE_REVISION ?= unavailable
 V2_CFLAGS ?= -fobjc-arc -fno-modules -Wall -Wextra -Wpedantic -Werror
 V2_REPOSITORY_ROOT := $(abspath ../../..)
@@ -32,6 +32,7 @@ ServerHostV2_FILES = \
     $(V2_SOURCE_ROOT)/Diagnostics/Logger.cpp \
     $(V2_SOURCE_ROOT)/Diagnostics/DiagnosticSnapshot.cpp \
     $(V2_SOURCE_ROOT)/UI/DiagnosticPresentationModel.cpp \
+    $(V2_SOURCE_ROOT)/UI/PresentationStateMachine.cpp \
     $(V2_SOURCE_ROOT)/UI/DiagnosticUIBootstrap.mm \
     $(V2_SOURCE_ROOT)/UE/String.cpp \
     $(V2_SOURCE_ROOT)/UE/Name.cpp \

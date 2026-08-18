@@ -10,6 +10,21 @@ Metal/ImGui panel with only `Status` and `Logs`. A missing/unsupported profile o
 Legacy guard refusal disables runtime capabilities but does not hide the
 diagnostic button. Hooks, engine calls and mutation remain exactly zero.
 
+The corrected Gate 1.5 presentation revalidates and reattaches its active
+window/root hierarchy on lifecycle and open requests, puts the overlay above
+later game views and the button above the overlay, separates drag from touch-up
+and primary actions, and visibly changes the button when an action is accepted.
+The first frame is requested explicitly. Bounded stage logs distinguish action,
+hierarchy, drawable/descriptor and ImGui submission; a failed first frame shows
+a local UIKit status card naming the exact stage instead of becoming a silent
+no-op.
+
+The ImGui surface uses a compact dark cyan/teal palette with an ordinary
+left-hand Status/Logs navigation rail and right content panel. It imports no
+Dragon/Sishen widget, image, font, authentication, network or gameplay code.
+Continuous rendering starts only after the first command buffer succeeds and
+stops completely on Close; the closed `MTKView` remains hidden and paused.
+
 Build and test only the selected V2 target from the project root:
 
 ```sh
@@ -27,7 +42,8 @@ The second command produces two forms from one final dylib:
 Codex builds and inspects the `.deb`; it does not install it. The raw dylib is
 the Sideloadly input. Sideloadly may re-sign it, so the manifest identifies the
 pre-injection input by SHA-256 and Mach-O UUID. The manifest also records the
-matching dSYM UUID, Git baseline revision, source-tree state and compiler flags.
+matching dSYM UUID, Git revision, mandatory clean source-tree state and compiler
+flags. Packaging refuses a modified source tree.
 
 Host objects live under ignored `.artifacts/v2/host`; iOS Theos state lives
 under ignored `.artifacts/v2/ios`. The package uses ID
@@ -38,8 +54,9 @@ linked.
 
 `BoundaryAudit.sh` enforces raw/include layering, V2 UI isolation and explicit
 source lists. Host-local tests cover the Gate 1 foundation plus logger bounds,
-redaction, concurrent addition, immutable snapshots and refusal presentation.
-They are static evidence, not device verification.
+redaction, concurrent addition, immutable snapshots, refusal presentation and
+the bounded presentation state machine/first-frame fallback decisions. They are
+static evidence, not UIKit/Metal device verification.
 
 Gate 2 remains a later workflow. Gate 1.5 contains no image reader, live UE
 discovery, hook, `ProcessEvent`, host/client behavior or gameplay mutation.

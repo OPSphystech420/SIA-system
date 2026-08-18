@@ -24,6 +24,9 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 1.5 Sideloadly failure intake 001](GATE1_5_SIDELOAD_FAILURE_001.md) —
   exact `.1` artifact identity, observed icon/no-panel result, preserved
   unknowns and correction boundary.
+- [Gate 1.5 UI failure investigation](GATE1_5_UI_FAILURE_INVESTIGATION.md) —
+  exact V2/Legacy/Sishen/Dragon files, verified failed-code defects, competing
+  hypotheses and adopted/adapted/rejected presentation patterns.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

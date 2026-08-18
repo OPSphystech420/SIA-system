@@ -28,6 +28,8 @@ authority. The complete review for this infrastructure task is
 [`evidence/SISHEN_V2_FOUNDATION_REVIEW_2026-08-18.md`](evidence/SISHEN_V2_FOUNDATION_REVIEW_2026-08-18.md).
 The Gate 1.5 UI-specific review is
 [`evidence/GATE1_5_DIAGNOSTIC_UI_REVIEW.md`](evidence/GATE1_5_DIAGNOSTIC_UI_REVIEW.md).
+The `.1` failure-path and Sishen/Dragon presentation investigation is
+[`evidence/GATE1_5_UI_FAILURE_INVESTIGATION.md`](evidence/GATE1_5_UI_FAILURE_INVESTIGATION.md).
 
 | Pattern | Disposition |
 |---|---|
