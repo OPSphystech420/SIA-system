@@ -72,6 +72,11 @@ here must create or update one summary claim and the corresponding contract in
   — a second fresh tracker state reproduced every positive map relationship,
   but discovery/world `1/1` and previous discovery not-applicable do not prove
   same-world generation stability or invalidation.
+- [Gate 2C `.4` continuous map generations PARTIAL 006](GATE2C_DEVICE_CONTINUOUS_MAP_GENERATIONS_PARTIAL_006.md)
+  — one cumulative tracker session proves discovery replacement, validated
+  world replacement and an unchanged-world repeat with zero capabilities; all
+  captures remained lifecycle `map`, so menu lifecycle transition evidence is
+  still required.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

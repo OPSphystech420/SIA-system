@@ -1,14 +1,15 @@
 # Gate 2C — live Engine, GameViewport, World and NetDriver relationships
 
 Status: exact-binary/sdk/source cards and implementation complete; `.1` and
-`.2` are immutable fail-closed Engine-identity aborts; exact `.3` has passed one
+`.2` are immutable fail-closed Engine-identity aborts; exact `.3` passed one
 TheIsland relationship capture but omitted optional relationship presence from
-the public receipt. Clean `.4` corrects only that receipt and was built for the
-full sequence. Its first TheIsland capture now passes with both optional
-relationships present/class-validated. A second independent `.4` tracker state
-reproduced the complete positive map receipt, but again began at
-discovery/world `1/1`. Same-world and lifecycle transition evidence remain
-pending, so Gate 2C stays open.
+the public receipt. Clean `.4` corrects only that receipt. Its first TheIsland
+capture passed with both optional relationships present/class-validated, and a
+second independent tracker state reproduced that map receipt. Continuous `.4`
+result `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` now proves discovery
+replacement, validated world replacement and unchanged-world stability in one
+process. All three lifecycle labels were `map`; menu lifecycle/menu-map
+transition evidence remains pending, so Gate 2C stays open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -391,7 +392,7 @@ World generation 1 was established; there was no prior accepted `.4` world.
 Capabilities remained zero and the bounded logs contain no error entry. Full
 result: [Gate 2C `.4` map PASS 004](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
 
-## Remaining `.4` device protocol
+## Continuous `.4` generation result and remaining device protocol
 
 Result `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` subsequently
 completed another positive `.4` map capture in 38 ms plus 2 ms/10,240
@@ -401,16 +402,25 @@ discovery/world `1/1`, however, so it is an independent reproducibility result
 rather than step 1 below. The immutable report is
 [Gate 2C `.4` independent map reproducibility PASS 005](GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md).
 
-1. While the current process and unchanged TheIsland world remain active,
-   Capture again. Require top-level discovery previous invalidated yes,
-   discovery/world `2/1` and previous world invalidated no.
-2. Reconfirm Engine/Viewport/World/definitions, optional presence and zero
-   capabilities. FName/object counts may change; world identity may not.
-3. If naturally possible, return to menu and capture. Record actual lifecycle,
+Result `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` then supplied one
+cumulative tracker session. Discovery advanced `1->2->3`; world generation
+advanced `1->2` with `previous_world_invalidated=yes`, then stayed 2 on the
+next fresh capture with `previous_world_invalidated=no`. Engine, Viewport,
+World/GWorld, definitions, both optional relationships, normal null NetDriver
+and zero capabilities passed throughout. This completes steps 1–2 below and
+proves the generic validated-world replacement trigger, but every lifecycle
+label was `map`. See
+[Gate 2C `.4` continuous map generations PARTIAL 006](GATE2C_DEVICE_CONTINUOUS_MAP_GENERATIONS_PARTIAL_006.md).
+
+1. Completed by `.6`: repeated current-world capture with fresh discovery,
+   stable world generation and no prior-world invalidation.
+2. Completed by `.6`: all relationships, optional presence, redaction and zero
+   capabilities revalidated.
+3. If the `.6` process is still active, return to menu and capture once. Record actual lifecycle,
    root comparison, optional states and world-generation transition without
    assuming null.
-4. Re-enter TheIsland and capture to prove the opposite transition. If natural
-   return is unavailable, perform a later menu-first run.
+4. If that process ended, perform one new continuous menu-first -> TheIsland ->
+   same-TheIsland run; an independent generation-1 receipt is not transferable.
 5. Do not use death/respawn as PASS/FAIL.
 6. In every state confirm exactly:
 
@@ -432,6 +442,6 @@ closed.
 - No longer Gate 2B or Gate 2C soak is claimed.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
-- The first `.4` TheIsland relationship values and positive optional-presence
-  publication are device-proven, but menu lifecycle, same-world stability and
-  transition invalidation are not.
+- `.4` map relationships, discovery invalidation, validated world replacement
+  and same-world stability are device-proven. Menu lifecycle/menu-map
+  transition and a separate visible-regression observation are not.

@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .4 map relationships reproduced in a second independent tracker session; same-world/lifecycle evidence pending
+active workflow: Gate 2C .4 continuous map generations passed; menu lifecycle transition evidence pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -19,6 +19,9 @@ Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name vali
 Gate 2C .3: exact map relationship subset device-pass; world generation 1 established
 Gate 2C .4: first map capture passed with GameMode/GameState present and class-validated
 Gate 2C .4 repeat: independent generation-1 map capture reproduced all relationships; not a same-tracker repeat
+Gate 2C .4 continuous session: discovery 1->2->3; world replacement 1->2; repeated same world 2->2
+Gate 2C: same-world stability and map-world replacement invalidation device-proven; menu lifecycle transition still required
+Gate 3: blocked by the remaining Gate 2C menu lifecycle capture; not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -43,11 +46,16 @@ The public `.3` report omitted optional AuthorityGameMode/GameState presence.
 Narrow `.4` publishes those already-validated views without a new read. Its
 first device capture confirmed the positive optional-presence path. A second
 manual `.4` map capture reproduced every positive relationship with different
-live counts, but reported discovery/world `1/1` and top-level previous
-discovery `not applicable`. It therefore began from a fresh tracker state and
-cannot be combined with the earlier generation-1 result as a same-world
-generation repeat. Same-world stability and lifecycle transition/invalidation
-remain unverified.
+live counts, but began from a fresh tracker state and could not satisfy the
+generation contract. The later continuous three-capture result
+`V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` now proves discovery
+generations `1->2->3`, validated world replacement `1->2` with prior-world
+invalidation, and a fresh repeated capture of the unchanged current world
+`2->2` with no prior-world invalidation. All relationships and zero
+capabilities passed. No menu lifecycle capture or explicit visible-regression
+observation was supplied. Under the current `.5` exit record, the natural
+menu/map transition remains required, so Gate 2C stays open and Gate 3 remains
+blocked/not started.
 
 ## Immutable Gate 1.5 result
 
@@ -594,6 +602,33 @@ same-world stability and stale-handle invalidation were not exercised. Gate 2C
 therefore remains open and Gate 3 remains blocked/not started. Full report:
 [Gate 2C independent map reproducibility PASS 005](evidence/GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md).
 
+## Gate 2C `.4` continuous map generations partial PASS
+
+Result ID: `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006`
+
+The exact same `.4` artifact was locally rechecked at raw dylib SHA-256
+`95c0fe69f420250e22b850f9fa124859ba545bd0dc27b0effc719d9d5fa94677`;
+its Mach-O and dSYM UUIDs match
+`7CB1B073-D9A5-39E0-BDD3-2638B0618B28`, and its source tag resolves to
+`4db2599d25350b1eadd9d704afcba2fe76743473`. Cumulative logs prove one process:
+capture completions are `seq=14/27/31` at uptime `24500/65668/83336` ms with no
+startup reset.
+
+Discovery generations advanced `1->2->3`. Capture 2 reported world generation
+2 and `previous_world_invalidated=yes`, proving a validated replacement of the
+generation-1 world. Capture 3 kept world generation 2 and reported
+`previous_world_invalidated=no`, proving the required fresh repeated capture of
+the unchanged current World. Engine, GameViewport, World/GWorld match,
+NetDriverDefinitions, present/class-validated AuthorityGameMode and GameState,
+normal `net_driver=none`, and `hooks=0 engine_calls=0 mutation=0` passed in all
+three captures. The bounded logs contain no error or raw address.
+
+All three lifecycle labels were `map`. A validated map-to-map world replacement
+does not prove the still-required menu lifecycle/menu-map transition, and no
+explicit visible gameplay/input/audio regression observation accompanied the
+receipt. Gate 2C therefore remains open. Full immutable report:
+[Gate 2C continuous map generations PARTIAL 006](evidence/GATE2C_DEVICE_CONTINUOUS_MAP_GENERATIONS_PARTIAL_006.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -605,11 +640,13 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-If the submitted `.4` tracker session and map are still active, Capture once
-more without a restart or world change. Require top-level previous discovery
-invalidated yes, discovery/world `2/1`, previous world invalidated no, all
-relationships valid and zero capabilities. Then capture a natural menu
-transition in that same tracker session. If the session ended, perform one
-continuous menu → TheIsland → same-TheIsland three-capture run. Do not combine
-independent generation-1 reports, and do not start Gate 3, hooks, UE calls,
-hosting or mutation.
+Same-world stability is complete. If the submitted `.4` process is still
+active, return naturally to the main menu and perform one more Capture. Require
+continuous seq/uptime, previous discovery invalidated, completed applicable
+relationships, actual lifecycle/root states without assuming World is null,
+world-generation increment plus `previous_world_invalidated=yes` if the map
+world was removed/replaced, zero capabilities, no error/address output and an
+explicit visible-regression observation. If the process ended, perform one new
+continuous menu → TheIsland → same-TheIsland three-capture run with the same
+artifact; another independent generation-1 report is insufficient. Do not
+start Gate 3, hooks, UE calls, hosting or mutation.

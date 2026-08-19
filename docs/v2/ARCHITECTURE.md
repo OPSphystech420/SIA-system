@@ -256,6 +256,15 @@ their validated base-class status. It remains a first world-generation sample,
 so the architecture still rejects cross-capture handles until same-world and
 transition behavior are device-demonstrated.
 
+Device result `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` demonstrates
+that boundary within one tracker session. Every fresh discovery invalidated the
+prior discovery identities; validated world replacement incremented world
+generation and invalidated prior world-bound handles; the next fresh capture of
+the unchanged current World retained world generation and did not reuse the old
+discovery snapshot. All observations remained lifecycle `map`. RuntimeContext
+and Gate 3 remain unavailable until the required menu lifecycle/menu-map
+transition is captured; this result authorizes no cross-thread raw handle.
+
 ## 4. Dependency graph
 
 ```mermaid

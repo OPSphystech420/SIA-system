@@ -697,3 +697,26 @@ reproducibility, not a repeated capture in the same tracker state. Discovery
 increment, same-world stability, stale-handle invalidation and lifecycle
 transition remain open. Gate 2C is not closed; Gate 3 remains blocked and not
 started. No SourceV2 or artifact correction is justified by this result.
+
+## 2026-08-19 — Gate 2C continuous map generations passed; menu lifecycle remains
+
+`V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` processed three exact `.4`
+captures from one continuous process. Cumulative sequence numbers and monotonic
+uptime prove one tracker session. Discovery advanced `1->2->3`; the second
+capture advanced world generation `1->2` and invalidated the prior world-bound
+identities; the third used another fresh discovery snapshot but retained world
+generation 2 and did not invalidate the unchanged current World. Engine,
+GameViewport, World/GWorld match, canonical definitions, present/class-
+validated AuthorityGameMode and GameState, normal pre-host `net_driver=none`
+and zero hooks/engine calls/mutation passed throughout. No bounded-log error or
+raw address was present.
+
+All three captures reported lifecycle `map`. The validated map-world
+replacement proves the generic world-generation transition mechanism but does
+not establish menu lifecycle or a natural menu/map transition. The user also
+did not supply a separate visible gameplay/input/audio regression observation.
+Under the current `.5` exit record, Gate 2C therefore remains open for one
+natural menu capture in the same still-running process, or a new continuous
+menu-to-TheIsland-to-same-TheIsland run if that process ended. Gate 3 remains
+blocked and not started. No SourceV2, Legacy, build configuration or artifact
+change is justified, and no build was run.
