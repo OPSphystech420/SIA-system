@@ -1,6 +1,6 @@
 # Conversation and requirements history
 
-Last updated: 2026-08-18.
+Last updated: 2026-08-19.
 
 This is a factual project history, not an implementation specification. New
 user feedback and important test results must be appended with a date; earlier
@@ -720,3 +720,26 @@ natural menu capture in the same still-running process, or a new continuous
 menu-to-TheIsland-to-same-TheIsland run if that process ended. Gate 3 remains
 blocked and not started. No SourceV2, Legacy, build configuration or artifact
 change is justified, and no build was run.
+
+## 2026-08-19 — Gate 2C continuous map-generation behavior reproduced again
+
+`V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` processed another three
+captures from one exact `.4` process. Cumulative sequence numbers and monotonic
+uptime prove continuity. Discovery again advanced `1->2->3`; world generation
+advanced `1->2` with prior-world invalidation and then remained 2 on a fresh
+repeat with no prior-world invalidation. Engine, GameViewport, World/GWorld,
+definitions, present/class-validated AuthorityGameMode and GameState, normal
+pre-host `net_driver=none` and zero capabilities passed throughout. No error or
+raw address appears.
+
+The new transcript did not label the user-visible action before each capture,
+all three runtime lifecycle fields remained `map`, and no explicit visible
+gameplay/input/audio regression observation was supplied. The first object's
+count resembles earlier menu counts but cannot prove menu state. This result is
+therefore a second independent reproduction of the map-generation mechanics,
+not menu-transition closure. Gate 2C remains open and Gate 3 remains blocked/
+not started. If the actual actions were main menu -> natural TheIsland entry ->
+same TheIsland without travel, only that contextual annotation and a no-visible-
+regression statement are missing; otherwise the same labeled three-capture
+sequence must be run with the existing artifact. No source or artifact change
+was made and no build was run.

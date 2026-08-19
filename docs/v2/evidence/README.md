@@ -77,6 +77,11 @@ here must create or update one summary claim and the corresponding contract in
   world replacement and an unchanged-world repeat with zero capabilities; all
   captures remained lifecycle `map`, so menu lifecycle transition evidence is
   still required.
+- [Gate 2C `.4` continuous map reproducibility PARTIAL 007](GATE2C_DEVICE_CONTINUOUS_MAP_REPRODUCIBILITY_PARTIAL_007.md)
+  — a second independent cumulative process reproduces discovery `1->2->3`,
+  world `1->2->2` and every relationship with zero capabilities; visible
+  capture actions and a no-regression observation were not supplied, so the
+  repeated `map` lifecycle receipts do not close the menu transition.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

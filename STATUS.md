@@ -17,10 +17,17 @@ captures reported lifecycle `map`; no menu lifecycle/menu-map transition or
 explicit visible-regression observation was supplied. Gate 2C therefore remains
 open and Gate 3 is blocked/not started.
 
-If the same process is alive, the exact next action is one natural main-menu
-capture with continuous seq/uptime and correct invalidation. If it ended, use
-the same artifact for one new continuous menu -> TheIsland -> same-TheIsland
-run. No new build or source correction is justified.
+`V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` independently reproduces
+the same continuous generation and relationship behavior in another process,
+with zero capabilities and no error/address output. Its visible capture actions
+and no-regression observation were not supplied, and every lifecycle field is
+again `map`; it does not close the remaining menu-transition requirement.
+
+The exact next action is to annotate `.7`: confirm capture 1 was main menu,
+capture 2 followed natural entry to TheIsland, capture 3 was the same TheIsland
+without travel, and no visible gameplay/input/audio regression occurred. If
+that sequence was not used, repeat only that labeled sequence with the same
+artifact. No new build or source correction is justified.
 
 Legacy runtime, the root Legacy Makefile, old packages and `HostingRuntime` are
 outside the workflow and remain unchanged. Death/respawn is a reproduced stock

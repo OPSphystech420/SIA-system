@@ -9,7 +9,11 @@ second independent tracker state reproduced that map receipt. Continuous `.4`
 result `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` now proves discovery
 replacement, validated world replacement and unchanged-world stability in one
 process. All three lifecycle labels were `map`; menu lifecycle/menu-map
-transition evidence remains pending, so Gate 2C stays open.
+transition evidence remains pending. Independent continuous result
+`V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` reproduces the same
+generation and relationship behavior, but does not label its visible capture
+actions or report visible regression state; all runtime lifecycle values again
+say `map`. Gate 2C therefore stays open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -412,15 +416,25 @@ proves the generic validated-world replacement trigger, but every lifecycle
 label was `map`. See
 [Gate 2C `.4` continuous map generations PARTIAL 006](GATE2C_DEVICE_CONTINUOUS_MAP_GENERATIONS_PARTIAL_006.md).
 
-1. Completed by `.6`: repeated current-world capture with fresh discovery,
-   stable world generation and no prior-world invalidation.
-2. Completed by `.6`: all relationships, optional presence, redaction and zero
-   capabilities revalidated.
-3. If the `.6` process is still active, return to menu and capture once. Record actual lifecycle,
-   root comparison, optional states and world-generation transition without
-   assuming null.
-4. If that process ended, perform one new continuous menu-first -> TheIsland ->
-   same-TheIsland run; an independent generation-1 receipt is not transferable.
+Result `V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` independently
+repeats that exact generation shape in a second cumulative process: discovery
+`1->2->3`, world `1->2->2`, correct prior discovery/world invalidation, every
+relationship and zero capabilities. Its action states and explicit visible-
+regression observation are absent, and every runtime lifecycle is `map`. See
+[Gate 2C `.4` continuous map reproducibility PARTIAL 007](GATE2C_DEVICE_CONTINUOUS_MAP_REPRODUCIBILITY_PARTIAL_007.md).
+
+1. Completed by `.6` and independently reproduced by `.7`: repeated current-
+   world capture with fresh discovery, stable world generation and no prior-
+   world invalidation.
+2. Completed by `.6` and `.7`: all relationships, optional presence, redaction
+   and zero capabilities revalidated.
+3. For `.7`, supply the missing action annotation: capture 1 main menu; capture
+   2 after natural entry to TheIsland; capture 3 same TheIsland without travel.
+   Also explicitly report visible gameplay/input/audio regression state. If
+   true and clean, no new capture is needed.
+4. If `.7` did not use that sequence, perform one new explicitly labeled
+   continuous main-menu -> TheIsland -> same-TheIsland run; object counts and
+   the runtime `map` label are not substitutes for the action record.
 5. Do not use death/respawn as PASS/FAIL.
 6. In every state confirm exactly:
 
@@ -443,5 +457,6 @@ closed.
 - `Class Engine.World` is class metadata, not a live UWorld.
 - Parameter ABI and native dispatch remain unavailable.
 - `.4` map relationships, discovery invalidation, validated world replacement
-  and same-world stability are device-proven. Menu lifecycle/menu-map
-  transition and a separate visible-regression observation are not.
+  and same-world stability are device-proven and independently reproduced.
+  Labeled menu lifecycle/menu-map transition context and a separate visible-
+  regression observation are not.

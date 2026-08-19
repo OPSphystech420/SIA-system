@@ -37,8 +37,12 @@ The near-term platform is iOS:
   public receipt omitted optional GameMode/GameState presence. Clean `.4`
   device-publishes both as present/class-validated. Continuous `.4` result `.6`
   proves discovery invalidation, validated map-world replacement and a fresh
-  unchanged-world repeat with zero capabilities. Menu lifecycle/menu-map
-  transition evidence remains pending. Gate 3 has not started.
+  unchanged-world repeat with zero capabilities. Partial `.7` independently
+  reproduces the same continuous generation/relationship behavior, but the
+  submitted transcript does not label its visible capture states/actions and
+  every runtime lifecycle remains `map`. Menu lifecycle/menu-map transition
+  context and an explicit visible-regression observation remain pending. Gate 3
+  has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 
