@@ -68,6 +68,10 @@ here must create or update one summary claim and the corresponding contract in
 - [Gate 2C `.4` optional relationships map PASS 004](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md)
   — first `.4` TheIsland capture passed with both optional relationships
   present/class-validated; generation stability and lifecycle transition remain.
+- [Gate 2C `.4` independent map reproducibility PASS 005](GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md)
+  — a second fresh tracker state reproduced every positive map relationship,
+  but discovery/world `1/1` and previous discovery not-applicable do not prove
+  same-world generation stability or invalidation.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 

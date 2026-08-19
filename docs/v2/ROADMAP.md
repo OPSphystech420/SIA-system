@@ -42,6 +42,11 @@ already-validated optional views without new reads and is packaged as
 `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013`. Its first `.4` TheIsland
 capture passed with both AuthorityGameMode and GameState present/class-
 validated. Same-world stability and lifecycle transition remain open.
+An additional exact `.4` manual map capture independently reproduced every
+positive relationship with different live counts, but it also started at
+discovery/world `1/1` with no previous discovery. It is preserved as
+`V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005`; it is not same-tracker
+generation evidence and does not close Gate 2C.
 
 | Gate | State | Strongest claim |
 |---|---|---|
@@ -50,7 +55,7 @@ validated. Same-world stability and lifecycle transition remain open.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | `.4` first map receipt passed; generation/lifecycle evidence pending | exact native Engine and definitions, GameViewport, live World, GWorld match, AuthorityGameMode/GameState presence, normal null NetDriver and world generation 1 device-proven; same-world stability, menu lifecycle and transition invalidation remain open |
+| 2C — Engine/world relationships/invalidation | two independent `.4` generation-1 map receipts passed; generation/lifecycle evidence pending | exact native Engine and definitions, GameViewport, live World, GWorld match, AuthorityGameMode/GameState presence and normal null NetDriver are reproducible across independent tracker sessions; same-world stability, menu lifecycle and transition invalidation remain open |
 | 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
@@ -294,6 +299,10 @@ PASS `V2-G2C-MAP-RELATIONSHIPS-PASS-003`; clean `.4` optional-presence receipt
 artifact `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` produced passing map
 result `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004`. Gate remains open for
 same-world generation stability and lifecycle transition evidence.
+The later `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` repeated all
+positive map relationships on the same `.4` artifact but reported
+discovery/world `1/1` and previous discovery `not applicable`; it therefore
+proves independent reproducibility, not the required same-tracker repeat.
 
 Entry: Gate 2B read-only discovery passes.
 
@@ -554,8 +563,8 @@ release claim.
 Goal: prove normal leave, cleanup and reconnect without persistence loss or
 stale state.
 
-Entry: Gate 8 passes and exact QuitToMainMenu/driver cleanup contracts are
-complete.
+Entry: the main Gate 9 stable-gameplay exit passes, Gate 8 is skipped or passed
+as applicable, and exact QuitToMainMenu/driver cleanup contracts are complete.
 
 Work: **IDA/Static/Build/Device** one normal return path, connection cleanup,
 world invalidation and three repeated host/client sessions including one network
@@ -613,11 +622,13 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-While the current `.4` process and TheIsland world remain active, Capture again.
-Require discovery previous invalidated yes, discovery/world `2/1`, previous
-world invalidated no, both optional relationships still valid and zero
-capabilities. Then capture a natural menu transition and re-entry if possible;
-otherwise use a later menu-first run. Do not use death/respawn as PASS/FAIL.
+If the submitted `.4` tracker session and map remain active, Capture again
+without restart or world replacement. Require discovery previous invalidated
+yes, discovery/world `2/1`, previous world invalidated no, both optional
+relationships still valid and zero capabilities. Then capture a natural menu
+transition in the same tracker session. If that session ended, perform one
+continuous menu → TheIsland → same-TheIsland run; independent generation-1
+reports cannot prove invalidation. Do not use death/respawn as PASS/FAIL.
 
 Do not start Gate 3, Host research, hosting or travel in this workflow. Hooks,
 `ProcessEvent`, engine calls, NetMode policy, save, administration and mutation

@@ -5,8 +5,10 @@ Status: exact-binary/sdk/source cards and implementation complete; `.1` and
 TheIsland relationship capture but omitted optional relationship presence from
 the public receipt. Clean `.4` corrects only that receipt and was built for the
 full sequence. Its first TheIsland capture now passes with both optional
-relationships present/class-validated. Same-world and lifecycle transition
-evidence remain pending, so Gate 2C stays open.
+relationships present/class-validated. A second independent `.4` tracker state
+reproduced the complete positive map receipt, but again began at
+discovery/world `1/1`. Same-world and lifecycle transition evidence remain
+pending, so Gate 2C stays open.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -390,6 +392,14 @@ Capabilities remained zero and the bounded logs contain no error entry. Full
 result: [Gate 2C `.4` map PASS 004](GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
 
 ## Remaining `.4` device protocol
+
+Result `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` subsequently
+completed another positive `.4` map capture in 38 ms plus 2 ms/10,240
+relationship bytes, with 109,440 objects and every published relationship
+passing. It reported `Previous invalidated=not applicable` and
+discovery/world `1/1`, however, so it is an independent reproducibility result
+rather than step 1 below. The immutable report is
+[Gate 2C `.4` independent map reproducibility PASS 005](GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md).
 
 1. While the current process and unchanged TheIsland world remain active,
    Capture again. Require top-level discovery previous invalidated yes,

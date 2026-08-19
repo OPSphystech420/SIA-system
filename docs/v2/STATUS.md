@@ -5,7 +5,7 @@ Last updated: 2026-08-19.
 ## Current state
 
 ```text
-active workflow: Gate 2C .4 first map receipt passed; same-world/lifecycle evidence pending
+active workflow: Gate 2C .4 map relationships reproduced in a second independent tracker session; same-world/lifecycle evidence pending
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -18,6 +18,7 @@ Gate 2C .1: fresh Gate 2B snapshot passed; Engine relationship validator aborted
 Gate 2C .2: fresh Gate 2B snapshot passed; strict Engine instance full-name validator aborted fail-closed
 Gate 2C .3: exact map relationship subset device-pass; world generation 1 established
 Gate 2C .4: first map capture passed with GameMode/GameState present and class-validated
+Gate 2C .4 repeat: independent generation-1 map capture reproduced all relationships; not a same-tracker repeat
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -39,9 +40,14 @@ observed-name diagnostics after class-chain validation. Its first exact
 TheIsland capture then passed Engine, GameViewport, World/GWorld match,
 definitions and normal `net_driver=none`, establishing world generation 1.
 The public `.3` report omitted optional AuthorityGameMode/GameState presence.
-Narrow `.4` publishes those already-validated views without a new read. Same-
-world stability and lifecycle transition/invalidation remain unverified. Its
-first device capture now confirms the positive optional-presence path.
+Narrow `.4` publishes those already-validated views without a new read. Its
+first device capture confirmed the positive optional-presence path. A second
+manual `.4` map capture reproduced every positive relationship with different
+live counts, but reported discovery/world `1/1` and top-level previous
+discovery `not applicable`. It therefore began from a fresh tracker state and
+cannot be combined with the earlier generation-1 result as a same-world
+generation repeat. Same-world stability and lifecycle transition/invalidation
+remain unverified.
 
 ## Immutable Gate 1.5 result
 
@@ -570,6 +576,24 @@ Capabilities remained zero and the bounded logs contain no error entry.
 This is not transition or same-world generation evidence. Full device report:
 [Gate 2C `.4` map PASS 004](evidence/GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md).
 
+## Gate 2C `.4` independent map reproducibility PASS
+
+Result ID: `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005`
+
+The exact same `.4` input completed another map capture in 38 ms plus 2 ms/
+10,240 relationship bytes. It owned 180/399,628 FName blocks/entries and
+109,440 valid objects in two chunks. Engine, GameViewport, World, independent
+GWorld match, NetDriverDefinitions, present/class-validated AuthorityGameMode
+and GameState, and normal `net_driver=none` all passed. Capabilities stayed
+zero; the complete bounded logs contain no error, stale identity or raw address.
+
+This result is intentionally narrower than the requested same-world repeat.
+It says `Previous invalidated=not applicable` and discovery/world `1/1`, so no
+prior discovery or world existed in that tracker state. Discovery increment,
+same-world stability and stale-handle invalidation were not exercised. Gate 2C
+therefore remains open and Gate 3 remains blocked/not started. Full report:
+[Gate 2C independent map reproducibility PASS 005](evidence/GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -581,8 +605,11 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-In the same `.4` process and unchanged TheIsland world, Capture again. Require
-top-level previous discovery invalidated yes, discovery/world `2/1`, previous
-world invalidated no, both optional relationships valid and zero capabilities.
-Then capture a natural menu transition/re-entry if possible; otherwise use a
-later menu-first run. Do not start Gate 3, hooks, UE calls, hosting or mutation.
+If the submitted `.4` tracker session and map are still active, Capture once
+more without a restart or world change. Require top-level previous discovery
+invalidated yes, discovery/world `2/1`, previous world invalidated no, all
+relationships valid and zero capabilities. Then capture a natural menu
+transition in that same tracker session. If the session ended, perform one
+continuous menu → TheIsland → same-TheIsland three-capture run. Do not combine
+independent generation-1 reports, and do not start Gate 3, hooks, UE calls,
+hosting or mutation.

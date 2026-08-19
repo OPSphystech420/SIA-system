@@ -679,3 +679,21 @@ This proves the `.4` positive optional-publication map path. It is still the
 first accepted `.4` world (`discovery/world=1/1`), so same-world stability,
 menu lifecycle and transition invalidation remain open. Gate 3 and hosting are
 not started.
+
+## 2026-08-19 — Gate 2C `.4` independent map relationships reproduced
+
+`V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` executed the same exact `.4`
+input and completed another positive map capture in 38 ms plus 2 ms/10,240
+relationship bytes. The fresh snapshot contained 180/399,628 FName
+blocks/entries and 109,440 valid objects in two chunks. Engine, GameViewport,
+World, independent GWorld match, definitions, present/class-validated
+AuthorityGameMode and GameState, and normal pre-host `net_driver=none` all
+passed. Hooks, engine calls and mutation remained zero; the bounded logs contain
+no error or raw address.
+
+The generation receipt was again discovery/world `1/1` with top-level previous
+discovery `not applicable`. This proves independent positive map
+reproducibility, not a repeated capture in the same tracker state. Discovery
+increment, same-world stability, stale-handle invalidation and lifecycle
+transition remain open. Gate 2C is not closed; Gate 3 remains blocked and not
+started. No SourceV2 or artifact correction is justified by this result.

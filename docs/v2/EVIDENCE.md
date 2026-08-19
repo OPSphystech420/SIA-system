@@ -13,7 +13,7 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | latest artifact device executed | Clean `.4` receipt `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` is source `4db2599…43473`, dylib SHA `95c0fe6…a94677`, UUID `7CB1B073-D9A5-39E0-BDD3-2638B0618B28` and manifest SHA `0a7cd36…b99387`; it produced the first-map device PASS `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004`. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | latest artifact device executed | Clean `.4` receipt `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` is source `4db2599…43473`, dylib SHA `95c0fe6…a94677`, UUID `7CB1B073-D9A5-39E0-BDD3-2638B0618B28` and manifest SHA `0a7cd36…b99387`; it produced both `.4` generation-1 map results `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004` and `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005`. |
 | V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.4` now device-publishes live AuthorityGameMode/GameState presence in its first TheIsland capture. Same-world generation stability and lifecycle transition evidence remain open. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
@@ -53,6 +53,7 @@ an active blocker.
 | V2-EV-043 | Exact `.3` resolves the live TheIsland Engine/Viewport/World/definitions relationship subset read-only. | device verified for first map capture; receipt incomplete for gate closure | `V2-G2C-MAP-RELATIONSHIPS-PASS-003`: fresh discovery generation 1 completed in 45 ms with 106,725 objects/two chunks; relationships completed in 2 ms/10,240 bytes; GEngine and exact ShooterEngine chain passed; GameViewport and World passed; GWorld/ViewportWorld matched; one GameNetDriver decoded EOS primary/IpNetDriver fallback; `net_driver=none`; world generation established at 1; hooks/calls/mutation stayed zero. The public report omitted AuthorityGameMode/GameState presence, and same-world/transition/menu evidence remains open. |
 | V2-EV-044 | Optional AuthorityGameMode/GameState validation presence is published without new reads or raw identity leakage. | host-static/arm64/package validated; positive map path device verified | `V2-G2C-OPTIONAL-RELATIONSHIPS-MAP-PASS-004` published present + validated GameModeBase/GameStateBase states from existing owned views. 399 normal + 399 UBSan-only assertions retain present/none/not-applicable and redaction coverage. No raw identity or capability appeared. |
 | V2-EV-045 | Exact `.4` completes its first TheIsland relationship capture with all requested optional-presence rows. | device verified for first map capture | Fresh discovery generation 1 completed in 43 ms with 106,725 objects/two chunks; relationships completed in 2 ms/10,240 bytes; Engine/Viewport/World/GWorld/definitions passed, AuthorityGameMode and GameState were present/class-validated, NetDriver was none and capabilities stayed zero. Same-world repeat and lifecycle transition are not inferred. |
+| V2-EV-046 | Exact `.4` positive map relationships reproduce in a separate fresh tracker state. | device verified independent generation-1 reproducibility; Gate 2C incomplete | `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` completed another map capture with 109,440 objects, Engine/Viewport/World/GWorld/definitions, optional relationships and normal null NetDriver all passing with zero capabilities and no error/address output. It reported discovery/world `1/1` and previous discovery `not applicable`, so discovery increment, same-world stability, prior-handle invalidation and lifecycle transition remain unproven. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -132,6 +133,14 @@ adds explicit present/class-validated AuthorityGameMode and GameState rows.
 Because it is discovery/world generation `1/1`, it proves neither same-world
 stability nor transition invalidation and does not close Gate 2C.
 
+`V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` is a second exact `.4`
+positive map receipt from a fresh tracker state. It reproduces every published
+relationship, both optional base-class validations, normal `net_driver=none`
+and zero capabilities with no error/address output. Its discovery/world `1/1`
+and previous discovery `not applicable` cannot be combined with the earlier
+generation-1 result; stale-handle rejection and same-world stability were not
+exercised. Gate 2C remains open.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -158,14 +167,15 @@ Detailed reviews:
 - [Gate 2C `.3` first map relationship PASS](evidence/GATE2C_DEVICE_MAP_PASS_003.md)
 - [Gate 2C `.4` optional relationship receipt correction](evidence/GATE2C_OPTIONAL_RELATIONSHIP_RECEIPT_FIX_004.md)
 - [Gate 2C `.4` optional relationships map PASS](evidence/GATE2C_DEVICE_OPTIONAL_RELATIONSHIPS_MAP_PASS_004.md)
+- [Gate 2C `.4` independent map reproducibility PASS](evidence/GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md)
 
 ## Evidence required next
 
 Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
 `.1` and `.2` are immutable fail-closed device aborts; `.3` has one passing map
-relationship subset with an incomplete optional-presence receipt. Execute only
-clean `.4`, whose first map capture has now passed. While the same process/world
-is active, repeat Capture and require discovery/world `2/1`, discovery previous
-invalidated yes and previous world invalidated no. Then capture a menu/map
-lifecycle transition when possible. Gate 3, hosting, travel and hooks remain
-closed.
+relationship subset with an incomplete optional-presence receipt. Exact `.4`
+now has two positive map receipts, but both are fresh tracker generation `1/1`.
+While one process/world remains active, repeat Capture and require
+discovery/world `2/1`, discovery previous invalidated yes and previous world
+invalidated no. Then capture a menu/map lifecycle transition in the same tracker
+session. Gate 3, hosting, travel and hooks remain closed.
