@@ -13,8 +13,8 @@ an active blocker.
 | V2-EV-003 | The iOS 1.10280 profile contains the exact Mach-O identity card and the loaded target matched it. | device verified positive identity | `V2-G2A-IDENTITY-PASS-001`: exact UUID, segment card and shortened `__text` fingerprint matched the offline/IDA profile. Wrong-profile negative remains unexecuted. |
 | V2-EV-004 | Legacy/V2 co-installation is rejected and V2 startup independently refuses exact loaded `ServerHost.dylib`. | statically validated | Debian `Conflicts` and LegacyRuntimeGuard tests; no co-install device claim. |
 | V2-EV-005 | Curated layout assertions compile in host and iOS targets. | compiled | Gate 1/1.5 build receipts. |
-| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | latest artifact device executed | Clean `.4` receipt `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` is source `4db2599…43473`, dylib SHA `95c0fe6…a94677`, UUID `7CB1B073-D9A5-39E0-BDD3-2638B0618B28` and manifest SHA `0a7cd36…b99387`; the same locally rechecked input produced `.4` results `PASS-004`, `PASS-005`, continuous `PARTIAL-006` and independent continuous `PARTIAL-007`. |
-| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope | Gate 2A exact identity and Gate 2B read-only contracts are device verified. Gate 2C `.4` device-proves and independently reproduces live relationships, optional presence, discovery invalidation, validated world replacement and unchanged-world stability. Labeled menu lifecycle/menu-map transition context and visible-regression evidence remain open. |
+| V2-EV-006 | V2 packaging is revision-bound and emits a read-only manifest, raw dylib and matching dSYM. | latest artifact device executed | Clean `.4` receipt `V2-G2C-OPTIONAL-RELATIONSHIP-RECEIPT-BUILD-013` is source `4db2599…43473`, dylib SHA `95c0fe6…a94677`, UUID `7CB1B073-D9A5-39E0-BDD3-2638B0618B28` and manifest SHA `0a7cd36…b99387`; the same locally rechecked input produced `.4` results `PASS-004`, `PASS-005`, continuous `PARTIAL-006`/`PARTIAL-007` and contextual closure `PASS-008`. |
+| V2-EV-007 | Gate 2 is split into 2A/2B/2C. | source + device confirmed scope; Gate 2 complete | Gate 2A exact identity, Gate 2B read-only contracts and Gate 2C live relationships are device verified. `.008` confirms `.007` was main menu -> natural TheIsland -> same TheIsland/no travel with no visible gameplay/input/audio regression. Gate 3 is unblocked but not started. |
 | V2-EV-008 | Diagnostics are bounded/redacted and publish immutable snapshots with exact zero capabilities. | statically validated + device receipt | Logger/snapshot tests plus `V2-G2A-IDENTITY-PASS-001`: scans/hooks/engine calls/mutation all zero. |
 | V2-EV-009 | Corrected Gate 1.5 presentation opens, renders Metal/ImGui, navigates Status/Logs, copies logs, closes and reopens. | device verified functional; extended soak pending | `V2-G1.5-SIDELOAD-PASS-002`. UIKit fallback did not appear. No unreported long soak or independent outside-window touch PASS is inferred. |
 | V2-EV-010 | Gate 1.5 device-tested artifact is exact `.2` input SHA `421211…58c32`, source `8fb09e6…477`. | device verified for bounded functions | Manifest/dSYM plus user runtime receipt. Sideloadly re-signs after input identity. |
@@ -45,7 +45,7 @@ an active blocker.
 | V2-EV-035 | Gate 2B completes generation-bound read-only contracts across menu-to-world transition. | device verified | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: generation `1→2`, previous invalidated, objects `61177→107275`, chunks `1→2`, all validators repeated, zero capabilities. Optional return-menu capture was not reported. |
 | V2-EV-036 | Gate 2B is closed by the user-confirmed `.3` multi-region correction. | device verified / gate closed | `V2-G2B-MULTIREGION-DEVICE-PASS-004`: menu generation 1 `61177/1/32ms`, TheIsland generation 2 `107275/2/44ms`, previous invalidated and every required validator passed with zero capabilities. The immutable `.2` world-region abort remains unchanged. No return-menu capture or longer soak is inferred; `Class Engine.World` is not a live UWorld; parameter ABI/native dispatch remain absent. Docs baseline commit is `7d5e4555ed9f89f5eeeed89ac7c95c7f4072d37c`. |
 | V2-EV-037 | `DEC-V2-NO-HOOK-FIRST-HOST` makes hooks non-prerequisite for first IP Listen and forbids broad Dedicated forcing. | architecture decision, not runtime evidence | Engine/definitions will be revalidated before Host; current world will be dispatched directly after Gate 3; original GetNetMode is retained. Optional inert observation/narrow policy is conditional on a post-transport demonstrated replication gap. Existing hook/GetNetMode evidence is preserved. |
-| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static validated; generation mechanics independently device reproduced | `PARTIAL-006` and `PARTIAL-007` each completed three fresh captures in one process: native Engine, GameViewport, World/GWorld match, definitions, optional relationships and normal null NetDriver passed throughout; discovery replacement, world replacement and unchanged-world stability behaved correctly with zero capabilities. Labeled menu lifecycle remains unverified. |
+| V2-EV-038 | Gate 2C exact relationship cards and typed bounded capture are implemented without runtime capability. | exact-binary + sdk/source + host-static and device validated | `PARTIAL-006` and `PARTIAL-007` each completed three fresh captures in one process: native Engine, GameViewport, World/GWorld match, definitions, optional relationships and normal null NetDriver passed throughout; discovery replacement, world replacement and unchanged-world stability behaved correctly with zero capabilities. `.008` supplies the exact menu/TheIsland/no-travel context and no-regression observation for `.007`. |
 | V2-EV-039 | Gate 2C `.1` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | The fresh Gate 2B snapshot completed in 37 ms with 110,906 objects/two chunks and every prerequisite validator passed, then the relationship phase aborted on the combined ShooterEngine identity validator with zero relationship bytes and zero capabilities. See `evidence/GATE2C_DEVICE_ENGINE_VALIDATOR_ABORT_001.md`. |
 | V2-EV-040 | A live ShooterEngine direct UClass can be identified by a fixed FreshSDK object-array index. | fixed-index claim contradicted; dynamic replacement device verified | UClass object-array index `0x359` remains rejected as dump-instance data. `.3` resolved the direct class by fresh snapshot identity and device-validated exact `Class ShooterGame.ShooterEngine`, non-CDO state and GameEngine/Engine ancestry. No index or pointer is retained across captures. |
 | V2-EV-041 | Gate 2C `.2` completes live Engine/Viewport/World relationship capture in TheIsland. | contradicted | `V2-G2C-ENGINE-FULLNAME-ABORT-002`: the 46 ms fresh snapshot completed with 107,279 objects/two chunks and all prerequisite validators passing; relationship capture accepted zero bytes and rejected the Engine instance full name. Runtime class `ShooterEngine` was reached; later CDO/direct-UClass/ancestry and all fields were not. Zero capabilities were retained. |
@@ -56,6 +56,7 @@ an active blocker.
 | V2-EV-046 | Exact `.4` positive map relationships reproduce in a separate fresh tracker state. | device verified independent generation-1 reproducibility; Gate 2C incomplete | `V2-G2C-INDEPENDENT-MAP-REPRODUCIBILITY-PASS-005` completed another map capture with 109,440 objects, Engine/Viewport/World/GWorld/definitions, optional relationships and normal null NetDriver all passing with zero capabilities and no error/address output. It reported discovery/world `1/1` and previous discovery `not applicable`, so discovery increment, same-world stability, prior-handle invalidation and lifecycle transition remain unproven. |
 | V2-EV-047 | Exact `.4` generation tracking remains correct across fresh discovery replacement, validated world replacement and an unchanged-world repeat in one process. | device verified for continuous map lifecycle; Gate 2C partial | `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006`: cumulative seq/uptime proves one process; discovery `1->2->3`; world `1->2->2`; prior discovery `not-applicable/yes/yes`; prior world invalidated `no/yes/no`. Every relationship, optional base-class check and zero-capability receipt passed without error/address output. All lifecycle labels were `map`; menu lifecycle and explicit visible-regression observation remain absent. |
 | V2-EV-048 | Exact `.4` continuous generation and relationship behavior reproduces in an independent process. | device verified independent continuous reproducibility; Gate 2C partial | `V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007`: cumulative seq/uptime proves a second process; discovery `1->2->3`; world `1->2->2`; prior discovery `not-applicable/yes/yes`; prior world invalidated `no/yes/no`. Every relationship and zero-capability receipt passed without errors, stale identity or raw address. Capture actions and visible-regression state were not supplied; all lifecycle labels were `map`, so menu transition closure is not inferred. |
+| V2-EV-049 | Exact `.4` satisfies the complete Gate 2C continuous menu-to-map relationship protocol. | device verified / Gate 2C closed | `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` preserves `.007` and adds the user's exact context: main menu -> natural TheIsland -> same TheIsland/no travel; no visible gameplay/input/audio regression. Continuous seq/uptime, discovery `1->2->3`, world `1->2->2`, prior invalidation, every relationship, `net_driver=none`, no errors/stale/address leakage and `hooks=0 engine_calls=0 mutation=0` pass. Runtime `Lifecycle=map` remains unchanged; the menu label is external visible-state evidence. |
 
 The historical Gate 2A package hash in `V2-G2A-BUILD-006` remains the immutable
 receipt, but that ignored local `.deb` container path was accidentally
@@ -161,6 +162,16 @@ visible gameplay/input/audio regression observation; every lifecycle field is
 `map`. It therefore strengthens reproducibility without closing the menu-
 transition requirement and does not rewrite `.1`–`.6`.
 
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` is the immutable contextual
+closure result for `.007`. The user confirmed capture 1 was main menu, capture
+2 followed natural entry to TheIsland, capture 3 was the same TheIsland without
+travel, and visible gameplay/input/audio regressions were absent. Combined with
+the unchanged cumulative transcript, this proves natural menu-to-map world
+replacement/invalidation and same-world generation stability while every live
+relationship and zero-capability receipt passes. It closes Gate 2C without
+rewriting `.001`–`.007`. Optional natural return-to-menu and longer soak remain
+unclaimed.
+
 ## Sishen pattern evidence
 
 Sishen is an organization/reference source, never the iOS 1.10280 ABI
@@ -190,16 +201,16 @@ Detailed reviews:
 - [Gate 2C `.4` independent map reproducibility PASS](evidence/GATE2C_DEVICE_INDEPENDENT_MAP_REPRODUCIBILITY_PASS_005.md)
 - [Gate 2C `.4` continuous map generations PARTIAL](evidence/GATE2C_DEVICE_CONTINUOUS_MAP_GENERATIONS_PARTIAL_006.md)
 - [Gate 2C `.4` continuous map reproducibility PARTIAL](evidence/GATE2C_DEVICE_CONTINUOUS_MAP_REPRODUCIBILITY_PARTIAL_007.md)
+- [Gate 2C `.4` continuous menu-to-map closure PASS](evidence/GATE2C_DEVICE_MENU_MAP_CLOSURE_PASS_008.md)
 
 ## Evidence required next
 
-Gate 2B evidence is complete for the named read-only snapshot scope. Gate 2C
-`.1` and `.2` remain immutable fail-closed device aborts; `.3`, `.4` and `.5`
-remain immutable bounded PASS results. Continuous `.6` completes the missing
-same-tracker discovery/world replacement and unchanged-world stability proof.
-Continuous `.7` independently reproduces that proof, but its action states and
-visible-regression observation were not supplied. If `.7` was actually main
-menu -> natural TheIsland entry -> same TheIsland without travel, only that
-annotation and an explicit no-visible-regression statement are needed; no new
-capture is required. Otherwise use one new explicitly labeled continuous run
-with the same artifact. Gate 3, hosting, travel and hooks remain closed.
+Gate 2B and Gate 2C evidence is complete for their named read-only scopes.
+`.001`–`.007` remain immutable historical results; `.008` closes Gate 2C from
+the exact contextual evidence missing in `.007`. Gate 3 is unblocked but not
+started. Its next bounded evidence is ABI-015: recover and review the exact
+current `FIOSAsyncTask` scheduler entry, callback ownership/lifetime,
+queue/game-thread identity, cancellation, shutdown and background behavior in
+`110280.i64`, with Sishen organization and the relevant UE4.17 source used only
+at their proper evidence levels. Do not implement the dispatcher or begin Host
+research, hooks, UE calls, hosting, travel or mutation in that evidence step.

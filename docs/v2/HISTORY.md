@@ -1,6 +1,6 @@
 # Conversation and requirements history
 
-Last updated: 2026-08-19.
+Last updated: 2026-08-21.
 
 This is a factual project history, not an implementation specification. New
 user feedback and important test results must be appended with a date; earlier
@@ -743,3 +743,28 @@ same TheIsland without travel, only that contextual annotation and a no-visible-
 regression statement are missing; otherwise the same labeled three-capture
 sequence must be run with the existing artifact. No source or artifact change
 was made and no build was run.
+
+## 2026-08-21 — Gate 2C `.007` context confirmed; Gate 2C closed
+
+The user supplied the exact missing context for the immutable
+`V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` transcript: capture 1 was
+made in the main menu, capture 2 after natural entry to TheIsland, capture 3 in
+the same TheIsland without travel, and no visible gameplay/input/audio
+regression occurred. The runtime `Lifecycle=map` strings remain unchanged; the
+menu state retained a live validated World and is identified by the user's
+visible action record, not inferred from object counts.
+
+The cumulative process now proves the complete Gate 2C sequence. Discovery
+advanced `1->2->3`; natural menu-to-TheIsland replacement advanced world
+generation `1->2` and invalidated prior world-bound identities; the same-world
+repeat retained world generation 2 without prior-world invalidation. Engine,
+GameViewport, World/GWorld match, definitions, present/class-validated
+AuthorityGameMode and GameState, normal pre-host `net_driver=none`, zero
+capabilities, no errors/stale reuse and no address leakage passed throughout.
+
+New immutable contextual result
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` closes Gate 2C as device verified
+without rewriting `.001`–`.007`. Natural return-to-menu and longer soak remain
+unclaimed. Gate 3 is unblocked but not started; its next bounded workflow is
+ABI-015 scheduler-contract research before any dispatcher implementation. No
+SourceV2, Legacy, build configuration or artifact changed and no build ran.

@@ -58,8 +58,12 @@ continuous process, preserved as
 the same discovery `1->2->3`, world `1->2->2` and relationship results. Its
 capture actions were not labeled and all runtime lifecycle fields again said
 `map`; it therefore strengthens reproducibility without proving menu context or
-the visible-regression condition. Gate 2C stays open; Gate 3 remains blocked
-and not started.
+the visible-regression condition. The user later supplied the missing facts:
+capture 1 was main menu, capture 2 followed natural entry to TheIsland, capture
+3 was the same TheIsland without travel, and no visible gameplay/input/audio
+regression occurred. Closure result
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` closes Gate 2C without rewriting
+`.007`. Gate 3 is unblocked but not started.
 
 | Gate | State | Strongest claim |
 |---|---|---|
@@ -68,8 +72,9 @@ and not started.
 | 1.5 — diagnostic UI and Sideloadly artifact | functional-device-pass; extended-soak-pending | `.2` device-verified icon/Metal/ImGui/Status/Logs/Copy/Close/reopen with zero capabilities; long soak/outside touch not separately reported |
 | 2A — exact image identity/memory boundary | positive identity device-verified; death exit external baseline reproduced/deferred | exact UUID/fingerprint/segments matched with zero scans/capabilities; injection is not necessary for the reproduced death symptom |
 | 2B — name/object/reflection discovery | complete; device verified | `.3` completed menu generation 1 and TheIsland generation 2, invalidated the prior generation, changed object/chunk counts, repeated every validator and retained zero capabilities |
-| 2C — Engine/world relationships/invalidation | continuous `.4` generation mechanics reproduced in two independent processes; menu lifecycle/action context pending | exact relationships, discovery invalidation, validated world replacement and unchanged-world repeat pass with zero capabilities; no labeled menu lifecycle capture is claimed |
-| 3–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
+| 2C — Engine/world relationships/invalidation | complete; device verified by `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` | exact menu-to-TheIsland relationships, discovery invalidation, world replacement and unchanged-world repeat passed with zero capabilities and no visible regression |
+| 3 — dispatcher and world lifecycle | unblocked; not started | Gate 3A scheduler-contract evidence is next; no dispatcher or UE call exists |
+| 4–12 | blocked by ordered predecessors and named ABI/device gates | unverified/not started |
 
 Detailed structure is in [ARCHITECTURE.md](ARCHITECTURE.md), missing contracts
 in [ABI_BACKLOG.md](ABI_BACKLOG.md), and immutable results/protocols in
@@ -320,8 +325,11 @@ discovery replacement, validated map-world replacement and unchanged-world
 generation stability. `V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007`
 reproduced those same contracts in another continuous process, but did not
 label the user-visible states/actions and supplied no explicit visible-
-regression observation. Gate remains open only for the required menu lifecycle/
-menu-map transition context and that no-regression observation.
+regression observation. The user later confirmed its sequence as main menu ->
+natural TheIsland entry -> same TheIsland without travel and reported no
+visible gameplay/input/audio regression. Immutable closure result
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` closes the gate without altering
+`.007`.
 
 Entry: Gate 2B read-only discovery passes.
 
@@ -353,10 +361,12 @@ Exit: build one clean raw artifact; execute a menu capture, TheIsland capture
 and repeated same-world capture, with an optional natural return-menu capture;
 confirm relationship state, world-generation transitions/stability, no visible
 regression and `hooks=0 engine_calls=0 mutation=0`. The continuous `.6` result
-and independently reproduced `.7` result have completed the replacement/
-stability portion, but neither transcript establishes a labeled menu lifecycle
-action or explicit visible-regression observation. Death/respawn is outside
-PASS/FAIL. Details are in `evidence/GATE2C_LIVE_RELATIONSHIPS.md`.
+and independently reproduced `.7` result completed the replacement/stability
+portion. `.008` supplies the exact visible action annotation and no-regression
+observation for `.007`: discovery `1->2->3`, world `1->2->2`, correct
+discovery/world invalidation and every relationship passed. Exit is satisfied.
+Natural return to menu was optional and was not captured. Death/respawn is
+outside PASS/FAIL. Details are in `evidence/GATE2C_LIVE_RELATIONSHIPS.md`.
 
 ## Deferred production UI compatibility workflow
 
@@ -374,8 +384,11 @@ network or behavior-changing hooks.
 
 Entry:
 
-- Gate 2C read-only contracts pass;
+- Gate 2C read-only contracts pass (`PASS-008`); satisfied;
 - current FIOSAsyncTask resolution/callback ownership card is reviewed.
+
+State: unblocked but not started. ABI-015 research/review remains the bounded
+prerequisite before implementation.
 
 Work:
 
@@ -644,19 +657,15 @@ inform them, not the in-process UE ABI.
 
 ## Exact next action
 
-First annotate the exact `.7` transcript: state whether capture 1 was taken in
-the main menu, capture 2 after natural entry to TheIsland, and capture 3 in the
-same TheIsland without intervening travel; also state whether any visible
-gameplay/input/audio regression occurred. If all four statements pass, no new
-capture is needed and this transcript can be evaluated for Gate 2C closure. Do
-not infer those facts from object counts or the repeated `Lifecycle=map` field.
+Gate 3 is unblocked but not started. Begin only **Gate 3A — exact game-thread
+scheduler contract research (`ABI-015`)** when authorized: read Sishen's
+startup/game-thread implementation; use exact `110280.i64` to recover the
+current `FIOSAsyncTask` entry, representative callers, callback ownership and
+lifetime, queue/game-thread identity, cancellation, shutdown and background/
+foreground behavior; compare the relevant UE4.17 `IOSAsyncTask.cpp`; publish
+the reviewed function/ownership card, conflicts, refusal behavior and bounded
+static/device test plan.
 
-If that was not the actual action sequence, use the same `.4` artifact for one
-new explicitly labeled continuous main-menu → TheIsland → same-TheIsland run,
-with monotonic seq/uptime, correct discovery/world invalidation, all applicable
-relationships, zero capabilities, no error/address output and the explicit
-no-visible-regression observation. Do not use death/respawn as PASS/FAIL.
-
-Do not start Gate 3, Host research, hosting or travel in this workflow. Hooks,
-`ProcessEvent`, engine calls, NetMode policy, save, administration and mutation
-remain forbidden.
+Gate 3A is evidence-only. Do not implement the dispatcher or make UE calls in
+that step. Host research, hooks, `ProcessEvent`, hosting, travel, NetMode policy,
+save, administration and mutation remain outside it.

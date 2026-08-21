@@ -265,6 +265,17 @@ discovery snapshot. All observations remained lifecycle `map`. RuntimeContext
 and Gate 3 remain unavailable until the required menu lifecycle/menu-map
 transition is captured; this result authorizes no cross-thread raw handle.
 
+`V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` independently reproduces
+the same generation boundary in a second process. Contextual closure
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` preserves that transcript and
+records the user's exact visible sequence: main menu -> natural TheIsland ->
+same TheIsland without travel, with no visible gameplay/input/audio regression.
+The natural transition advanced world generation `1->2` and invalidated prior
+world-bound identities; the unchanged-world repeat retained generation 2.
+Gate 2C is therefore closed and Gate 3 is unblocked but not started. This does
+not itself create RuntimeContext, a dispatcher, cross-thread access or any UE
+call authority.
+
 ## 4. Dependency graph
 
 ```mermaid

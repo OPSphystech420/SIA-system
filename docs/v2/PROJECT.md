@@ -30,19 +30,19 @@ The near-term platform is iOS:
 - Gate 2B read-only FNamePool/GUObjectArray/reflection snapshots are complete
   for the scoped main-menu/TheIsland protocol; optional return-menu capture and
   longer soak were not reported;
-- active workflow: Gate 2C read-only Engine/world relationships. `.1` and `.2`
+- completed workflow: Gate 2C read-only Engine/world relationships. `.1` and `.2`
   aborted fail-closed at distinct Engine identity predicates with zero
   capabilities; exact `.3` passed its first TheIsland Engine/Viewport/World/
   definitions capture with world generation 1 and zero capabilities, but its
   public receipt omitted optional GameMode/GameState presence. Clean `.4`
-  device-publishes both as present/class-validated. Continuous `.4` result `.6`
-  proves discovery invalidation, validated map-world replacement and a fresh
-  unchanged-world repeat with zero capabilities. Partial `.7` independently
-  reproduces the same continuous generation/relationship behavior, but the
-  submitted transcript does not label its visible capture states/actions and
-  every runtime lifecycle remains `map`. Menu lifecycle/menu-map transition
-  context and an explicit visible-regression observation remain pending. Gate 3
-  has not started.
+  device-publishes both as present/class-validated. Continuous `.4` results
+  `.6` and `.7` prove and independently reproduce discovery invalidation,
+  validated world replacement and a fresh unchanged-world repeat with zero
+  capabilities. The user's contextual confirmation identifies `.7` as main
+  menu -> natural TheIsland entry -> same TheIsland without travel and reports
+  no visible gameplay/input/audio regression. Closure result
+  `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` closes Gate 2C as device
+  verified. Gate 3 is unblocked but has not started.
 
 The stable-iOS milestone requires all of the following, in ordered gates:
 

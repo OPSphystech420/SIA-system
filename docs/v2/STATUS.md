@@ -1,11 +1,11 @@
 # Server-Host V2 status
 
-Last updated: 2026-08-19.
+Last updated: 2026-08-21.
 
 ## Current state
 
 ```text
-active workflow: Gate 2C .4 continuous generation behavior reproduced; labeled menu transition context pending
+active workflow: Gate 2C closed; Gate 3 unblocked but not started
 Gate 1.5: functional-device-pass; extended-soak-pending
 Gate 2A exact identity: device verified
 Gate 2A death exit: external baseline reproduced; deferred
@@ -21,8 +21,9 @@ Gate 2C .4: first map capture passed with GameMode/GameState present and class-v
 Gate 2C .4 repeat: independent generation-1 map capture reproduced all relationships; not a same-tracker repeat
 Gate 2C .4 continuous session: discovery 1->2->3; world replacement 1->2; repeated same world 2->2
 Gate 2C .4 continuous reproduction: independent process repeated discovery 1->2->3 and world 1->2->2
-Gate 2C: generation/relationship mechanics device-proven; labeled menu lifecycle transition and visible-regression observation still required
-Gate 3: blocked by the remaining Gate 2C context/evidence; not started
+Gate 2C closure: .007 annotated as main menu -> natural TheIsland -> same TheIsland/no travel; no visible gameplay/input/audio regression
+Gate 2C: device verified and closed by V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008
+Gate 3: unblocked; not started
 capabilities before explicit capture: scans_started=0 hooks=0 engine_calls=0 mutation=0
 capabilities after explicit capture request: scans_started=1 hooks=0 engine_calls=0 mutation=0
 Legacy: archived evidence only; not built, linked, or modified
@@ -53,17 +54,16 @@ generation contract. The later continuous three-capture result
 generations `1->2->3`, validated world replacement `1->2` with prior-world
 invalidation, and a fresh repeated capture of the unchanged current world
 `2->2` with no prior-world invalidation. All relationships and zero
-capabilities passed. No menu lifecycle capture or explicit visible-regression
-observation was supplied. Under the current `.5` exit record, the natural
-menu/map transition remains required, so Gate 2C stays open and Gate 3 remains
-blocked/not started. New result
+capabilities passed. The original transcript did not supply menu lifecycle or
+visible-regression context. New result
 `V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` independently reproduces
 the same continuous discovery `1->2->3`, world `1->2->2`, relationship and
-zero-capability behavior in another process. It still labels every runtime
-capture `map`, does not identify the user-visible action before each capture,
-and supplies no visible gameplay/input/audio regression observation. Object
-counts cannot substitute for that context. Gate disposition therefore does not
-change.
+zero-capability behavior in another process. The user subsequently identified
+its exact visible sequence as main menu -> natural TheIsland entry -> same
+TheIsland without travel and reported no visible gameplay/input/audio
+regression. `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` records that contextual
+closure without rewriting `.007`. Gate 2C is device verified and closed; Gate 3
+is unblocked but not started.
 
 ## Immutable Gate 1.5 result
 
@@ -660,6 +660,24 @@ observation was supplied. It therefore cannot close Gate 2C without that
 context. Full immutable report:
 [Gate 2C continuous map reproducibility PARTIAL 007](evidence/GATE2C_DEVICE_CONTINUOUS_MAP_REPRODUCIBILITY_PARTIAL_007.md).
 
+## Gate 2C `.4` continuous menu-to-map closure PASS
+
+Result ID: `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008`
+
+The user supplied the missing contextual evidence for the unchanged `.007`
+transcript: capture 1 was main menu, capture 2 followed natural entry to
+TheIsland, capture 3 was the same TheIsland without travel, and visible
+gameplay/input/audio regressions were absent. Process continuity, discovery
+`1->2->3`, world `1->2->2`, prior discovery `not-applicable/yes/yes`, prior
+world invalidation `no/yes/no`, all required relationships and zero capabilities
+already appear in the immutable transcript. Runtime `Lifecycle=map` remains
+unchanged; the menu label is external visible-state context, and a menu-held
+live World is valid for this result.
+
+Gate 2C is device verified and closed. Optional natural return-to-menu and a
+longer soak were not supplied and are not claimed. Full report:
+[Gate 2C continuous menu-to-map closure PASS 008](evidence/GATE2C_DEVICE_MENU_MAP_CLOSURE_PASS_008.md).
+
 ## Deferred production UI debt
 
 The working Gate 1.5 panel remains the control. A separate future UI workflow
@@ -671,11 +689,12 @@ are explicitly excluded. See [UI design debt](UI_DESIGN_DEBT.md).
 
 ## Exact next action
 
-Same-world stability and replacement invalidation are complete and independently
-reproduced. For the exact `.7` transcript, supply only the missing action
-annotation—capture 1 main menu; capture 2 after natural entry to TheIsland;
-capture 3 same TheIsland with no intervening travel—and explicitly state
-whether visible gameplay/input/audio regression was absent. If those facts are
-true, no new capture is required. If not, run one new explicitly labeled
-continuous main-menu → TheIsland → same-TheIsland sequence with the same
-artifact. Do not start Gate 3, hooks, UE calls, hosting or mutation.
+Gate 3 is unblocked but not started. Its first bounded workflow is Gate 3A:
+evidence-only recovery of the exact current `FIOSAsyncTask` game-thread
+scheduler contract (`ABI-015`). Read Sishen's startup/game-thread implementation,
+recover the 1.10280 entry/callers, callback ownership/lifetime, queue/thread
+identity, cancellation, shutdown and background behavior in `110280.i64`,
+compare the relevant UE4.17 `IOSAsyncTask.cpp`, then publish the reviewed
+contract card and bounded test plan. Do not implement a dispatcher, call UE,
+add hooks, begin Host research/hosting/travel, change NetMode policy or mutate
+game state in that evidence workflow.

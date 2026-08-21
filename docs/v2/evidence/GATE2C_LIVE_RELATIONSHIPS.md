@@ -8,12 +8,15 @@ capture passed with both optional relationships present/class-validated, and a
 second independent tracker state reproduced that map receipt. Continuous `.4`
 result `V2-G2C-CONTINUOUS-MAP-GENERATIONS-PARTIAL-006` now proves discovery
 replacement, validated world replacement and unchanged-world stability in one
-process. All three lifecycle labels were `map`; menu lifecycle/menu-map
-transition evidence remains pending. Independent continuous result
+process. Independent continuous result
 `V2-G2C-CONTINUOUS-MAP-REPRODUCIBILITY-PARTIAL-007` reproduces the same
 generation and relationship behavior, but does not label its visible capture
 actions or report visible regression state; all runtime lifecycle values again
-say `map`. Gate 2C therefore stays open.
+say `map`. Contextual closure
+`V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` records the user's exact sequence
+as main menu -> natural TheIsland -> same TheIsland/no travel and no visible
+gameplay/input/audio regression. Gate 2C is device verified and closed; Gate 3
+is unblocked but not started.
 
 Scope: one explicit bounded read-only capture. Every Gate 2C request first
 creates a fresh Gate 2B owned name/object/reflection snapshot, then resolves all
@@ -423,20 +426,17 @@ relationship and zero capabilities. Its action states and explicit visible-
 regression observation are absent, and every runtime lifecycle is `map`. See
 [Gate 2C `.4` continuous map reproducibility PARTIAL 007](GATE2C_DEVICE_CONTINUOUS_MAP_REPRODUCIBILITY_PARTIAL_007.md).
 
-1. Completed by `.6` and independently reproduced by `.7`: repeated current-
-   world capture with fresh discovery, stable world generation and no prior-
-   world invalidation.
-2. Completed by `.6` and `.7`: all relationships, optional presence, redaction
-   and zero capabilities revalidated.
-3. For `.7`, supply the missing action annotation: capture 1 main menu; capture
-   2 after natural entry to TheIsland; capture 3 same TheIsland without travel.
-   Also explicitly report visible gameplay/input/audio regression state. If
-   true and clean, no new capture is needed.
-4. If `.7` did not use that sequence, perform one new explicitly labeled
-   continuous main-menu -> TheIsland -> same-TheIsland run; object counts and
-   the runtime `map` label are not substitutes for the action record.
-5. Do not use death/respawn as PASS/FAIL.
-6. In every state confirm exactly:
+Result `V2-G2C-CONTINUOUS-MENU-MAP-DEVICE-PASS-008` supplies the missing
+external context without rewriting `.007`: capture 1 was main menu, capture 2
+followed natural entry to TheIsland, capture 3 was the same TheIsland without
+travel, and visible gameplay/input/audio regressions were absent. The runtime
+`Lifecycle=map` fields remain unchanged; this menu held a live validated World.
+See [Gate 2C `.4` continuous menu-to-map closure PASS 008](GATE2C_DEVICE_MENU_MAP_CLOSURE_PASS_008.md).
+
+The complete exit is satisfied: discovery `1->2->3`, world `1->2->2`, correct
+prior discovery/world invalidation, every required relationship, optional
+base-class validation, normal pre-host `net_driver=none`, no error/stale/raw-
+address output and exactly:
 
 ```text
 hooks=0
@@ -447,8 +447,8 @@ mutation=0
 Use only build `gate2c-live-relationships-20260819.4`; earlier artifacts cannot
 satisfy the complete receipt. Gate closure requires no raw address output, no
 relationship abort/mismatch, bounded duration, correct generation transition/
-stability and applicable identity/class/FName checks. Gate 3 and hosting remain
-closed.
+stability and applicable identity/class/FName checks. Gate 3 is unblocked but
+not started; hosting remains closed.
 
 ## Preserved limitations
 
@@ -458,5 +458,6 @@ closed.
 - Parameter ABI and native dispatch remain unavailable.
 - `.4` map relationships, discovery invalidation, validated world replacement
   and same-world stability are device-proven and independently reproduced.
-  Labeled menu lifecycle/menu-map transition context and a separate visible-
-  regression observation are not.
+  `.008` confirms the visible menu-to-map action context and no visible
+  regression for `.007`.
+- Natural return-to-menu after TheIsland was not captured and is not claimed.

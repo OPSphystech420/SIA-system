@@ -82,6 +82,10 @@ here must create or update one summary claim and the corresponding contract in
   world `1->2->2` and every relationship with zero capabilities; visible
   capture actions and a no-regression observation were not supplied, so the
   repeated `map` lifecycle receipts do not close the menu transition.
+- [Gate 2C `.4` continuous menu-to-map closure PASS 008](GATE2C_DEVICE_MENU_MAP_CLOSURE_PASS_008.md)
+  — preserves `.007` and records the user's exact contextual confirmation:
+  main menu -> natural TheIsland -> same TheIsland/no travel, with no visible
+  gameplay/input/audio regression; Gate 2C is device verified and closed.
 - [Archived Legacy failure evidence](../archive/legacy/README.md) — preserved
   reports and former execution rows. They are not active V2 blockers.
 
