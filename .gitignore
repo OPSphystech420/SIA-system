@@ -2,6 +2,24 @@
 .DS_Store
 **/.DS_Store
 
+# Local configuration, credentials, signing and device material.
+.env
+.env.*
+!.env.example
+**/.ssh/
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+*.mobileprovision
+*.provisionprofile
+
 # Local build state. V2 uses .artifacts/ intentionally; none of these paths are source.
 /.artifacts/
 /.build/
@@ -13,10 +31,39 @@
 /packages/
 *.deb
 
+# Proprietary game/package payloads and reverse-engineering databases stay external.
+**/110280
+*.dylib
+*.so
+*.ipa
+*.pak
+*.metallib
+*.i64
+*.id0
+*.id1
+*.nam
+*.til
+*.app/
+*.xcarchive/
+**/EOSSDK
+*Decrypted*/
+
+# Local archives and personal captures are not repository inputs.
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
 # Compiler and Theos by-products.
 *.o
 *.Td
+*.d
 *.dSYM/
+
+# A nested checkout is never a source dependency.
+**/.git/
 
 # Guard against old Theos stamp directories appearing in the iOS source project.
 /SourceV2/Build/IOS/Bindings/
